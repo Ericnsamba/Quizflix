@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "289483445762",
+    "firebase_url": "https://quizandclock.firebaseio.com",
+    "project_id": "quizandclock",
+    "storage_bucket": "quizandclock.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:289483445762:android:0fc89a54b612810c87391b",
+        "android_client_info": {
+          "package_name": "com.quizandclock"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "289483445762-rtovvpn68uoskd7lk01aq4idpiu5l1tn.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD_2HiqzEbMRtjVGSoMrH6ca3seX5oaCIw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "289483445762-rtovvpn68uoskd7lk01aq4idpiu5l1tn.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "289483445762-b5fj5tkretu8kfmtv7t0hbrn9v00qs17.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.Quiz--Clock"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
