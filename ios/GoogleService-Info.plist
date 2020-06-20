@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>289483445762-eag76u6ct342lbfjlcgqmb1klcjftcj9.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.289483445762-eag76u6ct342lbfjlcgqmb1klcjftcj9</string>
+	<key>ANDROID_CLIENT_ID</key>
+	<string>289483445762-tl3v7pb01m6idj2pjptvnjndafmgnqha.apps.googleusercontent.com</string>
+	<key>API_KEY</key>
+	<string>AIzaSyDcgcCAt9V3LH2nArh_Nw2knoMa_nbDcqY</string>
+	<key>GCM_SENDER_ID</key>
+	<string>289483445762</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.quizandclock</string>
+	<key>PROJECT_ID</key>
+	<string>quizandclock</string>
+	<key>STORAGE_BUCKET</key>
+	<string>quizandclock.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:289483445762:ios:d69ebadfb3f9f35287391b</string>
+	<key>DATABASE_URL</key>
+	<string>https://quizandclock.firebaseio.com</string>
+</dict>
+</plist>
