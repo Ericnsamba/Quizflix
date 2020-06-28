@@ -1,3 +1,6 @@
+/* eslint-disable react/self-closing-comp */
+/* eslint-disable react-native/no-inline-styles */
+/* eslint-disable prettier/prettier */
 import React, { Component } from 'react';
 import {
 	Text,
@@ -5,19 +8,15 @@ import {
 	StyleSheet,
 	Platform,
 	ImageBackground,
-	Button,
-	TouchableWithoutFeedback,
-	Image,
 	Dimensions,
-	ScrollView
+	ScrollView,
 } from 'react-native';
 // import Icon from 'react-native-vector-icons/Ionicons';
-// import BottomSheet from 'reanimated-bottom-sheet';
 import * as firebase from 'react-native-firebase';
 import * as Theme from '../theme/Theme';
-import { LeaderBoardUsers } from '../components/LeaderBoardUsers'
+import { LeaderBoardUsers } from '../components/LeaderBoardUsers';
 
-const avatar = require('../assets/images/profileAvatar.jpg')
+const avatar = require('../assets/images/profileAvatar.jpg');
 
 
 //Redux
@@ -25,7 +24,7 @@ import { connect } from 'react-redux';
 import {
 	// watchUsersData
 	watchPointsData,
-	watchLeaderBoardData
+	watchLeaderBoardData,
 } from '../redux/AppRedux';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
@@ -70,221 +69,235 @@ class TopScoresScreen extends Component {
 
 	renderLeaderBoardUsers = (RankingData) => {
 
-		const rankInfo = Object.values(RankingData).sort((a, b) => b.totalPoints - a.totalPoints);
-		const top3 = []
-		if (!top3.length) {
-			for (let i = 0; i < 3; i++) {
-				top3.push(rankInfo.shift())
-			}
-			// this.setState({ top3Users: top3 })
+
+		if (RankingData && RankingData.length) {
+			return RankingData.map((rank, index) => {
+				if (!rank.totalPoints) { }
+				return (
+					<View key={rank.uid} style={{ justifyContent: 'center', flex: 1, alignItems: 'center' }}>
+						<LeaderBoardUsers
+							// image={rank.image}
+							rankNumber={index + 4}
+							username={rank.username}
+							totalPoints={rank.totalPoints}
+							time={rank.timeStamp}
+						/>
+
+					</View>
+				);
+			});
 		}
-
-		return rankInfo.map((rank, index) => {
-			if (!rank.totalPoints);
-			return (
-				<View key={rank.uid} style={{ justifyContent: 'center', flex: 1, alignItems: 'center' }}>
-					<LeaderBoardUsers
-						// image={rank.image}
-						rankNumber={index + 4}
-						username={rank.username}
-						totalPoints={rank.totalPoints}
-						time={rank.timeStamp}
-					/>
-
-				</View>
-			);
-		})
 
 	}
 
 
-
-	renderInner = (RankingData) => {
-		return this.renderLeaderBoardUsers(RankingData)
-	};
-
-	renderHeader = () => (
-		<View style={styles.header}>
-			<View style={styles.panelHeader}>
-				<View style={styles.panelHandle} />
-			</View>
-		</View>
-	);
-
 	getData = () => {
-		const { data } = this.state
+		const { data } = this.state;
 		let userRankings;
 		firebase
 			.database()
 			.ref('/scores')
 			.on('value', snapshot => {
 				const firebaseData = snapshot.val();
-				userRankings = firebaseData
-				this.setState({ data: firebaseData })
+				userRankings = firebaseData;
+				this.setState({ data: firebaseData });
 			});
 
-		console.log(" -> getData -> userRankings", userRankings)
-		return userRankings
+		console.log(' -> getData -> userRankings', userRankings);
+		return userRankings;
 
 	}
 
-	renderTop3 = () => {
 
-		return (
-			<View
-				style={{
-					width: width,
-					justifyContent: 'space-evenly',
-					alignItems: 'center',
-					flex: 1,
-					flexDirection: 'row',
-				}}>
 
-				<View>
+	renderTop3 = (RankingData) => {
+
+		const top3 = [];
+		let user;
+		if (!top3.length && RankingData.length) {
+			for (let i = 0; i < 3; i++) {
+				top3.push(RankingData.shift());
+			}
+
+			if (top3.length) {
+				user = top3;
+				return (
 					<View
 						style={{
-							width: 60,
-							height: 60,
-							backgroundColor: 'tomato',
-							borderRadius: 30,
-							overflow: 'hidden',
-							borderColor: Theme.primaryColors.blue,
-							borderWidth: 2,
+							width: width,
+							justifyContent: 'space-evenly',
+							alignItems: 'center',
+							flex: 1,
+							flexDirection: 'row',
 						}}>
-						<ImageBackground
-							style={{
-								width: 60,
-								height: 60,
-								backgroundColor: 'tomato',
-								borderRadius: 30,
-							}}
-							source={require('../assets/images/profileAvatar.jpg')}>
-						</ImageBackground>
-					</View>
-					<View
-						style={{
-							width: 24,
-							height: 24,
-							backgroundColor: Theme.primaryColors.blue,
-							alignSelf: 'center',
-							textAlign: 'center',
-							top: -10,
-							borderRadius: 3,
-						}}>
-						<Text
-							style={{
-								fontSize: 18,
-								textAlign: 'center',
-								color: Theme.primaryColors.white,
-							}}>
-							2</Text>
-					</View>
-				</View>
+
+						<View>
+							<View
+								style={{
+									width: 60,
+									height: 60,
+									backgroundColor: 'tomato',
+									borderRadius: 30,
+									overflow: 'hidden',
+									borderColor: Theme.primaryColors.blue,
+									borderWidth: 2,
+								}}>
+								<ImageBackground
+									style={{
+										width: 60,
+										height: 60,
+										backgroundColor: 'tomato',
+										borderRadius: 30,
+									}}
+									source={require('../assets/images/profileAvatar.jpg')}>
+								</ImageBackground>
+							</View>
+							<View
+								style={{
+									width: 24,
+									height: 24,
+									backgroundColor: Theme.primaryColors.blue,
+									alignSelf: 'center',
+									textAlign: 'center',
+									top: -10,
+									borderRadius: 3,
+								}}>
+								<Text style={{
+									fontSize: 18, textAlign: 'center', color: Theme.primaryColors.white,
+								}}>2</Text>
+							</View>
+							<View>
+								<Text
+									style={{
+										fontSize: 12,
+										textAlign: 'center',
+										color: Theme.primaryColors.blue,
+									}}>
+									{user[2].username}
+								</Text>
+							</View>
+						</View>
 
 
-				<View>
-					<View
-						style={{
-							width: 104,
-							height: 104,
-							backgroundColor: 'tomato',
-							borderRadius: 105 / 2,
-							overflow: 'hidden',
-							borderColor: Theme.primaryColors.blue,
-							borderWidth: 2,
-						}}>
-						<ImageBackground
-							style={{
-								width: 105,
-								height: 105,
-								backgroundColor: 'tomato',
-								borderRadius: 30,
-							}}
-							source={require('../assets/images/profileAvatar.jpg')}>
-						</ImageBackground>
-					</View>
-					<View
-						style={{
-							width: 24,
-							height: 24,
-							backgroundColor: Theme.primaryColors.blue,
-							alignSelf: 'center',
-							textAlign: 'center',
-							top: -10,
-							borderRadius: 3,
-						}}>
-						<Text
-							style={{
-								fontSize: 18,
-								textAlign: 'center',
-								color: Theme.primaryColors.white,
-							}}>
-							1</Text>
-					</View>
-				</View>
+						<View>
+							<View
+								style={{
+									width: 104,
+									height: 104,
+									backgroundColor: 'tomato',
+									borderRadius: 105 / 2,
+									overflow: 'hidden',
+									borderColor: Theme.primaryColors.blue,
+									borderWidth: 2,
+								}}>
+								<ImageBackground
+									style={{
+										width: 105,
+										height: 105,
+										backgroundColor: 'tomato',
+										borderRadius: 30,
+									}}
+									source={require('../assets/images/profileAvatar.jpg')}>
+								</ImageBackground>
+							</View>
+							<View
+								style={{
+									width: 24,
+									height: 24,
+									backgroundColor: Theme.primaryColors.blue,
+									alignSelf: 'center',
+									textAlign: 'center',
+									top: -10,
+									borderRadius: 3,
+								}}>
+								<Text
+									style={{
+										fontSize: 18,
+										textAlign: 'center',
+										color: Theme.primaryColors.white,
+									}}>
+									1</Text>
+							</View>
+							<View>
+								<Text
+									style={{
+										fontSize: 18,
+										textAlign: 'center',
+										color: Theme.primaryColors.blue,
+									}}> {user[0].username}</Text>
+							</View>
+						</View>
 
 
-				<View>
-					<View
-						style={{
-							width: 60,
-							height: 60,
-							backgroundColor: 'tomato',
-							borderRadius: 30,
-							overflow: 'hidden',
-							borderColor: Theme.primaryColors.blue,
-							borderWidth: 2,
-						}}>
-						<ImageBackground
-							style={{
-								width: 60,
-								height: 60,
-								backgroundColor: 'tomato',
-								borderRadius: 30,
-							}}
-							source={require('../assets/images/profileAvatar.jpg')}>
-						</ImageBackground>
-					</View>
-					<View
-						style={{
-							width: 24,
-							height: 24,
-							backgroundColor: Theme.primaryColors.blue,
-							alignSelf: 'center',
-							textAlign: 'center',
-							top: -10,
-							borderRadius: 3,
-						}}>
-						<Text
-							style={{
-								fontSize: 18,
-								textAlign: 'center',
-								color: Theme.primaryColors.white,
-							}}>
-							3</Text>
-					</View>
-				</View>
+						<View>
+							<View
+								style={{
+									width: 60,
+									height: 60,
+									backgroundColor: 'tomato',
+									borderRadius: 30,
+									overflow: 'hidden',
+									borderColor: Theme.primaryColors.blue,
+									borderWidth: 2,
+								}}>
+								<ImageBackground
+									style={{
+										width: 60,
+										height: 60,
+										backgroundColor: 'tomato',
+										borderRadius: 30,
+									}}
+									source={require('../assets/images/profileAvatar.jpg')}>
+								</ImageBackground>
+							</View>
+							<View
+								style={{
+									width: 24,
+									height: 24,
+									backgroundColor: Theme.primaryColors.blue,
+									alignSelf: 'center',
+									textAlign: 'center',
+									top: -10,
+									borderRadius: 3,
+								}}>
+								<Text
+									style={{
+										fontSize: 18,
+										textAlign: 'center',
+										color: Theme.primaryColors.white,
+									}}>
+									3</Text>
+							</View>
+							<View>
+								<Text
+									style={{
+										fontSize: 12,
+										textAlign: 'center',
+										color: Theme.primaryColors.blue,
+									}}> {user[2].username}</Text>
+							</View>
+						</View>
 
-			</View>
-		);
+					</View>
+				);
+			}
+		}
 	};
 
-	bs = React.createRef();
 
 	render() {
-		const RankingData = this.props.leaderBoardData
+		// const RankingData = this.props.leaderBoardData;
+		const RankingData = this.props.leaderBoardData ? this.props.leaderBoardData : [];
+		// if (RankingData) {
 		return (
-			<SafeAreaView style={{ flex: 1, backgroundColor: Theme.primaryColors.white, }}>
+			<SafeAreaView style={{ flex: 1, backgroundColor: Theme.primaryColors.white }}>
 				<View style={styles.container}>
 					<View style={{
 						flex: 1,
-						// backgroundColor: Theme.secondaryColors.blue,
 						justifyContent: 'center',
-						top: 40
-
 					}}>
-						<Text style={{ textAlign: 'center', fontSize: 24, top: 20, }}>Top 3 HighScore</Text>
-						{this.renderTop3()}
+						{/* <Text style={{ textAlign: 'center', fontSize: 24, top: 20 }}>Top 3 HighScore</Text> */}
+						{this.renderTop3(RankingData)}
 					</View>
 
 
@@ -292,34 +305,27 @@ class TopScoresScreen extends Component {
 						flex: 2,
 						justifyContent: 'center',
 						alignItems: 'center',
-						backgroundColor: Theme.secondaryColors.white,
+						backgroundColor: Theme.primaryColors.blue,
 						bottom: -40,
 						borderTopLeftRadius: 30,
 						borderTopRightRadius: 30,
-
 					}}>
-						<ScrollView style={{
-							// bottom: -10,
-							width: width - 30,
-							marginTop: 40,
-							// flexDirection: 'column-reverse'
-							// paddingTop: 40
-						}}>
+						<ScrollView
+							showsVerticalScrollIndicator={false}
+							style={{
+								// bottom: -10,
+								width: width - 40,
+								marginTop: 30,
+								marginBottom: 5,
+							}}>
 							{this.renderLeaderBoardUsers(RankingData)}
 						</ScrollView>
 					</View>
 
-					{/* <BottomSheet
-					ref={this.bs}
-					snapPoints={[height - 360, 400]}
-					renderHeader={this.renderHeader}
-					renderContent={this.renderInner(RankingData)}
-					initialSnap={1}
-				/> */}
-
 				</View>
 			</SafeAreaView>
 		);
+		// }
 	}
 }
 
@@ -329,7 +335,7 @@ const styles = StyleSheet.create({
 	container: {
 		flex: 1,
 		backgroundColor: Theme.primaryColors.white,
-		height: height
+		height: height,
 	},
 	box: {
 		width: IMAGE_SIZE,

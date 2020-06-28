@@ -80,7 +80,6 @@ target 'QuizAndClock' do
   # Firebase pods 
   pod 'Firebase/Analytics'
   pod 'Firebase/Core'
-  pod 'RNFirebase', :path => '../node_modules/react-native-firebase/ios'
   pod 'Firebase/Firestore'
   pod 'Firebase/Auth'
   pod 'Firebase/Database'

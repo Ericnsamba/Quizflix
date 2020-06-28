@@ -39,7 +39,7 @@ export const LeaderBoardUsers = ({ onPress = () => { }, username, image, rankNum
 
 		}}>
 		<View style={{ width: 60, height: 73, justifyContent: 'center', alignSelf: 'center' }}>
-			<Text style={{ fontSize: 24, fontWeight: '800', textAlign: 'center', color: Theme.primaryColors.pink }}>
+			<Text style={{ fontSize: 24, fontWeight: '800', textAlign: 'center', color: Theme.primaryColors.black }}>
 				{rankNumber}</Text>
 		</View>
 
@@ -54,7 +54,7 @@ export const LeaderBoardUsers = ({ onPress = () => { }, username, image, rankNum
 				{username}</Text>
 		</View>
 		<View style={{ paddingTop: 5, flexGrow: 1, marginLeft: 20 }}>
-			<Text style={{ fontSize: 16, fontWeight: '600', textAlign: 'left', color: Theme.primaryColors.pink }}>
+			<Text style={{ fontSize: 16, fontWeight: '600', textAlign: 'left', color: Theme.primaryColors.black }}>
 				{totalPoints} pts</Text>
 		</View>
 	</View>

@@ -1,6 +1,10 @@
+/* eslint-disable react-native/no-inline-styles */
+/* eslint-disable prettier/prettier */
 import React, { Component } from 'react';
 import firebase from 'react-native-firebase';
 import { View, Text, StyleSheet, Dimensions, Image } from 'react-native';
+import LinearGradient from 'react-native-linear-gradient';
+
 import Feather from 'react-native-vector-icons/Feather';
 import * as Theme from '../theme/Theme';
 import { connect } from 'react-redux';
@@ -61,7 +65,8 @@ class ScoreHeader extends Component {
 		const { username, email, profileImage } = this.props.personData;
 		const avatar = require('../assets/images/profileAvatar.jpg');
 		return (
-			<View style={styles.container}>
+				 <LinearGradient colors={['#F56BA5', Theme.primaryColors.pink]} style={styles.container}>
+			<View >
 				<View style={styles.innerContainer}>
 					<View style={{ width: 60, justifyContent: 'center' }}>
 						<Image
@@ -94,7 +99,8 @@ class ScoreHeader extends Component {
 						</View>
 					</View>
 				</View>
-			</View>
+				</View>
+				</LinearGradient>
 		);
 	}
 }
@@ -116,8 +122,6 @@ const styles = StyleSheet.create({
 		marginBottom: 24,
 		backgroundColor: 'tomato',
 		justifyContent: 'center',
-		// borderBottomColor: Theme.primaryColors.black,
-		// borderBottomWidth: StyleSheet.hairlineWidth,
 	},
 	headerTitle: {
 		textAlign: 'center',
@@ -126,8 +130,6 @@ const styles = StyleSheet.create({
 		color: Theme.primaryColors.white,
 	},
 	innerContainer: {
-		// borderBottomColor: Theme.primaryColors.gray,
-		// borderBottomWidth: StyleSheet.hairlineWidth,
 		flexGrow: 1,
 		flexDirection: 'row',
 		padding: 20,

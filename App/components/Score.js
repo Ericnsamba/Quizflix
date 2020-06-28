@@ -1,3 +1,5 @@
+/* eslint-disable react-native/no-inline-styles */
+/* eslint-disable prettier/prettier */
 import React from 'react';
 import {
 	View,
@@ -13,6 +15,7 @@ import firebase from 'react-native-firebase';
 import Feather from 'react-native-vector-icons/Feather';
 import { db } from '../firebase/Firebase';
 import LottieView from 'lottie-react-native';
+import LinearGradient from 'react-native-linear-gradient';
 import * as Theme from '../theme/Theme';
 import ShareButton from './Share';
 import ScoreTrophy from './Animated/ScoreTrophyAnim';
@@ -54,7 +57,7 @@ let addItem = (data, quizCategory, uid, correctCount) => {
 
 
 let updateLeaderBoard = (totalPointsData, uid) => {
-	console.log("updateLeaderBoard -> totalPointsData, uid", totalPointsData, uid)
+	console.log("updateLeaderBoard -> totalPointsData, uid", totalPointsData, uid);
 
 	const adaNameRef = firebase.database().ref(`/leader_board/${uid}/`);
 	if (adaNameRef) {
@@ -84,7 +87,7 @@ class Score extends React.Component {
 	componentDidMount() {
 		const { currentUser } = firebase.auth();
 		this.setState({ currentUser });
-		this.renderPoints()
+		this.renderPoints();
 	}
 
 
@@ -95,9 +98,9 @@ class Score extends React.Component {
 
 		if (currentUser && quizPlayed) {
 			Object.values(quizPlayed).map(game => (points += game.points));
-			this.setState({ totalPoints: points })
+			this.setState({ totalPoints: points });
 		}
-		console.log("Score -> renderPoints -> points", points)
+		console.log("Score -> renderPoints -> points", points);
 		return points;
 	};
 
@@ -113,7 +116,7 @@ class Score extends React.Component {
 		} = this.props.parentState;
 		const { currentUser, totalPoints } = this.state;
 
-		const updatedTotalPoints = totalPoints + correctCount
+		const updatedTotalPoints = totalPoints + correctCount;
 
 
 		if (!currentUser) {
@@ -197,15 +200,16 @@ class Score extends React.Component {
 									width: 300,
 								}} />
 						</View>
-						<View>
 
-						</View>
+						<LinearGradient
+							colors={['#FF9F88', Theme.primaryColors.orange]}
+							style={styles.playAgainButton}>
+							<TouchableOpacity
 
-						<TouchableOpacity
-							style={styles.playAgainButton}
-							onPress={() => this.props.hideModal()}>
-							<Text style={styles.closeButtonText}>Play Again</Text>
-						</TouchableOpacity>
+								onPress={() => this.props.hideModal()}>
+								<Text style={styles.closeButtonText}>Play Again</Text>
+							</TouchableOpacity>
+						</LinearGradient>
 					</View>
 					{this.handleScores()}
 				</Modal>

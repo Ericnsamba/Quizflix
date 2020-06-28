@@ -1,17 +1,14 @@
 import React from 'react';
 import firebase from 'react-native-firebase';
+import { View, StyleSheet } from 'react-native';
+import MaskedView from '@react-native-community/masked-view';
 import Feather from 'react-native-vector-icons/Feather';
 import Icon from 'react-native-vector-icons/Ionicons';
 import * as Animatable from 'react-native-animatable';
 // import Icon from 'react-native-vector-icons/Ionicons';
-
 // import {Ionicons ,Octicons} from 'react-native-vector-icons/Ionicons';
-
-
-import { View, Image, StyleSheet, TouchableOpacity, Text } from 'react-native';
-
+import LinearGradient from 'react-native-linear-gradient';
 import { NavigationContainer } from '@react-navigation/native';
-
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
 
@@ -89,57 +86,94 @@ export default ButtonNavigation = () => {
 				screenOptions={({ route }) => ({
 					tabStyle: {
 						paddingTop: 15,
-						backgroundColor: Theme.primaryColors.lightBlue
+						backgroundColor: Theme.primaryColors.lightBlue,
 					},
-					tabBarIcon: ({ focused, color, size, iconAnimation, iconIteration }) => {
+					tabBarIcon: ({
+						focused,
+						color,
+						size,
+						iconAnimation,
+						iconIteration,
+					}) => {
 						let iconName;
 
 						if (route.name === 'Home') {
 							iconName = focused ? 'ios-home' : 'ios-home';
-							size = focused ? 44 : 24;
+							size = focused ? 40 : 34;
 							iconAnimation = focused ? 'pulse' : 'rubberBand';
 							iconIteration = focused ? 'infinite' : 1;
-						}
-						else if (route.name === 'Score') {
-							iconName = focused ? 'ios-list-box' : 'ios-list';
-							size = focused ? 44 : 24;
+						} else if (route.name === 'Score') {
+							iconName = focused ? 'ios-trophy' : 'ios-trophy';
+							size = focused ? 40 : 34;
 							iconAnimation = focused ? 'pulse' : 'rubberBand';
 							iconIteration = focused ? 'infinite' : 1;
-						}
-						else if (route.name === 'Info') {
-							iconName = focused ? 'ios-information-circle' : 'ios-information-circle-outline';
-							size = focused ? 44 : 24;
+						} else if (route.name === 'Info') {
+							iconName = focused
+								? 'ios-information-circle'
+								: 'ios-information-circle-outline';
+							size = focused ? 40 : 34;
 							iconAnimation = focused ? 'pulse' : 'rubberBand';
 							iconIteration = focused ? 'infinite' : 1;
-						}
-						else if (route.name === 'Profile') {
-							iconName = focused ? 'ios-information-circle' : 'ios-information-circle-outline';
-							size = focused ? 44 : 24;
+						} else if (route.name === 'Profile') {
+							iconName = focused ? 'ios-person' : 'ios-person';
+							size = focused ? 40 : 34;
 							iconAnimation = focused ? 'pulse' : 'rubberBand';
 							iconIteration = focused ? 'infinite' : 1;
 						}
 
 						return (
-							<Animatable.View
-								animation={iconAnimation}
-								iterationCount={iconIteration}
-								delay={500}
-								style={styles.icons}
-							>
-								<Icon name={iconName} size={size} color={color} />
-							</Animatable.View>
-						)
+
+							<MaskedView
+								style={{
+									flex: 1,
+									flexDirection: 'row',
+									height: size /*paddingTop: 20*/,
+								}}
+								maskElement={
+									<View
+										style={{
+											backgroundColor: 'transparent',
+											justifyContent: 'center',
+											alignItems: 'center',
+										}}>
+										<Animatable.View
+											animation={iconAnimation}
+											iterationCount={iconIteration}
+											delay={500}
+											style={styles.icons}>
+											<Icon
+												name={iconName}
+												size={size}
+												color={color}
+												style={{
+													justifyContent: 'center',
+													alignSelf: 'center',
+													// paddingTop: 20,
+													bottom: -10,
+												}}
+											/>
+										</Animatable.View>
+									</View>
+								}>
+								<LinearGradient
+									colors={[
+										'#FF9F88',
+										Theme.primaryColors.orange,
+									]}
+									style={{ flex: 1 }}
+								/>
+							</MaskedView>
+						);
 					},
 				})}
 				tabBarOptions={{
 					showLabel: false,
-					activeTintColor: Theme.secondaryColors.pink,
-					inactiveTintColor: Theme.secondaryColors.blue,
+					// activeTintColor: Theme.primaryColors.orange,
+					// inactiveTintColor: Theme.secondaryColors.blue,
 					style: {
-						backgroundColor: Theme.primaryColors.blue
-					}
-				}}
-			>
+						backgroundColor: Theme.primaryColors.blue,
+					},
+				}}>
 				<Tab.Screen name="Home" component={QuizHomeStack} />
 				<Tab.Screen name="Score" component={TopScoresScreen} />
 				<Tab.Screen name="Info" component={InfoScreen} />
@@ -149,14 +183,12 @@ export default ButtonNavigation = () => {
 	);
 }
 
-
 const styles = StyleSheet.create({
 	container: {
-		paddingTop: 50,
+		// paddingTop: 50,
 	},
 	icons: {
-		top: 8,
-
+		// top: 8,
 	},
 	logo: {
 		width: 66,

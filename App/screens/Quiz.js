@@ -1,3 +1,5 @@
+/* eslint-disable react-native/no-inline-styles */
+/* eslint-disable prettier/prettier */
 import React from 'react';
 import {
 	View,
@@ -36,7 +38,7 @@ class Quiz extends React.Component {
 			setModalVisible: false,
 			quizCategory: this.props.route.params.arrayData[0].category,
 			quizImage: this.props.route.params.arrayData[0].image,
-			timer: 165,
+			timer: 30,
 			quizQuestions: this.props.route.params.arrayData.sort((a, b) => {
 				return Math.round(Math.random()) - Math.round(Math.random())
 			})
@@ -51,8 +53,6 @@ class Quiz extends React.Component {
 				return this.setState(prevState => ({ timer: prevState.timer - 1 }));
 			}, 1000);
 		}
-
-		console.log("Quiz -> componentDidMount -> 1000", this.state.username)
 
 	}
 
@@ -96,7 +96,7 @@ class Quiz extends React.Component {
 			return {
 				activeQuestionIndex: nextIndex,
 				answered: false,
-				timer: 160,
+				timer: 30,
 			};
 		});
 	};
@@ -194,12 +194,12 @@ class Quiz extends React.Component {
 								alignSelf: 'center',
 							}}>
 							<ButtonContainer>
-								{currentQuestion.answers.map(answer => (
+								{currentQuestion.answers.map((answer , index) => (
 									<Button
-										key={answer.id}
-										answerNum={answer.id}
-										text={answer.text}
-										onPress={() => this.answer(answer.correct)}
+									key={index}
+									answerNum={index+1}
+									text={answer.text}
+									onPress={() => this.answer(answer.correct)}
 									/>
 								))}
 							</ButtonContainer>

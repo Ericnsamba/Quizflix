@@ -1,3 +1,7 @@
+/* eslint-disable react-native/no-inline-styles */
+/* eslint-disable comma-dangle */
+/* eslint-disable no-unused-vars */
+/* eslint-disable prettier/prettier */
 import React, { useEffect, Component } from 'react';
 import firebase from 'react-native-firebase';
 import {
@@ -8,7 +12,8 @@ import {
 	TouchableOpacity,
 	SafeAreaView,
 	Dimensions,
-} from 'react-native';
+	Button
+} from "react-native";
 import { connect } from 'react-redux';
 import { watchPersonData, watchPointsData, watchUsersData } from '../redux/AppRedux';
 import * as Theme from '../theme/Theme';
@@ -42,11 +47,14 @@ const mapDispatchToProps = dispatch => {
 };
 
 
-class ProfileScreen extends Component {
+
+class ProfileScreen extends React.Component {
+
 	constructor(props) {
 		super(props);
 		this.state = {
 			isAnonymous: firebase.auth().currentUser._user.isAnonymous,
+			user: {}
 		};
 		this.props.watchPointsData();
 		this.props.watchPersonData();
@@ -85,127 +93,124 @@ class ProfileScreen extends Component {
 			</View>
 		);
 	}
-
 	render() {
 		const { isAnonymous } = this.state;
 		// console.log("render -> isAnonymous", this.props)
 
 		const pointsData = this.props.pointsData;
-		if (isAnonymous) {
-			return (
-				<SafeAreaView style={{ flex: 1, height: height, backgroundColor: Theme.primaryColors.white }}>
-					<View style={styles.container}>
-						<View style={styles.headerContainer}>
-							<ScoreHeader />
-						</View>
-
-						<View >
-							<View style={{ width: width - 60, justifyContent: 'center', alignSelf: 'center', marginTop: 40 }}>
-								<Text style={{ textAlign: 'left', fontSize: 20, color: Theme.primaryColors.blue, fontWeight: 'bold', }}>Your Scores</Text>
-							</View>
-
-							<ScrollView>
-								<View>
-									{this.renderScoresInCategory(pointsData)}
-								</View>
-							</ScrollView>
-						</View>
-						<View style={{
-							position: 'absolute',
-							bottom: 20,
-							padding: 20,
-							backgroundColor: Theme.primaryColors.lightBlue,
-							width: 300,
-							alignItems: 'center',
-							alignSelf: 'center'
-						}}>
-							<TouchableOpacity onPress={() => firebase.auth().signOut()}>
-								<Text
-									style={{
-										color: Theme.primaryColors.blue,
-										textTransform: 'uppercase',
-										fontWeight: '500',
-										fontSize: 12,
-									}}>Logout</Text>
-							</TouchableOpacity>
-
-						</View>
-
+		return (
+			<View style={styles.container}>
+				<View style={{ marginTop: 64, alignItems: "center" }}>
+					<View style={styles.avatarContainer}>
+						<Image
+							source={
+								this.state.user.avatar
+									// ? { uri: this.state.user.avatar }
+									? require("../assets/images/profileAvatar.jpg")
+									: require("../assets/images/profileAvatar.jpg")
+							}
+							style={styles.avatar}
+						/>
 					</View>
-				</SafeAreaView>
-			)
-		}
-		else {
-			return (
-				<SafeAreaView style={{ flex: 1, height: height, backgroundColor: Theme.primaryColors.white }}>
-					<View style={styles.container}>
-						<View style={styles.headerContainer}>
-							<ScoreHeader />
-						</View>
-
-						<View >
-							<View style={{ width: width - 60, justifyContent: 'center', alignSelf: 'center', marginTop: 40 }}>
-								<Text style={{ textAlign: 'left', fontSize: 20, color: Theme.primaryColors.blue, fontWeight: 'bold', }}>Your Scores</Text>
-							</View>
-
-							<ScrollView>
-								<View>
-									{this.renderScoresInCategory(pointsData)}
-								</View>
-							</ScrollView>
-						</View>
-						<View style={{
-							position: 'absolute',
-							bottom: 20,
-							padding: 20,
-							backgroundColor: Theme.primaryColors.lightBlue,
-							width: 300,
-							alignItems: 'center',
-							alignSelf: 'center'
-						}}>
-							<TouchableOpacity onPress={() => firebase.auth().signOut()}>
-								<Text
-									style={{
-										color: Theme.primaryColors.blue,
-										textTransform: 'uppercase',
-										fontWeight: '500',
-										fontSize: 12,
-									}}>Logout</Text>
-							</TouchableOpacity>
-
-						</View>
-
+					{/* <Text style={styles.name}>{this.state.user.name}</Text> */}
+				</View>
+				<View style={styles.statsContainer}>
+					<View style={styles.stat}>
+						<Text style={styles.statAmount}>21</Text>
+						<Text style={styles.statTitle}>Posts</Text>
 					</View>
-				</SafeAreaView>
-			);
-		}
+					<View style={styles.stat}>
+						<Text style={styles.statAmount}>981</Text>
+						<Text style={styles.statTitle}>Followers</Text>
+					</View>
+					<View style={styles.stat}>
+						<Text style={styles.statAmount}>63</Text>
+						<Text style={styles.statTitle}>Following</Text>
+					</View>
+				</View>
+
+				<View >
+					<View style={{ width: width - 60, justifyContent: 'center', alignSelf: 'center', marginTop: 40 }}>
+						<Text style={{ textAlign: 'left', fontSize: 20, color: Theme.primaryColors.blue, fontWeight: 'bold', }}>Your Scores</Text>
+					</View>
+
+					<ScrollView>
+						<View>
+							{this.renderScoresInCategory(pointsData)}
+						</View>
+					</ScrollView>
+				</View>
+
+				<View style={{
+					position: 'absolute',
+					bottom: 20,
+					padding: 10,
+					backgroundColor: Theme.primaryColors.blue,
+					width: 100,
+					alignItems: 'center',
+					alignSelf: 'center',
+					borderRadius: 30,
+				}}>
+					<TouchableOpacity onPress={() => firebase.auth().signOut()}>
+						<Text
+							style={{
+								color: Theme.primaryColors.white,
+								textTransform: 'uppercase',
+								fontWeight: '500',
+								fontSize: 12,
+							}}>Logout</Text>
+					</TouchableOpacity>
+
+				</View>
+
+			</View>
+		);
 	}
 }
 
-
 const styles = StyleSheet.create({
 	container: {
-		flex: 1,
-		backgroundColor: Theme.primaryColors.white
+		flex: 1
 	},
-	shadow: {
-		shadowColor: 'black',
-		shadowOffset: {
-			width: 0,
-			height: 6,
-		},
-		shadowOpacity: 0.1,
-		shadowRadius: 10,
-		elevation: 5,
+	profile: {
+		marginTop: 64,
+		alignItems: "center"
 	},
-	headerContainer: {
-		top: 20,
-		width: width,
-		height: 124,
-		marginBottom: 24,
-		justifyContent: 'center',
-		borderBottomColor: Theme.primaryColors.black,
+	avatarContainer: {
+		shadowColor: "#151734",
+		shadowRadius: 30,
+		shadowOpacity: 0.4
 	},
+	avatar: {
+		width: 136,
+		height: 136,
+		borderRadius: 68
+	},
+	name: {
+		marginTop: 24,
+		fontSize: 16,
+		fontWeight: "600"
+	},
+	statsContainer: {
+		flexDirection: "row",
+		justifyContent: "space-between",
+		margin: 32
+	},
+	stat: {
+		alignItems: "center",
+		flex: 1
+	},
+	statAmount: {
+		color: Theme.primaryColors.blue,
+		fontSize: 18,
+		fontWeight: "300"
+	},
+	statTitle: {
+		color: "#C3C5CD",
+		fontSize: 12,
+		fontWeight: "500",
+		marginTop: 4
+	}
 });
 
 export default connect(

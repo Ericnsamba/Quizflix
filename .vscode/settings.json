@@ -1,0 +1,8 @@
+{
+    "editor.formatOnSave": true,
+    "editor.formatOnPaste": true,
+    "editor.formatOnType": true,
+    "editor.quickSuggestions": null,
+    "editor.indent_style": "tab",
+    "editor.indent_size": 4,
+}

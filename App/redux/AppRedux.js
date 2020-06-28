@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import { createStore, applyMiddleware } from 'redux';
 import thunkMiddleware from 'redux-thunk';
 import * as firebase from 'react-native-firebase';
@@ -95,7 +96,9 @@ const watchLeaderBoardData = () => {
 				'value',
 				function (snapshot) {
 					var leaderBoardData = snapshot.val();
-					dispatch(setLeaderBoardData(leaderBoardData));
+					const sortedLeaderBoardData =  Object.values(leaderBoardData).sort((a, b) => b.totalPoints - a.totalPoints);
+                    // console.log("watchLeaderBoardData -> sortedLeaderBoardData", sortedLeaderBoardData)
+					dispatch(setLeaderBoardData(sortedLeaderBoardData));
 				},
 				function (error) {
 					console.log('firebase error', error);

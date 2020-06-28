@@ -2,8 +2,8 @@ import React from 'react';
 import { View, TouchableOpacity, Text, StyleSheet } from 'react-native';
 import * as Theme from '../../theme/Theme';
 
-export const Button = ({ text, onPress = () => { } }) => (
-    <TouchableOpacity onPress={onPress} style={styles.button}>
+export const Button = ({ text, buttonColor, onPress = () => { } }) => (
+    <TouchableOpacity onPress={onPress} style={[styles.button, buttonColor]}>
         <View style={styles.buttonStyle}>
             <Text style={styles.text}>{text}</Text>
         </View>
@@ -22,7 +22,7 @@ const styles = StyleSheet.create({
         height: 60,
         borderRadius: 12,
         justifyContent: 'center',
-        backgroundColor: Theme.primaryColors.blue,
+        backgroundColor: Theme.primaryColors.orange,
         //ios   
         shadowColor: Theme.primaryColors.blue,
         shadowOpacity: 0.6,
