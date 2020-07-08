@@ -6,24 +6,30 @@ import {
 	StyleSheet,
 	Dimensions,
 	ImageBackground,
-	Image
+	Image,
 } from 'react-native';
 import * as Theme from '../theme/Theme';
 import { Themed } from 'react-navigation';
 import { TimeAgo } from './Time';
 const { width, height } = Dimensions.get('window');
 
-export const ScoresInCategory = ({ onPress = () => { }, name, time, image, points }) => (
+export const ScoresInCategory = ({
+	onPress = () => {},
+	name,
+	time,
+	image,
+	points,
+}) => (
 	<View style={styles.container}>
-		<View style={styles.innerContainer}>
-			<Image source={{ uri: image }} style={styles.image} />
-			<View style={[styles.row, { width: 200 }]}>
+		<ImageBackground
+			source={{ uri: image }}
+			style={[styles.image, styles.innerContainer]}>
+			<View style={[styles.cardDetails]}>
 				<Text style={styles.title}>{name}</Text>
 				<Text style={styles.pointsText}>Points: {points}</Text>
-				<TimeAgo time={time}
-				/>
+				<TimeAgo time={time} style={{ paddingBottom: 5 }} />
 			</View>
-		</View>
+		</ImageBackground>
 	</View>
 );
 
@@ -34,27 +40,25 @@ const styles = StyleSheet.create({
 		marginVertical: 10,
 		borderRadius: 20,
 		overflow: 'hidden',
+		width: 200,
 	},
 	innerContainer: {
 		backgroundColor: Theme.primaryColors.blue,
-		height: 84,
-		width: width - 60,
-		justifyContent: 'space-evenly',
-		flexDirection: 'row',
-		alignItems: 'center'
-
+		height: 200,
+		justifyContent: 'flex-end',
+		alignItems: 'center',
 	},
 
-	row: {
+	cardDetails: {
+		width: 200,
 		paddingHorizontal: 15,
-		marginBottom: 1,
-		width: width - 60,
-		borderRadius: 12,
+		paddingVertical: 5,
+		marginBottom: 0,
 		marginVertical: 5,
+		alignSelf: 'center',
+		backgroundColor: Theme.primaryColors.orange,
 	},
 	image: {
-		width: 60,
-		height: 60,
 		borderRadius: 60 / 2,
 		backgroundColor: Theme.primaryColors.lightBlue,
 	},
@@ -62,16 +66,16 @@ const styles = StyleSheet.create({
 		fontSize: 16,
 		color: '#fff',
 		fontWeight: '500',
-		textAlign: 'left',
-		position: 'relative',
+		// textAlign: 'left',
+		// position: 'relative',
 		bottom: 0,
 	},
 	pointsText: {
 		fontSize: 18,
 		color: '#fff',
 		fontWeight: '800',
-		textAlign: 'left',
-		position: 'relative',
+		// textAlign: 'left',
+		// position: 'relative',
 		bottom: 0,
 	},
 	text: {
@@ -83,7 +87,3 @@ const styles = StyleSheet.create({
 		bottom: 0,
 	},
 });
-
-
-
-

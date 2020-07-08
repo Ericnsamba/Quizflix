@@ -5,44 +5,45 @@ import * as Theme from '../theme/Theme';
 import { Themed } from 'react-navigation';
 
 export class Time extends Component {
-    constructor(props) {
-        super(props);
-    }
+	constructor(props) {
+		super(props);
+	}
 
-    render() {
-        const { time } = this.props;
-        var date = new Date(time * 1000);
-        const dayIndex = moment(date).days();
-        const day = moment(time)
-            .days(dayIndex)
-            .format('dddd');
+	render() {
+		const { time } = this.props;
+		var date = new Date(time * 1000);
+		const dayIndex = moment(date).days();
+		const day = moment(time)
+			.days(dayIndex)
+			.format('dddd');
 
-        return (
-            <View>
-                <Text>{day}</Text>
-            </View>
-        );
-    }
+		return (
+			<View>
+				<Text>{day}</Text>
+			</View>
+		);
+	}
 }
 
 class TimeAgo extends Component {
-    constructor(props) {
-        super(props);
-        this.date = props.time;
-    }
+	constructor(props) {
+		super(props);
+		this.date = props.time;
+	}
 
-    render() {
-        const time = moment(this.date || moment.now()).fromNow();
-        return (
-            <Text
-                style={{
-                    fontSize: 12,
-                    color: Theme.secondaryColors.blue,
-                }}>
-                {time}
-            </Text>
-        );
-    }
+	render() {
+		const time = moment(this.date || moment.now()).fromNow();
+		return (
+			<Text
+				style={{
+					fontSize: 12,
+					color: Theme.secondaryColors.pink,
+					marginBottom: 2,
+				}}>
+				{time}
+			</Text>
+		);
+	}
 }
 
 export { TimeAgo };

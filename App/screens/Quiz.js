@@ -24,7 +24,7 @@ import Icon from 'react-native-vector-icons/Ionicons';
 const { width, height } = Dimensions.get('window');
 class Quiz extends React.Component {
 	constructor(props) {
-		super(props)
+		super(props);
 		this.state = {
 			username: this.props.route.params.name,
 			correctCount: 0,
@@ -40,20 +40,20 @@ class Quiz extends React.Component {
 			quizImage: this.props.route.params.arrayData[0].image,
 			timer: 30,
 			quizQuestions: this.props.route.params.arrayData.sort((a, b) => {
-				return Math.round(Math.random()) - Math.round(Math.random())
-			})
+				return Math.round(Math.random()) - Math.round(Math.random());
+			}),
 		};
 	}
-
 
 	componentDidMount() {
 		if (this.state.timer > 1) {
 			this.interval = setInterval(() => {
 				console.log({ timer: this.state.timer });
-				return this.setState(prevState => ({ timer: prevState.timer - 1 }));
+				return this.setState(prevState => ({
+					timer: prevState.timer - 1,
+				}));
 			}, 1000);
 		}
-
 	}
 
 	componentWillUnmount() {
@@ -114,8 +114,19 @@ class Quiz extends React.Component {
 					alignItems: 'center',
 				}}>
 				<View style={styles.answerCount}>
-					<Icon name="ios-heart" size={24} color={Theme.primaryColors.blue} />
-					<Text style={{ fontSize: 18, color: Theme.primaryColors.blue }}> {correctCount}</Text>
+					<Icon
+						name="ios-heart"
+						size={24}
+						color={Theme.primaryColors.blue}
+					/>
+					<Text
+						style={{
+							fontSize: 18,
+							color: Theme.primaryColors.blue,
+						}}>
+						{' '}
+						{correctCount}
+					</Text>
 				</View>
 				<View style={styles.answerCount}>
 					<Icon
@@ -124,7 +135,14 @@ class Quiz extends React.Component {
 						color={Theme.primaryColors.pink}
 						style={{ paddingTop: 2 }}
 					/>
-					<Text style={{ fontSize: 18, color: Theme.primaryColors.pink }}> {inCorrectCount}</Text>
+					<Text
+						style={{
+							fontSize: 18,
+							color: Theme.primaryColors.pink,
+						}}>
+						{' '}
+						{inCorrectCount}
+					</Text>
 				</View>
 			</View>
 		);
@@ -170,23 +188,32 @@ class Quiz extends React.Component {
 					<View style={styles.headerContainer}>
 						<Text style={styles.headerTitle}>
 							Question{' '}
-							{`${this.state.activeQuestionIndex + 1}/${this.state.totalCount}`}
+							{`${this.state.activeQuestionIndex + 1}/${
+								this.state.totalCount
+							}`}
 						</Text>
 						<View style={styles.timer}>
-							<Text style={[styles.headerTitle, { color: Theme.secondaryColors.blue }]}>
+							<Text
+								style={[
+									styles.headerTitle,
+									{
+										color: Theme.secondaryColors.blue,
+									},
+								]}>
 								{timer === 0 ? (
 									this.renderTimer()
 								) : (
-										<Text>{this.state.timer}</Text>
-									)}
+									<Text>{this.state.timer}</Text>
+								)}
 							</Text>
 						</View>
 					</View>
 					<View style={styles.questionView}>
-						<Text style={styles.question}>{currentQuestion.question}</Text>
+						<Text style={styles.question}>
+							{currentQuestion.question}
+						</Text>
 					</View>
 					<ScrollView>
-
 						<View
 							style={{
 								width: width - 60,
@@ -194,14 +221,20 @@ class Quiz extends React.Component {
 								alignSelf: 'center',
 							}}>
 							<ButtonContainer>
-								{currentQuestion.answers.map((answer , index) => (
-									<Button
-									key={index}
-									answerNum={index+1}
-									text={answer.text}
-									onPress={() => this.answer(answer.correct)}
-									/>
-								))}
+								{currentQuestion.answers.map(
+									(answer, index) => (
+										<Button
+											key={index}
+											answerNum={index + 1}
+											text={answer.text}
+											onPress={() =>
+												this.answer(answer.correct)
+											}
+											correct={this.state.answerCorrect}
+											visible={this.state.answered}
+										/>
+									),
+								)}
 							</ButtonContainer>
 						</View>
 					</ScrollView>
@@ -209,8 +242,7 @@ class Quiz extends React.Component {
 					<View style={styles.quizFooter}>
 						<TouchableOpacity
 							onPress={() => this.props.navigation.goBack()}
-							style={[styles.closeButton]}
-						>
+							style={[styles.closeButton]}>
 							<Icon
 								name="ios-close"
 								size={36}
@@ -223,24 +255,31 @@ class Quiz extends React.Component {
 									fontSize: 18,
 									paddingLeft: 8,
 									paddingBottom: 3,
-									fontWeight: Theme.fontWeight.medium
-								}}>Quit</Text>
+									fontWeight: Theme.fontWeight.medium,
+								}}>
+								Quit
+							</Text>
 						</TouchableOpacity>
 
 						{this.renderCountTracker()}
 					</View>
-					<Score parentState={this.state} hideModal={this.hideModal} />
+					<Score
+						parentState={this.state}
+						hideModal={this.hideModal}
+					/>
 
 					<Animatable.Image
-						animation='pulse'
+						animation="pulse"
 						// iterationCount='infinite'
 						delay={500}
-						source={require('../assets/images/bg-patten2.png')} style={styles.bgImage} />
+						source={require('../assets/images/bg-patten2.png')}
+						style={styles.bgImage}
+					/>
 				</SafeAreaView>
-				<Alert
+				{/* <Alert
 					correct={this.state.answerCorrect}
 					visible={this.state.answered}
-				/>
+				/> */}
 			</View>
 		);
 	}
@@ -281,7 +320,7 @@ const styles = StyleSheet.create({
 		borderRadius: 12,
 		justifyContent: 'center',
 		alignSelf: 'center',
-		color: Theme.secondaryColors.blue
+		color: Theme.secondaryColors.blue,
 	},
 	questionView: {
 		minHeight: 80,
@@ -310,7 +349,7 @@ const styles = StyleSheet.create({
 		position: 'relative',
 		alignSelf: 'center',
 		flex: 1,
-		position: 'absolute'
+		position: 'absolute',
 	},
 	answerCount: {
 		flexDirection: 'row',
@@ -320,7 +359,7 @@ const styles = StyleSheet.create({
 		borderRadius: 10,
 		alignItems: 'center',
 		justifyContent: 'center',
-		backgroundColor: Theme.secondaryColors.white
+		backgroundColor: Theme.secondaryColors.white,
 	},
 	closeButton: {
 		width: 80,
@@ -331,7 +370,7 @@ const styles = StyleSheet.create({
 		flexDirection: 'row',
 		alignItems: 'center',
 		// flex: 1
-		zIndex: 9
+		zIndex: 9,
 	},
 
 	quizFooter: {
@@ -350,12 +389,12 @@ const styles = StyleSheet.create({
 		// height: width,
 		position: 'absolute',
 		bottom: -130,
-		opacity: 0.5
+		opacity: 0.5,
 	},
 	safearea: {
 		flex: 1,
 		height: height,
 		justifyContent: 'space-between',
-		backgroundColor: Theme.primaryColors.white
+		backgroundColor: Theme.primaryColors.white,
 	},
 });

@@ -12,6 +12,7 @@ import {
 	SafeAreaView,
 	Dimensions,
 	Image,
+	ImageBackground,
 } from 'react-native';
 import Feather from 'react-native-vector-icons/Feather';
 import Icon from 'react-native-vector-icons/Ionicons';
@@ -68,7 +69,6 @@ class HomeScreen extends Component {
 	}
 
 	componentDidMount() {
-
 		if (firebase.auth().currentUser.uid) {
 			// this.setState({ uid: firebase.auth().currentUser.uid });
 		}
@@ -87,73 +87,130 @@ class HomeScreen extends Component {
 		if (!userData) {
 			userData = {
 				// username: 'test'
-			}
+			};
 		}
 
-
-
-
 		return (
-			<SafeAreaView
-				style={{ flex: 1, backgroundColor: Theme.primaryColors.blue }}>
-				<StatusBar barStyle="dark-content" />
-				<View style={styles.container}>
-					<View style={styles.headerContainer}>
-						<ScoreHeader />
-					</View>
-					<View style={[styles.flex, styles.row, styles.header]}>
-						<View style={{ flexDirection: 'row' }}>
-							<Icon
-								name="md-trophy"
-								size={30} color={Theme.primaryColors.orange}
-							/>
-							<Text style={{ color: Theme.primaryColors.white, lineHeight: 30, paddingLeft: 10 }}>Ranking</Text>
-							{/* <Text style={{ fontSize: 24, color: Theme.secondaryColors.blue }}>Destination</Text> */}
+			<ImageBackground
+				resizeMode="cover"
+				source={require('../assets/images/app-bg.jpg')}
+				blurRadius={1}
+				style={styles.appBackGround}>
+				<SafeAreaView
+					style={{
+						flex: 1,
+						// backgroundColor: Theme.primaryColors.blue,
+					}}>
+					<StatusBar barStyle="dark-content" />
+					<View style={styles.container}>
+						<View style={styles.headerContainer}>
+							<ScoreHeader />
 						</View>
-						<View>
-							<Feather
-								name="star"
-								color={Theme.primaryColors.orange}
-								size={24}
-							/>
+						<View style={[styles.flex, styles.row, styles.header]}>
+							<View style={{ flexDirection: 'row' }}>
+								<Icon
+									name="md-trophy"
+									size={30}
+									color={Theme.primaryColors.orange}
+								/>
+								<Text
+									style={{
+										color: Theme.primaryColors.white,
+										lineHeight: 30,
+										paddingLeft: 10,
+									}}>
+									Ranking
+								</Text>
+								{/* <Text style={{ fontSize: 24, color: Theme.secondaryColors.blue }}>Destination</Text> */}
+							</View>
+							<View>
+								<Feather
+									name="star"
+									color={Theme.primaryColors.orange}
+									size={24}
+								/>
+							</View>
+							<View>
+								<Image
+									style={styles.avatar}
+									source={{
+										uri:
+											'https://randomuser.me/api/portraits/women/32.jpg',
+									}}
+								/>
+							</View>
 						</View>
-						<View>
-							<Image style={styles.avatar} source={{ uri: 'https://randomuser.me/api/portraits/women/32.jpg' }} />
+
+						<View style={styles.buttonsView}>
+							<TouchableOpacity
+								onPress={() =>
+									this.props.navigation.navigate('QuizIndex')
+								}
+								style={styles.buttonContainer}>
+								<LinearGradient
+									colors={[
+										'#FF9F88',
+										Theme.primaryColors.orange,
+									]}
+									style={styles.button}>
+									<Text style={[styles.buttonTitle]}>
+										Start
+									</Text>
+									<Icon
+										name="md-play-circle"
+										size={30}
+										style={styles.buttonIcon}
+									/>
+								</LinearGradient>
+							</TouchableOpacity>
+
+							<TouchableOpacity
+								onPress={() =>
+									this.props.navigation.navigate('QuizIndex')
+								}
+								style={styles.buttonContainer}>
+								<LinearGradient
+									colors={[
+										'#F56BA5',
+										Theme.primaryColors.pink,
+									]}
+									style={styles.button}>
+									<Text style={[styles.buttonTitle]}>
+										More
+									</Text>
+									<Icon
+										name="md-play-circle"
+										size={30}
+										style={styles.buttonIcon}
+									/>
+								</LinearGradient>
+							</TouchableOpacity>
+
+							<TouchableOpacity
+								onPress={() =>
+									this.props.navigation.navigate('QuizIndex')
+								}
+								style={styles.buttonContainer}>
+								<LinearGradient
+									colors={[
+										'#6BF4FF',
+										Theme.primaryColors.lightBlue,
+									]}
+									style={styles.button}>
+									<Text style={[styles.buttonTitle]}>
+										Options
+									</Text>
+									<Icon
+										name="ios-settings"
+										size={30}
+										style={styles.buttonIcon}
+									/>
+								</LinearGradient>
+							</TouchableOpacity>
 						</View>
 					</View>
-
-					<View style={styles.buttonsView}>
-						<TouchableOpacity onPress={() => this.props.navigation.navigate('QuizIndex')} style={styles.buttonContainer}>
-							<LinearGradient
-								colors={['#FF9F88', Theme.primaryColors.orange]}
-								style={styles.button}>
-								<Text style={[styles.buttonTitle]}>Start</Text>
-								<Icon name="md-play-circle" size={30} style={styles.buttonIcon} />
-							</LinearGradient>
-						</TouchableOpacity>
-
-
-						<TouchableOpacity onPress={() => this.props.navigation.navigate('QuizIndex')} style={styles.buttonContainer}>
-							<LinearGradient
-								colors={['#F56BA5', Theme.primaryColors.pink]}
-								style={styles.button}>
-								<Text style={[styles.buttonTitle]}>More</Text>
-								<Icon name="md-play-circle" size={30} style={styles.buttonIcon} />
-							</LinearGradient>
-						</TouchableOpacity>
-
-
-						<TouchableOpacity onPress={() => this.props.navigation.navigate('QuizIndex')} style={styles.buttonContainer}>
-							<LinearGradient
-								colors={['#6BF4FF', Theme.primaryColors.lightBlue]}
-								style={styles.button}>
-								<Text style={[styles.buttonTitle]}>Options</Text>
-								<Icon name="ios-settings" size={30} style={styles.buttonIcon} />
-							</LinearGradient>
-						</TouchableOpacity>
-					</View>
-				</View>
-			</SafeAreaView>
+				</SafeAreaView>
+			</ImageBackground>
 		);
 	}
 }
@@ -174,12 +231,16 @@ const styles = StyleSheet.create({
 		paddingBottom: 20,
 		justifyContent: 'space-between',
 		alignItems: 'center',
-
 	},
 	container: {
 		flex: 1,
 		height: height,
 		borderBottomColor: Theme.primaryColors.blue,
+	},
+	appBackGround: {
+		width: width,
+		height: height,
+		flex: 1,
 	},
 	headerContainer: {
 		top: 20,
@@ -201,7 +262,6 @@ const styles = StyleSheet.create({
 		alignSelf: 'center',
 		flexDirection: 'row',
 		width: width - 50,
-
 	},
 	ranking: {
 		flex: 1,
@@ -241,9 +301,9 @@ const styles = StyleSheet.create({
 		paddingTop: 2,
 	},
 	buttonsView: {
-		top: 100
-	}
-
+		top: 100,
+		backgroundColor: Theme.primaryColors.white,
+	},
 });
 
 export default connect(

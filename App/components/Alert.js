@@ -1,3 +1,4 @@
+/* eslint-disable react-native/no-inline-styles */
 import React from 'react';
 import LottieView from 'lottie-react-native';
 import { View, StyleSheet, Dimensions, Image } from 'react-native';
@@ -41,8 +42,8 @@ export const Alert = ({ correct, visible }) => {
 	// 	: require('../assets/images/close.png');
 
 	const icon = correct
-		? require('../assets/Animated/trophy-animation.json')
-		: require('../assets/Animated/trophy-animation.json');
+		? require('../assets/Animated/CorrectTick.json')
+		: require('../assets/Animated/CorrectTick.json');
 
 	const circleStyles = [styles.circle];
 
@@ -53,7 +54,6 @@ export const Alert = ({ correct, visible }) => {
 	return (
 		<View style={styles.container}>
 			<View style={circleStyles}>
-				{/* <Image source={icon} style={styles.icon} resizeMode="contain" /> */}
 				<LottieView
 					source={icon}
 					autoPlay

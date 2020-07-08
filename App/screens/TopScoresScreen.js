@@ -1,6 +1,4 @@
-/* eslint-disable react/self-closing-comp */
 /* eslint-disable react-native/no-inline-styles */
-/* eslint-disable prettier/prettier */
 import React, { Component } from 'react';
 import {
 	Text,
@@ -15,9 +13,9 @@ import {
 import * as firebase from 'react-native-firebase';
 import * as Theme from '../theme/Theme';
 import { LeaderBoardUsers } from '../components/LeaderBoardUsers';
+import FeatherIcon from 'react-native-vector-icons/Feather';
 
 const avatar = require('../assets/images/profileAvatar.jpg');
-
 
 //Redux
 import { connect } from 'react-redux';
@@ -29,7 +27,6 @@ import {
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 const { width, height } = Dimensions.get('window');
-
 
 const mapStateToProps = state => {
 	return {
@@ -67,14 +64,19 @@ class TopScoresScreen extends Component {
 		let currentUser = firebase.auth().currentUser;
 	}
 
-	renderLeaderBoardUsers = (RankingData) => {
-
-
+	renderLeaderBoardUsers = RankingData => {
 		if (RankingData && RankingData.length) {
 			return RankingData.map((rank, index) => {
-				if (!rank.totalPoints) { }
+				if (!rank.totalPoints) {
+				}
 				return (
-					<View key={rank.uid} style={{ justifyContent: 'center', flex: 1, alignItems: 'center' }}>
+					<View
+						key={rank.uid}
+						style={{
+							justifyContent: 'center',
+							flex: 1,
+							alignItems: 'center',
+						}}>
 						<LeaderBoardUsers
 							// image={rank.image}
 							rankNumber={index + 4}
@@ -82,14 +84,11 @@ class TopScoresScreen extends Component {
 							totalPoints={rank.totalPoints}
 							time={rank.timeStamp}
 						/>
-
 					</View>
 				);
 			});
 		}
-
-	}
-
+	};
 
 	getData = () => {
 		const { data } = this.state;
@@ -105,13 +104,9 @@ class TopScoresScreen extends Component {
 
 		console.log(' -> getData -> userRankings', userRankings);
 		return userRankings;
+	};
 
-	}
-
-
-
-	renderTop3 = (RankingData) => {
-
+	renderTop3 = RankingData => {
 		const top3 = [];
 		let user;
 		if (!top3.length && RankingData.length) {
@@ -121,6 +116,7 @@ class TopScoresScreen extends Component {
 
 			if (top3.length) {
 				user = top3;
+				console.log('TopScoresScreen -> top3', top3);
 				return (
 					<View
 						style={{
@@ -130,7 +126,6 @@ class TopScoresScreen extends Component {
 							flex: 1,
 							flexDirection: 'row',
 						}}>
-
 						<View>
 							<View
 								style={{
@@ -149,8 +144,8 @@ class TopScoresScreen extends Component {
 										backgroundColor: 'tomato',
 										borderRadius: 30,
 									}}
-									source={require('../assets/images/profileAvatar.jpg')}>
-								</ImageBackground>
+									source={require('../assets/images/profileAvatar.jpg')}
+								/>
 							</View>
 							<View
 								style={{
@@ -162,9 +157,14 @@ class TopScoresScreen extends Component {
 									top: -10,
 									borderRadius: 3,
 								}}>
-								<Text style={{
-									fontSize: 18, textAlign: 'center', color: Theme.primaryColors.white,
-								}}>2</Text>
+								<Text
+									style={{
+										fontSize: 18,
+										textAlign: 'center',
+										color: Theme.primaryColors.white,
+									}}>
+									2
+								</Text>
 							</View>
 							<View>
 								<Text
@@ -175,9 +175,29 @@ class TopScoresScreen extends Component {
 									}}>
 									{user[2].username}
 								</Text>
+								<View
+									style={{
+										flexDirection: 'row',
+										justifyContent: 'space-between',
+										minWidth: 30,
+									}}>
+									<FeatherIcon
+										name="award"
+										size={14}
+										color={Theme.primaryColors.orange}
+									/>
+									<Text
+										style={{
+											fontSize: 12,
+											textAlign: 'center',
+											fontWeight: Theme.fontWeight.bold,
+											color: Theme.primaryColors.orange,
+										}}>
+										{user[2].totalPoints} pts
+									</Text>
+								</View>
 							</View>
 						</View>
-
 
 						<View>
 							<View
@@ -197,8 +217,8 @@ class TopScoresScreen extends Component {
 										backgroundColor: 'tomato',
 										borderRadius: 30,
 									}}
-									source={require('../assets/images/profileAvatar.jpg')}>
-								</ImageBackground>
+									source={require('../assets/images/profileAvatar.jpg')}
+								/>
 							</View>
 							<View
 								style={{
@@ -216,7 +236,8 @@ class TopScoresScreen extends Component {
 										textAlign: 'center',
 										color: Theme.primaryColors.white,
 									}}>
-									1</Text>
+									1
+								</Text>
 							</View>
 							<View>
 								<Text
@@ -224,10 +245,12 @@ class TopScoresScreen extends Component {
 										fontSize: 18,
 										textAlign: 'center',
 										color: Theme.primaryColors.blue,
-									}}> {user[0].username}</Text>
+									}}>
+									{' '}
+									{user[0].username}
+								</Text>
 							</View>
 						</View>
-
 
 						<View>
 							<View
@@ -247,8 +270,8 @@ class TopScoresScreen extends Component {
 										backgroundColor: 'tomato',
 										borderRadius: 30,
 									}}
-									source={require('../assets/images/profileAvatar.jpg')}>
-								</ImageBackground>
+									source={require('../assets/images/profileAvatar.jpg')}
+								/>
 							</View>
 							<View
 								style={{
@@ -266,7 +289,8 @@ class TopScoresScreen extends Component {
 										textAlign: 'center',
 										color: Theme.primaryColors.white,
 									}}>
-									3</Text>
+									3
+								</Text>
 							</View>
 							<View>
 								<Text
@@ -274,42 +298,47 @@ class TopScoresScreen extends Component {
 										fontSize: 12,
 										textAlign: 'center',
 										color: Theme.primaryColors.blue,
-									}}> {user[2].username}</Text>
+									}}>
+									{' '}
+									{user[2].username}
+								</Text>
 							</View>
 						</View>
-
 					</View>
 				);
 			}
 		}
 	};
 
-
 	render() {
 		// const RankingData = this.props.leaderBoardData;
-		const RankingData = this.props.leaderBoardData ? this.props.leaderBoardData : [];
+		const RankingData = this.props.leaderBoardData
+			? this.props.leaderBoardData
+			: [];
 		// if (RankingData) {
 		return (
-			<SafeAreaView style={{ flex: 1, backgroundColor: Theme.primaryColors.white }}>
+			<SafeAreaView
+				style={{ flex: 1, backgroundColor: Theme.primaryColors.white }}>
 				<View style={styles.container}>
-					<View style={{
-						flex: 1,
-						justifyContent: 'center',
-					}}>
+					<View
+						style={{
+							flex: 1,
+							justifyContent: 'center',
+						}}>
 						{/* <Text style={{ textAlign: 'center', fontSize: 24, top: 20 }}>Top 3 HighScore</Text> */}
 						{this.renderTop3(RankingData)}
 					</View>
 
-
-					<View style={{
-						flex: 2,
-						justifyContent: 'center',
-						alignItems: 'center',
-						backgroundColor: Theme.primaryColors.blue,
-						bottom: -40,
-						borderTopLeftRadius: 30,
-						borderTopRightRadius: 30,
-					}}>
+					<View
+						style={{
+							flex: 2,
+							justifyContent: 'center',
+							alignItems: 'center',
+							backgroundColor: Theme.primaryColors.blue,
+							bottom: -40,
+							borderTopLeftRadius: 30,
+							borderTopRightRadius: 30,
+						}}>
 						<ScrollView
 							showsVerticalScrollIndicator={false}
 							style={{
@@ -321,7 +350,6 @@ class TopScoresScreen extends Component {
 							{this.renderLeaderBoardUsers(RankingData)}
 						</ScrollView>
 					</View>
-
 				</View>
 			</SafeAreaView>
 		);
@@ -410,7 +438,6 @@ const styles = StyleSheet.create({
 		width: '100%',
 	},
 });
-
 
 export default connect(
 	mapStateToProps,
