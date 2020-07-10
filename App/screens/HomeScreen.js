@@ -121,7 +121,6 @@ class HomeScreen extends Component {
 									}}>
 									Ranking
 								</Text>
-								{/* <Text style={{ fontSize: 24, color: Theme.secondaryColors.blue }}>Destination</Text> */}
 							</View>
 							<View>
 								<Feather
@@ -141,72 +140,74 @@ class HomeScreen extends Component {
 							</View>
 						</View>
 
-						<View style={styles.buttonsView}>
-							<TouchableOpacity
-								onPress={() =>
-									this.props.navigation.navigate('QuizIndex')
-								}
-								style={styles.buttonContainer}>
-								<LinearGradient
-									colors={[
-										'#FF9F88',
-										Theme.primaryColors.orange,
-									]}
-									style={styles.button}>
-									<Text style={[styles.buttonTitle]}>
-										Start
+						<View>
+							<View style={styles.buttonsView}>
+								<TouchableOpacity
+									onPress={() =>
+										this.props.navigation.navigate('QuizIndex')
+									}
+									style={styles.buttonContainer}>
+									<LinearGradient
+										colors={[
+											'#FF9F88',
+											Theme.primaryColors.orange,
+										]}
+										style={styles.button}>
+										<Text style={[styles.buttonTitle]}>
+											Start
 									</Text>
-									<Icon
-										name="md-play-circle"
-										size={30}
-										style={styles.buttonIcon}
-									/>
-								</LinearGradient>
-							</TouchableOpacity>
+										<Icon
+											name="md-play-circle"
+											size={30}
+											style={styles.buttonIcon}
+										/>
+									</LinearGradient>
+								</TouchableOpacity>
 
-							<TouchableOpacity
-								onPress={() =>
-									this.props.navigation.navigate('QuizIndex')
-								}
-								style={styles.buttonContainer}>
-								<LinearGradient
-									colors={[
-										'#F56BA5',
-										Theme.primaryColors.pink,
-									]}
-									style={styles.button}>
-									<Text style={[styles.buttonTitle]}>
-										More
+								<TouchableOpacity
+									onPress={() =>
+										this.props.navigation.navigate('QuizIndex')
+									}
+									style={styles.buttonContainer}>
+									<LinearGradient
+										colors={[
+											'#F56BA5',
+											Theme.primaryColors.pink,
+										]}
+										style={styles.button}>
+										<Text style={[styles.buttonTitle]}>
+											More
 									</Text>
-									<Icon
-										name="md-play-circle"
-										size={30}
-										style={styles.buttonIcon}
-									/>
-								</LinearGradient>
-							</TouchableOpacity>
+										<Icon
+											name="md-play-circle"
+											size={30}
+											style={styles.buttonIcon}
+										/>
+									</LinearGradient>
+								</TouchableOpacity>
 
-							<TouchableOpacity
-								onPress={() =>
-									this.props.navigation.navigate('QuizIndex')
-								}
-								style={styles.buttonContainer}>
-								<LinearGradient
-									colors={[
-										'#6BF4FF',
-										Theme.primaryColors.lightBlue,
-									]}
-									style={styles.button}>
-									<Text style={[styles.buttonTitle]}>
-										Options
+								<TouchableOpacity
+									onPress={() =>
+										this.props.navigation.navigate('QuizIndex')
+									}
+									style={styles.buttonContainer}>
+									<LinearGradient
+										colors={[
+											'#6BF4FF',
+											Theme.primaryColors.lightBlue,
+										]}
+										style={styles.button}>
+										<Text style={[styles.buttonTitle]}>
+											Options
 									</Text>
-									<Icon
-										name="ios-settings"
-										size={30}
-										style={styles.buttonIcon}
-									/>
-								</LinearGradient>
-							</TouchableOpacity>
+										<Icon
+											name="ios-settings"
+											size={30}
+											style={styles.buttonIcon}
+										/>
+									</LinearGradient>
+								</TouchableOpacity>
+							</View>
 						</View>
 					</View>
 				</SafeAreaView>
@@ -278,7 +279,7 @@ const styles = StyleSheet.create({
 		borderRadius: 20,
 	},
 	button: {
-		height: 60,
+		height: 80,
 		width: 260,
 		alignSelf: 'center',
 		borderRadius: 12,
@@ -301,8 +302,12 @@ const styles = StyleSheet.create({
 		paddingTop: 2,
 	},
 	buttonsView: {
-		top: 100,
-		backgroundColor: Theme.primaryColors.white,
+		top: 40,
+		backgroundColor: 'rgba(255, 255, 255, 0.88)',
+		paddingVertical: 25,
+		width: width - 100,
+		alignSelf: 'center',
+		borderRadius: 12,
 	},
 });
 

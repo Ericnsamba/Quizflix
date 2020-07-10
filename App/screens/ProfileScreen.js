@@ -1,7 +1,4 @@
-/* eslint-disable react-native/no-inline-styles */
-/* eslint-disable comma-dangle */
 /* eslint-disable no-unused-vars */
-/* eslint-disable prettier/prettier */
 import React, { useEffect, Component } from 'react';
 import firebase from 'react-native-firebase';
 import {
@@ -74,11 +71,6 @@ class ProfileScreen extends React.Component {
 							name={key}
 							time={obj.timeStamp}
 							points={obj.points}
-							// onPress={() =>
-							// 	this.props.navigation.navigate('Quiz', {
-							// 		arrayData,
-							// 	})
-							// }
 						/>
 					</View>
 				);
@@ -107,13 +99,12 @@ class ProfileScreen extends React.Component {
 							source={
 								this.state.user.avatar
 									? // ? { uri: this.state.user.avatar }
-									  require('../assets/images/profileAvatar.jpg')
+									require('../assets/images/profileAvatar.jpg')
 									: require('../assets/images/profileAvatar.jpg')
 							}
 							style={styles.avatar}
 						/>
 					</View>
-					{/* <Text style={styles.name}>{this.state.user.name}</Text> */}
 				</View>
 				<View style={styles.statsContainer}>
 					<View style={styles.stat}>
@@ -219,6 +210,7 @@ const styles = StyleSheet.create({
 		borderRadius: 68,
 		borderColor: Theme.primaryColors.blue,
 		borderWidth: 4,
+		backgroundColor: Theme.secondaryColors.orange,
 	},
 	name: {
 		marginTop: 24,

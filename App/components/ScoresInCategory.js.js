@@ -41,9 +41,9 @@ const styles = StyleSheet.create({
 		borderRadius: 20,
 		overflow: 'hidden',
 		width: 200,
+		backgroundColor: Theme.secondaryColors.blue,
 	},
 	innerContainer: {
-		backgroundColor: Theme.primaryColors.blue,
 		height: 200,
 		justifyContent: 'flex-end',
 		alignItems: 'center',
@@ -60,22 +60,18 @@ const styles = StyleSheet.create({
 	},
 	image: {
 		borderRadius: 60 / 2,
-		backgroundColor: Theme.primaryColors.lightBlue,
+		backgroundColor: Theme.secondaryColors.blue,
 	},
 	title: {
 		fontSize: 16,
 		color: '#fff',
 		fontWeight: '500',
-		// textAlign: 'left',
-		// position: 'relative',
 		bottom: 0,
 	},
 	pointsText: {
 		fontSize: 18,
 		color: '#fff',
 		fontWeight: '800',
-		// textAlign: 'left',
-		// position: 'relative',
 		bottom: 0,
 	},
 	text: {

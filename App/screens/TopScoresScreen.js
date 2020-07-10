@@ -126,45 +126,15 @@ class TopScoresScreen extends Component {
 							flex: 1,
 							flexDirection: 'row',
 						}}>
-						<View>
-							<View
-								style={{
-									width: 60,
-									height: 60,
-									backgroundColor: 'tomato',
-									borderRadius: 30,
-									overflow: 'hidden',
-									borderColor: Theme.primaryColors.blue,
-									borderWidth: 2,
-								}}>
+						<View style={styles.topUserInfoView}>
+							<View style={styles.imageBackgroundSmall}>
 								<ImageBackground
-									style={{
-										width: 60,
-										height: 60,
-										backgroundColor: 'tomato',
-										borderRadius: 30,
-									}}
+									style={styles.avatarImage}
 									source={require('../assets/images/profileAvatar.jpg')}
 								/>
 							</View>
-							<View
-								style={{
-									width: 24,
-									height: 24,
-									backgroundColor: Theme.primaryColors.blue,
-									alignSelf: 'center',
-									textAlign: 'center',
-									top: -10,
-									borderRadius: 3,
-								}}>
-								<Text
-									style={{
-										fontSize: 18,
-										textAlign: 'center',
-										color: Theme.primaryColors.white,
-									}}>
-									2
-								</Text>
+							<View style={styles.rankNumberContainer}>
+								<Text style={styles.rankingNumber}> 2 </Text>
 							</View>
 							<View>
 								<Text
@@ -178,20 +148,22 @@ class TopScoresScreen extends Component {
 								<View
 									style={{
 										flexDirection: 'row',
-										justifyContent: 'space-between',
+										justifyContent: 'center',
 										minWidth: 30,
+										backgroundColor:
+											Theme.primaryColors.pink,
+										padding: 5,
+										borderRadius: 16,
+										marginTop: 3,
+										alignItems: 'center',
 									}}>
-									<FeatherIcon
-										name="award"
-										size={14}
-										color={Theme.primaryColors.orange}
-									/>
 									<Text
 										style={{
-											fontSize: 12,
+											fontSize: 14,
 											textAlign: 'center',
-											fontWeight: Theme.fontWeight.bold,
-											color: Theme.primaryColors.orange,
+											fontWeight: Theme.fontWeight.medium,
+											color: Theme.primaryColors.white,
+											paddingBottom: 2,
 										}}>
 										{user[2].totalPoints} pts
 									</Text>
@@ -252,7 +224,7 @@ class TopScoresScreen extends Component {
 							</View>
 						</View>
 
-						<View>
+						<View style={styles.topUserInfoView}>
 							<View
 								style={{
 									width: 60,
@@ -289,7 +261,7 @@ class TopScoresScreen extends Component {
 										textAlign: 'center',
 										color: Theme.primaryColors.white,
 									}}>
-									3
+									2
 								</Text>
 							</View>
 							<View>
@@ -299,9 +271,31 @@ class TopScoresScreen extends Component {
 										textAlign: 'center',
 										color: Theme.primaryColors.blue,
 									}}>
-									{' '}
 									{user[2].username}
 								</Text>
+								<View
+									style={{
+										flexDirection: 'row',
+										justifyContent: 'center',
+										minWidth: 30,
+										backgroundColor:
+											Theme.primaryColors.pink,
+										padding: 5,
+										borderRadius: 16,
+										marginTop: 3,
+										alignItems: 'center',
+									}}>
+									<Text
+										style={{
+											fontSize: 14,
+											textAlign: 'center',
+											fontWeight: Theme.fontWeight.medium,
+											color: Theme.primaryColors.white,
+											paddingBottom: 2,
+										}}>
+										{user[2].totalPoints} pts
+									</Text>
+								</View>
 							</View>
 						</View>
 					</View>
@@ -436,6 +430,38 @@ const styles = StyleSheet.create({
 	map: {
 		height: '100%',
 		width: '100%',
+	},
+	imageBackgroundSmall: {
+		width: 60,
+		height: 60,
+		borderRadius: 30,
+		overflow: 'hidden',
+		borderColor: Theme.primaryColors.blue,
+		borderWidth: 2,
+	},
+	avatarImage: {
+		width: 60,
+		height: 60,
+		backgroundColor: Theme.primaryColors.blue,
+		borderRadius: 30,
+	},
+	rankNumberContainer: {
+		width: 24,
+		height: 24,
+		backgroundColor: Theme.primaryColors.blue,
+		alignSelf: 'center',
+		alignItems: 'center',
+		// top: -10,
+		borderRadius: 3,
+	},
+	rankingNumber: {
+		fontSize: 18,
+		textAlign: 'center',
+		width: 24,
+		color: Theme.primaryColors.white,
+	},
+	topUserInfoView: {
+		justifyContent: 'center',
 	},
 });
 
