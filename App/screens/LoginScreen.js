@@ -39,6 +39,7 @@ export default class LoginScreen extends React.Component {
 		this.state = {
 			secureTextEntry: true,
 			email: '',
+			profileImage: '',
 			password: '',
 			errorMessage: null,
 			isLoading: false,
@@ -52,6 +53,13 @@ export default class LoginScreen extends React.Component {
 				'289483445762-rtovvpn68uoskd7lk01aq4idpiu5l1tn.apps.googleusercontent.com', // client ID of type WEB for your server (needed to verify user ID and offline access)
 			// offlineAccess: true, // if you want to access Google API on behalf of the user FROM YOUR SERVER
 		});
+		const userObj = this.state.userInfo;
+		if (userObj === null) {
+			console.log(
+				'componentDidMount -> userInfo is true',
+				userObj.length,
+			);
+		}
 	}
 
 	updateSecureTextEntry = () => {
@@ -121,11 +129,11 @@ export default class LoginScreen extends React.Component {
 		const PROFILE_REQUEST_PARAMS = {
 			fields: {
 				string:
-					'id, name, first_name, middle_name, last_name, picture, short_name',
+					'id, name, first_name, middle_name, last_name, picture, short_name, email',
 			},
 		};
 
-		const profileRequest = GraphRequest(
+		const profileRequest = new GraphRequest(
 			'/me',
 			{
 				token,
@@ -136,13 +144,64 @@ export default class LoginScreen extends React.Component {
 					console.log('LoginScreen -> error', error);
 				}
 				if (result) {
-					this.setState({ userInfo: result });
-					console.log('LoginScreen -> result', result);
+					this.setState({
+						userInfo: result,
+					});
+					console.log('LoginScreen -> result', this.state.userInfo);
+					//
+					//
+					// const provider = firebase.auth.EmailAuthProvider;
+					// const authCredential = provider.credential(
+					// 	'testUser@mail.com',
+					// 	'testUser12',
+					// );
+					// firebase.auth().signInWithCredential(authCredential);
+					//
 				} else {
 				}
 			},
 		);
-		new GraphRequestManager().addRequest(profileRequest.start());
+		if (this.state.userInfo) {
+			this.createUser();
+		}
+		new GraphRequestManager().addRequest(profileRequest).start();
+	};
+
+	createUser = async () => {
+		const currentUser = await this.state.userInfo;
+		if (currentUser) {
+			const { username, email, photo, profileImage } = this.state;
+			const password = this.state.userInfo.id;
+			// const profileImage = this.state.userInfo.picture.data.url
+			// 	? this.state.userInfo.picture.data.url
+			// 	: '';
+			firebase
+				.auth()
+				.createUserWithEmailAndPassword(email, username, photo)
+				.then(user => {
+					const fbRootRef = firebase.firestore();
+					const userID = firebase.auth().currentUser.uid;
+
+					// console.log('firebase user', user);
+					const userRef = fbRootRef.collection('users').doc(userID);
+
+					userRef.set({
+						email,
+						profileImage,
+						username,
+					});
+				})
+				.then(() => {
+					if (firebase.auth().currentUser.email) {
+						this.props.navigation.navigate('Root');
+					} else {
+						console.log(':( did not login');
+					}
+				})
+				.catch(error => {
+					console.log('catch error, line 27', error);
+				});
+		}
 	};
 
 	loginWithFacebook = () => {
@@ -162,6 +221,7 @@ export default class LoginScreen extends React.Component {
 			},
 		);
 	};
+
 	logoutWithFacebook = () => {
 		LoginManager.logOut();
 		this.setState({ userInfo: {} });
@@ -220,7 +280,7 @@ export default class LoginScreen extends React.Component {
 			: this.loginWithFacebook;
 
 		// this.state.errorMessage;
-		console.log('userInfo', this.state.userInfo);
+		// console.log('userInfo', this.state.userInfo);
 		return (
 			<View style={styles.container}>
 				<StatusBar
@@ -407,7 +467,7 @@ export default class LoginScreen extends React.Component {
 								</TouchableOpacity>
 
 								<TouchableOpacity
-									onPress={this.loginWithFacebook}
+									onPress={onPressButton}
 									style={[styles.signIn, styles.signInWith]}>
 									<Text style={styles.buttonText}>
 										{dynamicButtonText}
