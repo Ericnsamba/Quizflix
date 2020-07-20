@@ -1,3 +1,4 @@
+/* eslint-disable react-native/no-inline-styles */
 /* eslint-disable no-unused-vars */
 import React, { useEffect, Component } from 'react';
 import firebase from 'react-native-firebase';
@@ -12,6 +13,7 @@ import {
 	Button,
 } from 'react-native';
 import { connect } from 'react-redux';
+import LinearGradient from 'react-native-linear-gradient';
 import {
 	watchPersonData,
 	watchPointsData,
@@ -99,7 +101,7 @@ class ProfileScreen extends React.Component {
 							source={
 								this.state.user.avatar
 									? // ? { uri: this.state.user.avatar }
-									require('../assets/images/profileAvatar.jpg')
+									  require('../assets/images/profileAvatar.jpg')
 									: require('../assets/images/profileAvatar.jpg')
 							}
 							style={styles.avatar}
@@ -121,7 +123,9 @@ class ProfileScreen extends React.Component {
 					</View>
 				</View>
 
-				<View style={styles.innerContainer}>
+				<LinearGradient
+					colors={['#F56BA5', Theme.primaryColors.pink]}
+					style={styles.innerContainer}>
 					<View>
 						<View
 							style={{
@@ -176,7 +180,7 @@ class ProfileScreen extends React.Component {
 							</Text>
 						</TouchableOpacity>
 					</View>
-				</View>
+				</LinearGradient>
 			</View>
 		);
 	}

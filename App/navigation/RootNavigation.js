@@ -1,3 +1,4 @@
+/* eslint-disable react-native/no-inline-styles */
 import React from 'react';
 import firebase from 'react-native-firebase';
 import { View, StyleSheet } from 'react-native';
@@ -26,7 +27,7 @@ const QuizIcon = require('../assets/Icons/Quiz.png');
 const LeaderboardIcon = require('../assets/Icons/Leaderboard.png');
 const SettingsIcon = require('../assets/Icons/Settings.png');
 
-firebase.auth().onAuthStateChanged((user) => {
+firebase.auth().onAuthStateChanged(user => {
 	if (user) {
 		// User is signed in.
 		console.log('User is signed in.');
@@ -79,7 +80,7 @@ function QuizHomeStack({ navigation, route }) {
 
 const Tab = createBottomTabNavigator();
 
-export default ButtonNavigation = () => {
+export default (ButtonNavigation = () => {
 	return (
 		<NavigationContainer>
 			<Tab.Navigator
@@ -122,7 +123,6 @@ export default ButtonNavigation = () => {
 						}
 
 						return (
-
 							<MaskedView
 								style={{
 									flex: 1,
@@ -157,8 +157,8 @@ export default ButtonNavigation = () => {
 								}>
 								<LinearGradient
 									colors={[
-										'#FF9F88',
-										Theme.primaryColors.orange,
+										Theme.secondaryColors.pink,
+										'#FF93AD',
 									]}
 									style={{ flex: 1 }}
 								/>
@@ -168,10 +168,8 @@ export default ButtonNavigation = () => {
 				})}
 				tabBarOptions={{
 					showLabel: false,
-					// activeTintColor: Theme.primaryColors.orange,
-					// inactiveTintColor: Theme.secondaryColors.blue,
 					style: {
-						backgroundColor: Theme.primaryColors.blue,
+						backgroundColor: Theme.primaryColors.pink,
 					},
 				}}>
 				<Tab.Screen name="Home" component={QuizHomeStack} />
@@ -181,7 +179,7 @@ export default ButtonNavigation = () => {
 			</Tab.Navigator>
 		</NavigationContainer>
 	);
-}
+});
 
 const styles = StyleSheet.create({
 	container: {

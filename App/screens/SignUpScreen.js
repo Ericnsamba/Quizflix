@@ -1,3 +1,4 @@
+/* eslint-disable react-native/no-inline-styles */
 import React from 'react';
 import firebase from 'react-native-firebase';
 import {
@@ -10,23 +11,19 @@ import {
 	Platform,
 	StyleSheet,
 	ScrollView,
-	StatusBar
+	StatusBar,
 } from 'react-native';
+import Icon from 'react-native-vector-icons/Ionicons';
 import * as Animatable from 'react-native-animatable';
 import LinearGradient from 'react-native-linear-gradient';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Feather from 'react-native-vector-icons/Feather';
-import {
-	GoogleSignin,
-
-	statusCodes,
-} from 'react-native-google-signin';
-import * as Theme from '../theme/Theme'
+import { GoogleSignin, statusCodes } from 'react-native-google-signin';
+import * as Theme from '../theme/Theme';
 
 export default class SignUpScreen extends React.Component {
-
 	constructor(props) {
-		super(props)
+		super(props);
 		this.state = {
 			username: '',
 			secureTextEntry: true,
@@ -41,20 +38,18 @@ export default class SignUpScreen extends React.Component {
 		};
 	}
 
-
 	componentDidMount() {
 		GoogleSignin.configure({
-			webClientId: '289483445762-rtovvpn68uoskd7lk01aq4idpiu5l1tn.apps.googleusercontent.com', // client ID of type WEB for your server
-			scopes: ['profile', 'email']
+			webClientId:
+				'289483445762-rtovvpn68uoskd7lk01aq4idpiu5l1tn.apps.googleusercontent.com', // client ID of type WEB for your server
+			scopes: ['profile', 'email'],
 			// offlineAccess: true, // if you want to access Google API on behalf of the user FROM YOUR SERVER
 		});
 	}
 
-
 	createUser = async () => {
 		const currentUser = await (await GoogleSignin.getCurrentUser()).user;
 		// this.setState({ currentUser });
-
 		if (currentUser) {
 			const { username, email, photo, profileImage } = this.state;
 			firebase
@@ -65,7 +60,6 @@ export default class SignUpScreen extends React.Component {
 					const userID = firebase.auth().currentUser.uid;
 
 					// console.log('firebase user', user);
-
 					const userRef = fbRootRef.collection('users').doc(userID);
 					userRef.set({
 						email,
@@ -84,10 +78,7 @@ export default class SignUpScreen extends React.Component {
 					console.log('catch error, line 27', error);
 				});
 		}
-
 	};
-
-
 
 	handleSignUp = () => {
 		const { username, email, password } = this.state;
@@ -130,9 +121,9 @@ export default class SignUpScreen extends React.Component {
 				username: userInfo.user.name,
 				email: userInfo.user.email,
 				profileImage: userInfo.user.photo,
-
+				password: userInfo.user.password,
 			});
-			this.createUser()
+			this.createUser();
 		} catch (error) {
 			if (error.code === statusCodes.SIGN_IN_CANCELLED) {
 			} else if (error.code === statusCodes.IN_PROGRESS) {
@@ -145,170 +136,212 @@ export default class SignUpScreen extends React.Component {
 		}
 	};
 
-
-
-
 	updateSecureTextEntry = () => {
 		this.setState({
-			secureTextEntry: !this.state.secureTextEntry
-		})
-	}
-
+			secureTextEntry: !this.state.secureTextEntry,
+		});
+	};
 
 	render() {
 		return (
 			<View style={styles.container}>
-				<StatusBar backgroundColor='#009387' barStyle="light-content" />
+				<StatusBar
+					backgroundColor={Theme.primaryColors.blue}
+					barStyle="light-content"
+				/>
 				<View style={styles.header}>
-					<Text style={styles.text_header}>Register Now!</Text>
+					<TouchableOpacity
+						onPress={() =>
+							this.props.navigation.navigate('LoginScreen')
+						}>
+						<Text style={styles.text_header}>Back</Text>
+					</TouchableOpacity>
 				</View>
-				<Animatable.View
-					animation="fadeInUpBig"
-					style={styles.footer}
-				>
-					<ScrollView>
-						<Text style={styles.text_footer}>Username</Text>
-						<View style={styles.action}>
-							<FontAwesome
-								name="user-o"
-								color={Theme.primaryColors.blue}
-								size={20}
-							/>
-							<TextInput
-								placeholder="Your Username"
-								placeholderTextColor={Theme.secondaryColors.blue}
-								style={styles.textInput}
-								autoCapitalize="none"
-								onChangeText={username => this.setState({ username })}
-								value={this.state.username}
-							/>
-							{this.state.check_textInputChange ?
-								<Animatable.View
-									animation="bounceIn"
-								>
-									<Feather
-										name="check-circle"
+				<LinearGradient
+					colors={['#F56BA5', Theme.primaryColors.pink]}
+					style={styles.footer}>
+					<Animatable.View animation="fadeInUpBig">
+						<ScrollView showsVerticalScrollIndicator={false}>
+							<Text style={styles.errorMessage}>
+								{this.state.errorMessage}
+							</Text>
+							<Text style={[styles.text_footer]}>Username</Text>
+							<View style={styles.action}>
+								<FontAwesome
+									name="user-o"
+									color={Theme.primaryColors.white}
+									size={20}
+								/>
+								<TextInput
+									placeholder="Your Username"
+									placeholderTextColor={
+										Theme.primaryColors.white
+									}
+									style={styles.textInput}
+									autoCapitalize="none"
+									onChangeText={username =>
+										this.setState({ username })
+									}
+									value={this.state.username}
+								/>
+								{this.state.check_textInputChange ? (
+									<Animatable.View animation="bounceIn">
+										<Feather
+											name="check-circle"
+											color={Theme.primaryColors.blue}
+											size={20}
+										/>
+									</Animatable.View>
+								) : null}
+							</View>
+
+							<Text style={[styles.text_footer]}>Email</Text>
+							<View style={styles.action}>
+								<Feather
+									name="mail"
+									color={Theme.primaryColors.white}
+									size={20}
+								/>
+								<TextInput
+									placeholder="Your Password"
+									placeholderTextColor={
+										Theme.secondaryColors.white
+									}
+									onChangeText={email =>
+										this.setState({ email })
+									}
+									value={this.state.email}
+									style={styles.textInput}
+									autoCapitalize="none"
+								/>
+							</View>
+
+							<Text style={[styles.text_footer]}>Password</Text>
+							<View style={styles.action}>
+								<Feather
+									name="lock"
+									color={Theme.primaryColors.white}
+									size={20}
+								/>
+								<TextInput
+									placeholder="Password"
+									placeholderTextColor={
+										Theme.secondaryColors.white
+									}
+									onChangeText={password =>
+										this.setState({
+											password,
+										})
+									}
+									value={this.state.password}
+									secureTextEntry={
+										this.state.secureTextEntry
+											? true
+											: false
+									}
+									style={styles.textInput}
+									autoCapitalize="none"
+								/>
+								<TouchableOpacity
+									onPress={this.updateSecureTextEntry}>
+									{this.state.secureTextEntry ? (
+										<Feather
+											name="eye-off"
+											color={Theme.secondaryColors.white}
+											size={20}
+										/>
+									) : (
+										<Feather
+											name="eye"
+											color={Theme.secondaryColors.white}
+											size={20}
+										/>
+									)}
+								</TouchableOpacity>
+							</View>
+
+							<View style={[styles.textPrivate]}>
+								<View style={styles.termsConditions}>
+									<Text style={styles.color_textPrivate}>
+										By signing up you agree to our
+									</Text>
+									<Text
+										style={[
+											styles.color_textPrivate,
+											{
+												fontWeight: 'bold',
+											},
+										]}>
+										T&Cs and Code of Conduct
+									</Text>
+								</View>
+
+								<TouchableOpacity
+									style={[styles.signInButton]}
+									onPress={() => this.handleSignUp()}>
+									<Icon
+										name="ios-arrow-forward"
+										size={26}
 										color={Theme.primaryColors.blue}
-										size={20}
 									/>
-								</Animatable.View>
-								: null}
-						</View>
+								</TouchableOpacity>
+							</View>
 
-						<Text style={[styles.text_footer, {
-							marginTop: 20
-						}]}>Email</Text>
-						<View style={styles.action}>
-							<Feather
-								name="mail"
-								color={Theme.primaryColors.blue}
-								size={20}
-							/>
-							<TextInput
-								placeholder="Your Password"
-								placeholderTextColor={Theme.secondaryColors.blue}
-								onChangeText={email => this.setState({ email })}
-								value={this.state.email}
-								style={styles.textInput}
-								autoCapitalize="none"
-							/>
-						</View>
+							<View style={styles.button}>
+								<TouchableOpacity
+									onPress={() =>
+										this.props.navigation.navigate(
+											'SignUpScreen',
+										)
+									}
+									style={[styles.signIn, styles.signInWith]}>
+									<Text style={styles.buttonText}>
+										Sign up
+									</Text>
+								</TouchableOpacity>
 
+								<TouchableOpacity
+									onPress={this.signUpWithGoogle}
+									style={[styles.signIn, styles.signInWith]}>
+									<Text style={styles.buttonText}>
+										Login With google
+									</Text>
+								</TouchableOpacity>
 
-						<Text style={[styles.text_footer, {
-							marginTop: 20
-						}]}>Password</Text>
-						<View style={styles.action}>
-							<Feather
-								name="lock"
-								color={Theme.primaryColors.blue}
-								size={20}
-							/>
-							<TextInput
-								placeholder="Your Password"
-								placeholderTextColor={Theme.secondaryColors.blue}
-								onChangeText={password => this.setState({ password })}
-								value={this.state.password}
-								secureTextEntry={this.state.secureTextEntry ? true : false}
-								style={styles.textInput}
-								autoCapitalize="none"
-							/>
-							<TouchableOpacity
-								onPress={this.updateSecureTextEntry}
-							>
-								{this.state.secureTextEntry ?
-									<Feather
-										name="eye-off"
-										color={Theme.secondaryColors.blue}
-										size={20}
+								<TouchableOpacity
+									onPress={this.signInWithGoogleAsync}
+									style={[styles.signIn, styles.signInWith]}>
+									<Text style={styles.buttonText}>
+										Login With Facebook
+									</Text>
+								</TouchableOpacity>
+
+								<View
+									style={{
+										alignSelf: 'center',
+										marginVertical: 30,
+									}}>
+									<Text
+										style={{
+											color: Theme.primaryColors.blue,
+											fontWeight: Theme.fontWeight.normal,
+										}}>
+										Can't remember your password?
+									</Text>
+									<View
+										style={{
+											marginTop: 10,
+										}}
 									/>
-									:
-									<Feather
-										name="eye"
-										color={Theme.secondaryColors.blue}
-										size={20}
-									/>
-								}
-							</TouchableOpacity>
-						</View>
-
-
-						<View style={styles.textPrivate}>
-							<Text style={styles.color_textPrivate}>
-								By signing up you agree to our
-					  </Text>
-							<Text style={[styles.color_textPrivate, { fontWeight: 'bold' }]}>Terms of service</Text>
-							<Text style={styles.color_textPrivate}>and</Text>
-							<Text style={[styles.color_textPrivate, { fontWeight: 'bold' }]}>Privacy policy</Text>
-						</View>
-						<View style={styles.button}>
-							<TouchableOpacity
-								style={styles.signIn}
-								onPress={() => this.handleSignUp()}
-							>
-								<LinearGradient
-									colors={[Theme.primaryColors.blue, Theme.primaryColors.blue]}
-									style={styles.signIn}>
-									<Text style={[styles.textSign, {
-										color: '#fff'
-									}]}>Sign Up</Text>
-								</LinearGradient>
-							</TouchableOpacity>
-
-							<TouchableOpacity
-								onPress={() => this.props.navigation.navigate('LoginScreen')}
-								style={[styles.signIn, {
-									borderColor: Theme.primaryColors.blue,
-									borderWidth: 1,
-									marginTop: 15
-								}]}>
-								<Text style={[styles.textSign, {
-									color: Theme.primaryColors.blue
-								}]}>Back to Sign In</Text>
-							</TouchableOpacity>
-
-							<TouchableOpacity
-								onPress={this.signUpWithGoogle}
-								style={[styles.signIn, {
-									borderColor: Theme.primaryColors.blue,
-									borderWidth: 1,
-									marginTop: 15
-								}]}
-							>
-								<Text style={[styles.textSign, {
-									color: Theme.primaryColors.blue,
-								}]}>Sign Up With google</Text>
-							</TouchableOpacity>
-						</View>
-
-
-					</ScrollView>
-				</Animatable.View>
+								</View>
+							</View>
+						</ScrollView>
+					</Animatable.View>
+				</LinearGradient>
 			</View>
 		);
 	}
 }
-
 
 const styles = StyleSheet.create({
 	container: {
@@ -319,59 +352,89 @@ const styles = StyleSheet.create({
 		flex: 1,
 		justifyContent: 'flex-end',
 		paddingHorizontal: 20,
-		paddingBottom: 30
+		paddingBottom: 30,
 	},
 	footer: {
-		flex: Platform.OS === 'ios' ? 3 : 5,
-		backgroundColor: '#fff',
+		flex: Platform.OS === 'ios' ? 5 : 5,
+		backgroundColor: Theme.primaryColors.pink,
 		borderTopLeftRadius: 30,
 		borderTopRightRadius: 30,
 		paddingHorizontal: 20,
-		paddingVertical: 30
+		paddingVertical: 30,
 	},
 	text_header: {
 		color: '#fff',
 		fontWeight: 'bold',
-		fontSize: 30
+		fontSize: 30,
 	},
 	text_footer: {
-		color: Theme.primaryColors.blue,
-		fontSize: 15
+		color: Theme.primaryColors.white,
+		fontSize: 15,
 	},
 	action: {
 		flexDirection: 'row',
 		marginTop: 10,
 		borderBottomWidth: 1,
-		borderBottomColor: '#f2f2f2',
-		paddingBottom: 5
+		borderBottomColor: Theme.secondaryColors.white,
+		paddingBottom: 5,
+		marginBottom: 20,
+		justifyContent: 'center',
+		alignItems: 'center',
 	},
 	textInput: {
 		flex: 1,
 		marginTop: Platform.OS === 'ios' ? 0 : -12,
 		paddingLeft: 10,
-		color: '#05375a',
+		color: Theme.primaryColors.white,
+		height: 40,
 	},
 	button: {
 		alignItems: 'center',
-		marginTop: 50
+		marginTop: 50,
 	},
 	signIn: {
 		width: '100%',
 		height: 50,
 		justifyContent: 'center',
 		alignItems: 'center',
-		borderRadius: 10
+		borderRadius: 30,
 	},
 	textSign: {
-		fontSize: 18,
-		fontWeight: 'bold'
+		fontSize: 14,
+		fontWeight: 'bold',
 	},
 	textPrivate: {
 		flexDirection: 'row',
 		flexWrap: 'wrap',
-		marginTop: 20
+		marginTop: 0,
+		justifyContent: 'space-between',
 	},
 	color_textPrivate: {
-		color: 'grey'
-	}
+		color: Theme.primaryColors.white,
+	},
+	signInWith: {
+		borderColor: Theme.primaryColors.white,
+		borderWidth: 1,
+		marginTop: 15,
+	},
+	buttonText: {
+		color: Theme.primaryColors.white,
+		fontWeight: '500',
+		textAlign: 'center',
+	},
+	errorMessage: {
+		color: Theme.secondaryColors.pink,
+		marginBottom: 10,
+	},
+	signInButton: {
+		width: 80,
+		height: 60,
+		backgroundColor: Theme.primaryColors.white,
+		justifyContent: 'center',
+		alignItems: 'center',
+		borderRadius: 30,
+	},
+	termsConditions: {
+		justifyContent: 'center',
+	},
 });

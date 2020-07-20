@@ -56,7 +56,7 @@ const styles = StyleSheet.create({
 		marginBottom: 0,
 		marginVertical: 5,
 		alignSelf: 'center',
-		backgroundColor: Theme.primaryColors.orange,
+		backgroundColor: Theme.primaryColors.blue,
 	},
 	image: {
 		borderRadius: 60 / 2,

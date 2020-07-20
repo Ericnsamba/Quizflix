@@ -240,6 +240,20 @@ PODS:
     - React-Core (= 0.62.2)
     - React-jsi (= 0.62.2)
     - ReactCommon/turbomodule/core (= 0.62.2)
+  - FBSDKCoreKit (7.0.1):
+    - FBSDKCoreKit/Basics (= 7.0.1)
+    - FBSDKCoreKit/Core (= 7.0.1)
+  - FBSDKCoreKit/Basics (7.0.1)
+  - FBSDKCoreKit/Core (7.0.1):
+    - FBSDKCoreKit/Basics
+  - FBSDKLoginKit (7.0.1):
+    - FBSDKLoginKit/Login (= 7.0.1)
+  - FBSDKLoginKit/Login (7.0.1):
+    - FBSDKCoreKit (~> 7.0.1)
+  - FBSDKShareKit (7.0.1):
+    - FBSDKShareKit/Share (= 7.0.1)
+  - FBSDKShareKit/Share (7.0.1):
+    - FBSDKCoreKit (~> 7.0.1)
   - Firebase/Analytics (6.25.0):
     - Firebase/Core
   - Firebase/Auth (6.25.0):
@@ -603,7 +617,21 @@ PODS:
     - React-cxxreact (= 0.62.2)
     - React-jsi (= 0.62.2)
   - React-jsinspector (0.62.2)
-  - react-native-safe-area-context (3.0.5):
+  - react-native-fbsdk (2.0.0):
+    - React
+    - react-native-fbsdk/Core (= 2.0.0)
+    - react-native-fbsdk/Login (= 2.0.0)
+    - react-native-fbsdk/Share (= 2.0.0)
+  - react-native-fbsdk/Core (2.0.0):
+    - FBSDKCoreKit (~> 7.0)
+    - React
+  - react-native-fbsdk/Login (2.0.0):
+    - FBSDKLoginKit (~> 7.0)
+    - React
+  - react-native-fbsdk/Share (2.0.0):
+    - FBSDKShareKit (~> 7.0)
+    - React
+  - react-native-safe-area-context (3.0.6):
     - React
   - React-RCTActionSheet (0.62.2):
     - React-Core/RCTActionSheetHeaders (= 0.62.2)
@@ -666,7 +694,7 @@ PODS:
     - ReactCommon/callinvoker (= 0.62.2)
   - RNCMaskedView (0.1.10):
     - React
-  - RNDeviceInfo (5.6.1):
+  - RNDeviceInfo (5.6.2):
     - React
   - RNFBApp (7.2.1):
     - Firebase/CoreOnly (~> 6.25.0)
@@ -739,6 +767,7 @@ DEPENDENCIES:
   - React-jsi (from `../node_modules/react-native/ReactCommon/jsi`)
   - React-jsiexecutor (from `../node_modules/react-native/ReactCommon/jsiexecutor`)
   - React-jsinspector (from `../node_modules/react-native/ReactCommon/jsinspector`)
+  - react-native-fbsdk (from `../node_modules/react-native-fbsdk`)
   - react-native-safe-area-context (from `../node_modules/react-native-safe-area-context`)
   - React-RCTActionSheet (from `../node_modules/react-native/Libraries/ActionSheetIOS`)
   - React-RCTAnimation (from `../node_modules/react-native/Libraries/NativeAnimation`)
@@ -772,6 +801,9 @@ SPEC REPOS:
     - CocoaLibEvent
     - Crashlytics
     - Fabric
+    - FBSDKCoreKit
+    - FBSDKLoginKit
+    - FBSDKShareKit
     - Firebase
     - FirebaseAnalytics
     - FirebaseAuth
@@ -839,6 +871,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon/jsiexecutor"
   React-jsinspector:
     :path: "../node_modules/react-native/ReactCommon/jsinspector"
+  react-native-fbsdk:
+    :path: "../node_modules/react-native-fbsdk"
   react-native-safe-area-context:
     :path: "../node_modules/react-native-safe-area-context"
   React-RCTActionSheet:
@@ -895,6 +929,9 @@ SPEC CHECKSUMS:
   Fabric: 706c8b8098fff96c33c0db69cbf81f9c551d0d74
   FBLazyVector: 4aab18c93cd9546e4bfed752b4084585eca8b245
   FBReactNativeSpec: 5465d51ccfeecb7faa12f9ae0024f2044ce4044e
+  FBSDKCoreKit: 9cc05bec0568a5955c82eb59ae95da0fe125b88d
+  FBSDKLoginKit: ecc6fd43c81b60f5b5e9388d58f137aff4a5d00b
+  FBSDKShareKit: 45c37aa481681762ac453462fca117bd75eaebbe
   Firebase: 5719b4f965f76643241a1bb8244483ff6117db39
   FirebaseAnalytics: 93565f3f0f0f50a5d8770850bfe6a82eaba5db27
   FirebaseAuth: 7047aec89c0b17ecd924a550c853f0c27ac6015e
@@ -938,7 +975,8 @@ SPEC CHECKSUMS:
   React-jsi: b6dc94a6a12ff98e8877287a0b7620d365201161
   React-jsiexecutor: 1540d1c01bb493ae3124ed83351b1b6a155db7da
   React-jsinspector: 512e560d0e985d0e8c479a54a4e5c147a9c83493
-  react-native-safe-area-context: e9a863c2dbbc0d42d2b12209d63fa79dfbc9662c
+  react-native-fbsdk: 00c15d138bba6d4efa628670886fc58cec858c19
+  react-native-safe-area-context: e22a8ca00f758273d2408953965cb8db67da7925
   React-RCTActionSheet: f41ea8a811aac770e0cc6e0ad6b270c644ea8b7c
   React-RCTAnimation: 49ab98b1c1ff4445148b72a3d61554138565bad0
   React-RCTBlob: a332773f0ebc413a0ce85942a55b064471587a71
@@ -949,8 +987,8 @@ SPEC CHECKSUMS:
   React-RCTText: fae545b10cfdb3d247c36c56f61a94cfd6dba41d
   React-RCTVibration: 4356114dbcba4ce66991096e51a66e61eda51256
   ReactCommon: ed4e11d27609d571e7eee8b65548efc191116eb3
-  RNCMaskedView: f5c7d14d6847b7b44853f7acb6284c1da30a3459
-  RNDeviceInfo: ab2ab4ca9e7f2bc4f35d62ab6ce2b66f2cbf1e7a
+  RNCMaskedView: 5a8ec07677aa885546a0d98da336457e2bea557f
+  RNDeviceInfo: ed8557a8bd6443cbc0ab5d375e6808a38a279744
   RNFBApp: def13f6392e7c9839c938879f065ec0088c4496a
   RNFirebase: 37daa9a346d070f9f6ee1f3b4aaf4c8e3b1d5d1c
   RNGestureHandler: 8f09cd560f8d533eb36da5a6c5a843af9f056b38
@@ -963,4 +1001,4 @@ SPEC CHECKSUMS:
 
 PODFILE CHECKSUM: e89e4e735de3ccaf5a7c5c0e772db1b56cfe0435
 
-COCOAPODS: 1.8.3
+COCOAPODS: 1.9.0

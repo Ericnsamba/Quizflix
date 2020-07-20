@@ -10,6 +10,7 @@ import {
 	TouchableOpacity,
 	TouchableHighlight,
 	Image,
+	ImageBackground,
 	Dimensions,
 } from 'react-native';
 import * as Animatable from 'react-native-animatable';
@@ -184,102 +185,108 @@ class Quiz extends React.Component {
 					// {backgroundColor: this.props.route.params.color},
 				]}>
 				<StatusBar barStyle="dark-content" />
-				<SafeAreaView style={styles.safearea}>
-					<View style={styles.headerContainer}>
-						<Text style={styles.headerTitle}>
-							Question{' '}
-							{`${this.state.activeQuestionIndex + 1}/${
-								this.state.totalCount
-							}`}
-						</Text>
-						<View style={styles.timer}>
-							<Text
-								style={[
-									styles.headerTitle,
-									{
-										color: Theme.secondaryColors.blue,
-									},
-								]}>
-								{timer === 0 ? (
-									this.renderTimer()
-								) : (
-									<Text>{this.state.timer}</Text>
-								)}
+				<ImageBackground
+					source={require('../assets/images/app-bg.jpg')}
+					style={{ flex: 1, width: '100%', height: '100%' }}>
+					<SafeAreaView style={styles.safearea}>
+						<View style={styles.headerContainer}>
+							<Text style={styles.headerTitle}>
+								Question{' '}
+								{`${this.state.activeQuestionIndex + 1}/${
+									this.state.totalCount
+								}`}
+							</Text>
+							<View style={styles.timer}>
+								<Text
+									style={[
+										styles.headerTitle,
+										{
+											color: Theme.secondaryColors.blue,
+										},
+									]}>
+									{timer === 0 ? (
+										this.renderTimer()
+									) : (
+										<Text>{this.state.timer}</Text>
+									)}
+								</Text>
+							</View>
+						</View>
+						<View style={styles.questionView}>
+							<Text style={styles.question}>
+								{currentQuestion.question}
 							</Text>
 						</View>
-					</View>
-					<View style={styles.questionView}>
-						<Text style={styles.question}>
-							{currentQuestion.question}
-						</Text>
-					</View>
-					<ScrollView>
-						<View
-							style={{
-								width: width - 60,
-								justifyContent: 'center',
-								alignSelf: 'center',
-							}}>
-							<ButtonContainer>
-								{currentQuestion.answers.map(
-									(answer, index) => (
-										<Button
-											key={index}
-											answerNum={index + 1}
-											text={answer.text}
-											onPress={() =>
-												this.answer(answer.correct)
-											}
-											correct={this.state.answerCorrect}
-											visible={this.state.answered}
-										/>
-									),
-								)}
-							</ButtonContainer>
-						</View>
-					</ScrollView>
-
-					<View style={styles.quizFooter}>
-						<TouchableOpacity
-							onPress={() => this.props.navigation.goBack()}
-							style={[styles.closeButton]}>
-							<Icon
-								name="ios-close"
-								size={36}
-								color={Theme.primaryColors.blue}
-							/>
-							<Text
+						<ScrollView>
+							<View
 								style={{
-									textAlign: 'center',
-									color: Theme.primaryColors.blue,
-									fontSize: 18,
-									paddingLeft: 8,
-									paddingBottom: 3,
-									fontWeight: Theme.fontWeight.medium,
+									width: width - 60,
+									justifyContent: 'center',
+									alignSelf: 'center',
 								}}>
-								Quit
-							</Text>
-						</TouchableOpacity>
+								<ButtonContainer>
+									{currentQuestion.answers.map(
+										(answer, index) => (
+											<Button
+												key={index}
+												answerNum={index + 1}
+												text={answer.text}
+												onPress={() =>
+													this.answer(answer.correct)
+												}
+												correct={
+													this.state.answerCorrect
+												}
+												visible={this.state.answered}
+											/>
+										),
+									)}
+								</ButtonContainer>
+							</View>
+						</ScrollView>
 
-						{this.renderCountTracker()}
-					</View>
-					<Score
-						parentState={this.state}
-						hideModal={this.hideModal}
-					/>
+						<View style={styles.quizFooter}>
+							<TouchableOpacity
+								onPress={() => this.props.navigation.goBack()}
+								style={[styles.closeButton]}>
+								<Icon
+									name="ios-close"
+									size={36}
+									color={Theme.primaryColors.blue}
+								/>
+								<Text
+									style={{
+										textAlign: 'center',
+										color: Theme.primaryColors.blue,
+										fontSize: 18,
+										paddingLeft: 8,
+										paddingBottom: 3,
+										fontWeight: Theme.fontWeight.medium,
+									}}>
+									Quit
+								</Text>
+							</TouchableOpacity>
 
-					<Animatable.Image
+							{this.renderCountTracker()}
+						</View>
+						<Score
+							parentState={this.state}
+							hideModal={this.hideModal}
+						/>
+
+						{/* <Animatable.Image
 						animation="pulse"
 						// iterationCount='infinite'
 						delay={500}
-						source={require('../assets/images/bg-patten2.png')}
+						
 						style={styles.bgImage}
-					/>
-				</SafeAreaView>
-				{/* <Alert
+					/> */}
+					</SafeAreaView>
+				</ImageBackground>
+				<Alert
 					correct={this.state.answerCorrect}
 					visible={this.state.answered}
-				/> */}
+				/>
 			</View>
 		);
 	}
@@ -289,7 +296,7 @@ export default Quiz;
 
 const styles = StyleSheet.create({
 	container: {
-		backgroundColor: Theme.primaryColors.white,
+		// backgroundColor: Theme.primaryColors.white,
 		flex: 1,
 		height: height,
 	},
@@ -309,7 +316,7 @@ const styles = StyleSheet.create({
 		textAlign: 'center',
 		fontSize: 24,
 		fontWeight: 'bold',
-		color: Theme.primaryColors.blue,
+		color: Theme.primaryColors.white,
 		alignSelf: 'center',
 	},
 	timer: {
@@ -317,10 +324,9 @@ const styles = StyleSheet.create({
 		height: 50,
 		borderRadius: 12,
 		backgroundColor: Theme.primaryColors.blue,
-		borderRadius: 12,
 		justifyContent: 'center',
 		alignSelf: 'center',
-		color: Theme.secondaryColors.blue,
+		color: Theme.secondaryColors.white,
 	},
 	questionView: {
 		minHeight: 80,
@@ -332,7 +338,7 @@ const styles = StyleSheet.create({
 		alignSelf: 'center',
 	},
 	question: {
-		color: Theme.primaryColors.blue,
+		color: Theme.primaryColors.white,
 		fontSize: 24,
 		textAlign: 'center',
 		alignItems: 'center',
@@ -346,7 +352,7 @@ const styles = StyleSheet.create({
 		flexDirection: 'row',
 		justifyContent: 'space-between',
 		bottom: 40,
-		position: 'relative',
+		// position: 'relative',
 		alignSelf: 'center',
 		flex: 1,
 		position: 'absolute',
@@ -395,6 +401,6 @@ const styles = StyleSheet.create({
 		flex: 1,
 		height: height,
 		justifyContent: 'space-between',
-		backgroundColor: Theme.primaryColors.white,
+		// backgroundColor: Theme.primaryColors.white,
 	},
 });

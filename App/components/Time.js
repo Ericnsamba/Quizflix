@@ -37,8 +37,8 @@ class TimeAgo extends Component {
 			<Text
 				style={{
 					fontSize: 12,
-					color: Theme.secondaryColors.pink,
-					marginBottom: 2,
+					color: Theme.secondaryColors.blue,
+					marginBottom: 5,
 				}}>
 				{time}
 			</Text>

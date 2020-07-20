@@ -144,7 +144,9 @@ class HomeScreen extends Component {
 							<View style={styles.buttonsView}>
 								<TouchableOpacity
 									onPress={() =>
-										this.props.navigation.navigate('QuizIndex')
+										this.props.navigation.navigate(
+											'QuizIndex',
+										)
 									}
 									style={styles.buttonContainer}>
 									<LinearGradient
@@ -155,7 +157,7 @@ class HomeScreen extends Component {
 										style={styles.button}>
 										<Text style={[styles.buttonTitle]}>
 											Start
-									</Text>
+										</Text>
 										<Icon
 											name="md-play-circle"
 											size={30}
@@ -166,7 +168,9 @@ class HomeScreen extends Component {
 
 								<TouchableOpacity
 									onPress={() =>
-										this.props.navigation.navigate('QuizIndex')
+										this.props.navigation.navigate(
+											'QuizIndex',
+										)
 									}
 									style={styles.buttonContainer}>
 									<LinearGradient
@@ -177,7 +181,7 @@ class HomeScreen extends Component {
 										style={styles.button}>
 										<Text style={[styles.buttonTitle]}>
 											More
-									</Text>
+										</Text>
 										<Icon
 											name="md-play-circle"
 											size={30}
@@ -188,7 +192,9 @@ class HomeScreen extends Component {
 
 								<TouchableOpacity
 									onPress={() =>
-										this.props.navigation.navigate('QuizIndex')
+										this.props.navigation.navigate(
+											'QuizIndex',
+										)
 									}
 									style={styles.buttonContainer}>
 									<LinearGradient
@@ -199,7 +205,7 @@ class HomeScreen extends Component {
 										style={styles.button}>
 										<Text style={[styles.buttonTitle]}>
 											Options
-									</Text>
+										</Text>
 										<Icon
 											name="ios-settings"
 											size={30}
@@ -305,7 +311,7 @@ const styles = StyleSheet.create({
 		top: 40,
 		backgroundColor: 'rgba(255, 255, 255, 0.88)',
 		paddingVertical: 25,
-		width: width - 100,
+		width: width - 60,
 		alignSelf: 'center',
 		borderRadius: 12,
 	},
