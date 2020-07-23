@@ -1,5 +1,5 @@
 /* eslint-disable react-native/no-inline-styles */
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import {
 	View,
 	Text,
@@ -101,27 +101,63 @@ export default class LoginScreen extends React.Component {
 	};
 
 	signInWithGoogleAsync = async () => {
-		// const { username, email, photo } = this.state;
 		try {
 			await GoogleSignin.hasPlayServices();
 			const userInfo = await GoogleSignin.signIn();
-			const user = this.state.userInfo;
-			this.setState({
-				userInfo,
-				username: userInfo.user.name,
-				email: userInfo.user.email,
-				profileImage: userInfo.user.photo,
-			});
-			this.loginUserFromGoogle();
+			this.setState({ userInfo });
+			const credentials = firebase.auth.GoogleAuthProvider.credential(
+				userInfo.idToken,
+				userInfo.accessToken,
+			);
+
+			if (userInfo) {
+				console.log('from the if statement -> userInfo', userInfo);
+				console.log('f----------> username', name);
+				const { name, email, photo } = this.state.userInfo.user;
+				// const { username, email, profileImage } = this.state.userInfo;
+				return firebase
+					.auth()
+					.signInWithCredential(credentials)
+					.then(user => {
+						const fbRootRef = firebase.firestore();
+						// const userID = user.uid;
+						const userID = firebase.auth().currentUser.uid;
+						console.log(' ====> fbRootRef', fbRootRef);
+						console.log(' =====> userID:', userID);
+						const userRef = fbRootRef
+							.collection('users')
+							.doc(userID);
+						userRef.set({
+							email: email,
+							username: name,
+							profileImage: photo,
+						});
+					});
+			}
 		} catch (error) {
 			if (error.code === statusCodes.SIGN_IN_CANCELLED) {
+				// user cancelled the login flow
 			} else if (error.code === statusCodes.IN_PROGRESS) {
-				// operation (e.g. sign in) is in progress already
+				// operation (f.e. sign in) is in progress already
 			} else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
 				// play services not available or outdated
 			} else {
 				// some other error happened
 			}
+		}
+	};
+
+	signOutGoogle = async () => {
+		try {
+			await GoogleSignin.revokeAccess();
+			await GoogleSignin.signOut();
+			firebase
+				.auth()
+				.signOut()
+				.then(() => alert('Your are signed out!'));
+			// setuserInfo([]);
+		} catch (error) {
+			console.error(error);
 		}
 	};
 
@@ -298,11 +334,14 @@ export default class LoginScreen extends React.Component {
 				<LinearGradient
 					colors={['#F56BA5', Theme.primaryColors.pink]}
 					style={styles.footer}>
-					<Animatable.View animation="fadeInUpBig">
+					<View>
 						<ScrollView showsVerticalScrollIndicator={false}>
 							<Text style={styles.errorMessage}>
 								{this.state.errorMessage}
 							</Text>
+							<TouchableOpacity onPress={this.signOutGoogle}>
+								<Text>Lout google</Text>
+							</TouchableOpacity>
 							<Text style={[styles.text_footer]}>Email</Text>
 							<View style={styles.action}>
 								<Feather
@@ -495,7 +534,7 @@ export default class LoginScreen extends React.Component {
 								</View>
 							</View>
 						</ScrollView>
-					</Animatable.View>
+					</View>
 				</LinearGradient>
 			</View>
 		);
