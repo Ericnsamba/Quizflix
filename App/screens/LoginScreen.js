@@ -44,6 +44,7 @@ export default class LoginScreen extends React.Component {
 			errorMessage: null,
 			isLoading: false,
 			userInfo: {},
+			// results:{},
 		};
 	}
 
@@ -53,13 +54,6 @@ export default class LoginScreen extends React.Component {
 				'289483445762-rtovvpn68uoskd7lk01aq4idpiu5l1tn.apps.googleusercontent.com', // client ID of type WEB for your server (needed to verify user ID and offline access)
 			// offlineAccess: true, // if you want to access Google API on behalf of the user FROM YOUR SERVER
 		});
-		const userObj = this.state.userInfo;
-		if (userObj === null) {
-			console.log(
-				'componentDidMount -> userInfo is true',
-				userObj.length,
-			);
-		}
 	}
 
 	updateSecureTextEntry = () => {
@@ -73,48 +67,19 @@ export default class LoginScreen extends React.Component {
 		this.setState({ currentUser });
 	};
 
-	loginUserFromGoogle = async () => {
-		const currentUser = await (await GoogleSignin.getCurrentUser()).user;
-		const { email, password } = this.state;
-		if (currentUser && email === currentUser.email) {
-			console.log(
-				'LoginScreen -> loginUserFromGoogle -> currentUser',
-				email,
-				password,
-			);
-			firebase
-				.auth()
-				.signInWithEmailAndPassword(email, password)
-				.then(() => {
-					if (firebase.auth().currentUser.email) {
-						this.props.navigation.navigate('Root');
-					} else {
-						console.log(':( did not login');
-					}
-				})
-				.catch(error =>
-					this.setState({
-						errorMessage: error.message,
-					}),
-				);
-		}
-	};
-
 	signInWithGoogleAsync = async () => {
 		try {
 			await GoogleSignin.hasPlayServices();
 			const userInfo = await GoogleSignin.signIn();
 			this.setState({ userInfo });
+			// creating credentials
 			const credentials = firebase.auth.GoogleAuthProvider.credential(
 				userInfo.idToken,
 				userInfo.accessToken,
 			);
 
 			if (userInfo) {
-				console.log('from the if statement -> userInfo', userInfo);
-				console.log('f----------> username', name);
 				const { name, email, photo } = this.state.userInfo.user;
-				// const { username, email, profileImage } = this.state.userInfo;
 				return firebase
 					.auth()
 					.signInWithCredential(credentials)
@@ -183,16 +148,26 @@ export default class LoginScreen extends React.Component {
 					this.setState({
 						userInfo: result,
 					});
-					console.log('LoginScreen -> result', this.state.userInfo);
+					console.log('LoginScreen ---> result', this.state.userInfo);
 					//
-					//
-					// const provider = firebase.auth.EmailAuthProvider;
-					// const authCredential = provider.credential(
-					// 	'testUser@mail.com',
-					// 	'testUser12',
-					// );
-					// firebase.auth().signInWithCredential(authCredential);
-					//
+					if (result) {
+						const { name, email, picture } = this.state.userInfo;
+						return firebase
+							.auth()
+							.signInWithCredential(token)
+							.then(user => {
+								const fbRootRef = firebase.firestore();
+								const userID = firebase.auth().currentUser.uid;
+								const userRef = fbRootRef
+									.collection('users')
+									.doc(userID);
+								userRef.set({
+									email: email,
+									username: name,
+									profileImage: picture.data.url,
+								});
+							});
+					}
 				} else {
 				}
 			},
@@ -240,20 +215,52 @@ export default class LoginScreen extends React.Component {
 		}
 	};
 
-	loginWithFacebook = () => {
-		LoginManager.logInWithPermissions(['public_profile']).then(
-			login => {
-				if (login.isCancelled) {
-					console.log('loginWithFacebook -> isCancelled');
+	loginWithFacebook = async () => {
+		LoginManager.logInWithPermissions(['public_profile', 'email']).then(
+			result => {
+				if (result.isCancelled) {
+					console.log('Whoops!', 'You cancelled the sign in.');
 				} else {
 					AccessToken.getCurrentAccessToken().then(data => {
-						const accessToken = data.accessToken.toString();
-						this.getInfoFromToken(accessToken);
+						const credential = firebase.auth.FacebookAuthProvider.credential(
+							data.accessToken,
+						);
+						this.getInfoFromToken(credential);
+						console.log(credential);
+						firebase
+							.auth()
+							.signInWithCredential(credential)
+							.then(() => {
+								return new Promise((resolve, reject) => {
+									const request = new GraphRequest(
+										'/me',
+										null,
+										(error, result) => {
+											if (result) {
+												// const profile = result;
+												// profile.avatar = `https://graph.facebook.com/${
+												// 	result.id
+												// }/picture`;
+												// resolve(profile);
+											} else {
+												reject(error);
+											}
+										},
+									);
+									this.requestManager
+										.addRequest(request)
+										.start();
+								});
+							})
+							.catch(error => {
+								console.log(error.message);
+								this.setState({ errorMessage: error.message });
+							});
 					});
 				}
 			},
 			error => {
-				console.log('Login fail with error: ' + error);
+				console.log('Sign in error', error);
 			},
 		);
 	};
@@ -272,10 +279,14 @@ export default class LoginScreen extends React.Component {
 					AccessToken.getCurrentAccessToken().then(data => {
 						const accessToken = data.accessToken.toString();
 						this.getInfoFromToken(accessToken);
+						console.log(
+							'LoginScreen -> onFacebookButtonPress -> accessToken',
+							accessToken,
+						);
 					});
 					console.log(
 						'Login success with permissions: ' +
-							result.grantedPermissions.toString(),
+						result.grantedPermissions.toString(),
 						result,
 					);
 				}
@@ -408,12 +419,12 @@ export default class LoginScreen extends React.Component {
 											size={20}
 										/>
 									) : (
-										<Feather
-											name="eye"
-											color={Theme.secondaryColors.white}
-											size={20}
-										/>
-									)}
+											<Feather
+												name="eye"
+												color={Theme.secondaryColors.white}
+												size={20}
+											/>
+										)}
 								</TouchableOpacity>
 							</View>
 
@@ -466,14 +477,14 @@ export default class LoginScreen extends React.Component {
 										if (error) {
 											console.log(
 												'Login failed with error: ' +
-													error.message,
+												error.message,
 											);
 										} else if (result.isCancelled) {
 											console.log('Login was cancelled');
 										} else {
 											console.log(
 												'Login was successful with permissions: ' +
-													result.grantedPermissions,
+												result.grantedPermissions,
 											);
 											console.log(
 												'LoginScreen -> render -> result',
@@ -506,7 +517,7 @@ export default class LoginScreen extends React.Component {
 								</TouchableOpacity>
 
 								<TouchableOpacity
-									onPress={onPressButton}
+									onPress={this.loginWithFacebook}
 									style={[styles.signIn, styles.signInWith]}>
 									<Text style={styles.buttonText}>
 										{dynamicButtonText}
