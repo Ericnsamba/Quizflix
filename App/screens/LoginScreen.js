@@ -1,9 +1,8 @@
 /* eslint-disable react-native/no-inline-styles */
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import {
 	View,
 	Text,
-	Button,
 	TouchableOpacity,
 	Dimensions,
 	TextInput,
@@ -16,20 +15,15 @@ import {
 // import auth from 'react-native-firebase/auth';
 import firebase from 'react-native-firebase';
 import * as Theme from '../theme/Theme';
+import { GoogleSignin, statusCodes } from 'react-native-google-signin';
 import {
-	GoogleSignin,
-	GoogleSigninButton,
-	statusCodes,
-} from 'react-native-google-signin';
-import {
-	LoginButton,
 	AccessToken,
 	LoginManager,
 	GraphRequest,
 	GraphRequestManager,
 } from 'react-native-fbsdk';
 import Icon from 'react-native-vector-icons/Ionicons';
-import * as Animatable from 'react-native-animatable';
+// import * as Animatable from 'react-native-animatable';
 import LinearGradient from 'react-native-linear-gradient';
 import Feather from 'react-native-vector-icons/Feather';
 
@@ -44,7 +38,6 @@ export default class LoginScreen extends React.Component {
 			errorMessage: null,
 			isLoading: false,
 			userInfo: {},
-			// results:{},
 		};
 	}
 
@@ -60,11 +53,6 @@ export default class LoginScreen extends React.Component {
 		this.setState({
 			secureTextEntry: !this.state.secureTextEntry,
 		});
-	};
-
-	getCurrentUser = async () => {
-		const currentUser = await GoogleSignin.getCurrentUser();
-		this.setState({ currentUser });
 	};
 
 	signInWithGoogleAsync = async () => {
@@ -95,7 +83,7 @@ export default class LoginScreen extends React.Component {
 						userRef.set({
 							email: email,
 							username: name,
-							profileImage: photo,
+							profileImage: photo.replace('s120', 's300', true),
 						});
 					});
 			}
@@ -112,25 +100,11 @@ export default class LoginScreen extends React.Component {
 		}
 	};
 
-	signOutGoogle = async () => {
-		try {
-			await GoogleSignin.revokeAccess();
-			await GoogleSignin.signOut();
-			firebase
-				.auth()
-				.signOut()
-				.then(() => alert('Your are signed out!'));
-			// setuserInfo([]);
-		} catch (error) {
-			console.error(error);
-		}
-	};
-
 	getInfoFromToken = token => {
 		const PROFILE_REQUEST_PARAMS = {
 			fields: {
 				string:
-					'id, name, first_name, middle_name, last_name, picture, short_name, email',
+					'id, name, first_name, middle_name, last_name, picture.type(large), short_name, email',
 			},
 		};
 
@@ -227,35 +201,6 @@ export default class LoginScreen extends React.Component {
 						);
 						this.getInfoFromToken(credential);
 						console.log(credential);
-						firebase
-							.auth()
-							.signInWithCredential(credential)
-							.then(() => {
-								return new Promise((resolve, reject) => {
-									const request = new GraphRequest(
-										'/me',
-										null,
-										(error, result) => {
-											if (result) {
-												// const profile = result;
-												// profile.avatar = `https://graph.facebook.com/${
-												// 	result.id
-												// }/picture`;
-												// resolve(profile);
-											} else {
-												reject(error);
-											}
-										},
-									);
-									this.requestManager
-										.addRequest(request)
-										.start();
-								});
-							})
-							.catch(error => {
-								console.log(error.message);
-								this.setState({ errorMessage: error.message });
-							});
 					});
 				}
 			},
@@ -286,7 +231,7 @@ export default class LoginScreen extends React.Component {
 					});
 					console.log(
 						'Login success with permissions: ' +
-						result.grantedPermissions.toString(),
+							result.grantedPermissions.toString(),
 						result,
 					);
 				}
@@ -326,8 +271,6 @@ export default class LoginScreen extends React.Component {
 			? this.logoutWithFacebook
 			: this.loginWithFacebook;
 
-		// this.state.errorMessage;
-		// console.log('userInfo', this.state.userInfo);
 		return (
 			<View style={styles.container}>
 				<StatusBar
@@ -350,9 +293,6 @@ export default class LoginScreen extends React.Component {
 							<Text style={styles.errorMessage}>
 								{this.state.errorMessage}
 							</Text>
-							<TouchableOpacity onPress={this.signOutGoogle}>
-								<Text>Lout google</Text>
-							</TouchableOpacity>
 							<Text style={[styles.text_footer]}>Email</Text>
 							<View style={styles.action}>
 								<Feather
@@ -419,17 +359,17 @@ export default class LoginScreen extends React.Component {
 											size={20}
 										/>
 									) : (
-											<Feather
-												name="eye"
-												color={Theme.secondaryColors.white}
-												size={20}
-											/>
-										)}
+										<Feather
+											name="eye"
+											color={Theme.secondaryColors.white}
+											size={20}
+										/>
+									)}
 								</TouchableOpacity>
 							</View>
 
 							<View style={[styles.textPrivate]}>
-								<View>
+								<View style={styles.termsConditions}>
 									<Text style={styles.color_textPrivate}>
 										By signing up you agree to our
 									</Text>
@@ -440,19 +380,7 @@ export default class LoginScreen extends React.Component {
 												fontWeight: 'bold',
 											},
 										]}>
-										Terms of service
-									</Text>
-									<Text style={styles.color_textPrivate}>
-										and
-									</Text>
-									<Text
-										style={[
-											styles.color_textPrivate,
-											{
-												fontWeight: 'bold',
-											},
-										]}>
-										Privacy policy
+										T&Cs and Code of Conduct
 									</Text>
 								</View>
 
@@ -468,34 +396,22 @@ export default class LoginScreen extends React.Component {
 							</View>
 
 							<View style={styles.button}>
-								<LoginButton
-									publishPermissions={[
-										'email',
-										'public_profile',
-									]}
-									onLoginFinished={(error, result) => {
-										if (error) {
-											console.log(
-												'Login failed with error: ' +
-												error.message,
-											);
-										} else if (result.isCancelled) {
-											console.log('Login was cancelled');
-										} else {
-											console.log(
-												'Login was successful with permissions: ' +
-												result.grantedPermissions,
-											);
-											console.log(
-												'LoginScreen -> render -> result',
-												result,
-											);
-										}
-									}}
-									onLogoutFinished={() =>
-										console.log('User logged out')
-									}
-								/>
+								<TouchableOpacity
+									onPress={onPressButton}
+									style={[styles.signIn, styles.signInWith]}>
+									<Text style={styles.buttonText}>
+										{dynamicButtonText}
+									</Text>
+								</TouchableOpacity>
+
+								<TouchableOpacity
+									onPress={this.signInWithGoogleAsync}
+									style={[styles.signIn, styles.signInWith]}>
+									<Text style={styles.buttonText}>
+										Login With Google
+									</Text>
+								</TouchableOpacity>
+
 								<TouchableOpacity
 									onPress={() =>
 										this.props.navigation.navigate(
@@ -504,26 +420,9 @@ export default class LoginScreen extends React.Component {
 									}
 									style={[styles.signIn, styles.signInWith]}>
 									<Text style={styles.buttonText}>
-										Sign up
+										Create Account
 									</Text>
 								</TouchableOpacity>
-
-								<TouchableOpacity
-									onPress={this.signInWithGoogleAsync}
-									style={[styles.signIn, styles.signInWith]}>
-									<Text style={styles.buttonText}>
-										Login With google
-									</Text>
-								</TouchableOpacity>
-
-								<TouchableOpacity
-									onPress={this.loginWithFacebook}
-									style={[styles.signIn, styles.signInWith]}>
-									<Text style={styles.buttonText}>
-										{dynamicButtonText}
-									</Text>
-								</TouchableOpacity>
-
 								<View
 									style={{
 										alignSelf: 'center',
@@ -561,7 +460,6 @@ const styles = StyleSheet.create({
 		flex: 1,
 		justifyContent: 'flex-end',
 		paddingHorizontal: 20,
-		// paddingBottom: 50,
 	},
 	footer: {
 		flex: Platform.OS === 'ios' ? 5 : 5,
@@ -612,20 +510,21 @@ const styles = StyleSheet.create({
 	},
 	textPrivate: {
 		flexDirection: 'row',
-		// flexWrap: 'wrap',
 		marginTop: 20,
 		justifyContent: 'space-between',
+	},
+	termsConditions: {
+		justifyContent: 'center',
 	},
 	color_textPrivate: {
 		color: Theme.primaryColors.white,
 	},
 	signInWith: {
-		borderColor: Theme.primaryColors.white,
-		borderWidth: 1,
+		backgroundColor: Theme.primaryColors.white,
 		marginTop: 15,
 	},
 	buttonText: {
-		color: Theme.primaryColors.white,
+		color: Theme.primaryColors.blue,
 		fontWeight: '500',
 		textAlign: 'center',
 	},
