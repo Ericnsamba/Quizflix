@@ -12,6 +12,7 @@ import {
 	StyleSheet,
 	ScrollView,
 	StatusBar,
+	Alert,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import * as Animatable from 'react-native-animatable';
@@ -37,48 +38,6 @@ export default class SignUpScreen extends React.Component {
 			check_textInputChange: false,
 		};
 	}
-
-	componentDidMount() {
-		GoogleSignin.configure({
-			webClientId:
-				'289483445762-rtovvpn68uoskd7lk01aq4idpiu5l1tn.apps.googleusercontent.com', // client ID of type WEB for your server
-			scopes: ['profile', 'email'],
-			// offlineAccess: true, // if you want to access Google API on behalf of the user FROM YOUR SERVER
-		});
-	}
-
-	createUser = async () => {
-		const currentUser = await (await GoogleSignin.getCurrentUser()).user;
-		// this.setState({ currentUser });
-		if (currentUser) {
-			const { username, email, photo, profileImage } = this.state;
-			firebase
-				.auth()
-				.createUserWithEmailAndPassword(email, username, photo)
-				.then(user => {
-					const fbRootRef = firebase.firestore();
-					const userID = firebase.auth().currentUser.uid;
-
-					// console.log('firebase user', user);
-					const userRef = fbRootRef.collection('users').doc(userID);
-					userRef.set({
-						email,
-						profileImage,
-						username,
-					});
-				})
-				.then(() => {
-					if (firebase.auth().currentUser.email) {
-						this.props.navigation.navigate('Root');
-					} else {
-						console.log(':( did not login');
-					}
-				})
-				.catch(error => {
-					console.log('catch error, line 27', error);
-				});
-		}
-	};
 
 	handleSignUp = () => {
 		const { username, email, password } = this.state;
@@ -107,33 +66,8 @@ export default class SignUpScreen extends React.Component {
 			})
 			.catch(error => {
 				console.log('catch error, line 27', error);
+				Alert(error);
 			});
-	};
-
-	signUpWithGoogle = async () => {
-		const { username, email, photo } = this.state;
-		try {
-			await GoogleSignin.hasPlayServices();
-			const userInfo = await GoogleSignin.signIn();
-			const user = this.state.userInfo;
-			this.setState({
-				userInfo,
-				username: userInfo.user.name,
-				email: userInfo.user.email,
-				profileImage: userInfo.user.photo,
-				password: userInfo.user.password,
-			});
-			this.createUser();
-		} catch (error) {
-			if (error.code === statusCodes.SIGN_IN_CANCELLED) {
-			} else if (error.code === statusCodes.IN_PROGRESS) {
-				// operation (e.g. sign in) is in progress already
-			} else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
-				// play services not available or outdated
-			} else {
-				// some other error happened
-			}
-		}
 	};
 
 	updateSecureTextEntry = () => {
@@ -160,7 +94,9 @@ export default class SignUpScreen extends React.Component {
 				<LinearGradient
 					colors={['#F56BA5', Theme.primaryColors.pink]}
 					style={styles.footer}>
-					<Animatable.View animation="fadeInUpBig">
+					<Animatable.View
+						animation="fadeInUpBig"
+						style={{ top: 60 }}>
 						<ScrollView showsVerticalScrollIndicator={false}>
 							<Text style={styles.errorMessage}>
 								{this.state.errorMessage}
@@ -285,55 +221,6 @@ export default class SignUpScreen extends React.Component {
 										color={Theme.primaryColors.blue}
 									/>
 								</TouchableOpacity>
-							</View>
-
-							<View style={styles.button}>
-								<TouchableOpacity
-									onPress={() =>
-										this.props.navigation.navigate(
-											'SignUpScreen',
-										)
-									}
-									style={[styles.signIn, styles.signInWith]}>
-									<Text style={styles.buttonText}>
-										Sign up
-									</Text>
-								</TouchableOpacity>
-
-								<TouchableOpacity
-									onPress={this.signUpWithGoogle}
-									style={[styles.signIn, styles.signInWith]}>
-									<Text style={styles.buttonText}>
-										Login With google
-									</Text>
-								</TouchableOpacity>
-
-								<TouchableOpacity
-									onPress={this.signInWithGoogleAsync}
-									style={[styles.signIn, styles.signInWith]}>
-									<Text style={styles.buttonText}>
-										Login With Facebook
-									</Text>
-								</TouchableOpacity>
-
-								<View
-									style={{
-										alignSelf: 'center',
-										marginVertical: 30,
-									}}>
-									<Text
-										style={{
-											color: Theme.primaryColors.blue,
-											fontWeight: Theme.fontWeight.normal,
-										}}>
-										Can't remember your password?
-									</Text>
-									<View
-										style={{
-											marginTop: 10,
-										}}
-									/>
-								</View>
 							</View>
 						</ScrollView>
 					</Animatable.View>

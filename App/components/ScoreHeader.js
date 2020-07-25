@@ -37,7 +37,7 @@ class ScoreHeader extends Component {
 			email: '',
 			profileImage: '',
 			username: '',
-			points: 0
+			points: 0,
 		};
 
 		this.props.watchPointsData();
@@ -45,7 +45,7 @@ class ScoreHeader extends Component {
 	}
 	renderPoints = () => {
 		let points = 0;
-		currentUser = firebase.auth().currentUser;
+		const currentUser = firebase.auth().currentUser;
 		const quizPlayed = this.props.pointsData;
 
 		if (currentUser && quizPlayed) {
@@ -65,42 +65,42 @@ class ScoreHeader extends Component {
 		const { username, email, profileImage } = this.props.personData;
 		const avatar = require('../assets/images/profileAvatar.jpg');
 		return (
-				 <LinearGradient colors={['#F56BA5', Theme.primaryColors.pink]} style={styles.container}>
-			<View >
-				<View style={styles.innerContainer}>
-					<View style={{ width: 60, justifyContent: 'center' }}>
-						<Image
-							resizeMode={'center'}
-							source={profileImage ? { uri: profileImage } : avatar}
-							style={{ width: 60, height: 60, borderRadius: 30 }}
-						/>
-					</View>
-					<View
-						style={{
-							flexGrow: 1,
-							marginLeft: 20,
-							display: 'flex',
-							justifyContent: 'center',
-						}}>
-						<Text style={styles.userName}>
-							{username ? username : 'anonymous'}
-						</Text>
-					</View>
-
-					{/* Icon and Reward*/}
-					<View style={{ justifyContent: 'center' }}>
-						<View style={styles.rewardsAndIcon}>
-							<Feather
-								name="award"
-								color={Theme.primaryColors.white}
-								size={24}
+			<LinearGradient colors={['#F56BA5', Theme.primaryColors.pink]} style={styles.container}>
+				<View >
+					<View style={styles.innerContainer}>
+						<View style={{ width: 60, justifyContent: 'center' }}>
+							<Image
+								resizeMode={'center'}
+								source={profileImage ? { uri: profileImage } : avatar}
+								style={styles.Image}
 							/>
-							<Text style={styles.reward}>{this.renderPoints()}</Text>
+						</View>
+						<View
+							style={{
+								flexGrow: 1,
+								marginLeft: 20,
+								display: 'flex',
+								justifyContent: 'center',
+							}}>
+							<Text style={styles.userName}>
+								{username ? username : 'anonymous'}
+							</Text>
+						</View>
+
+						{/* Icon and Reward*/}
+						<View style={{ justifyContent: 'center' }}>
+							<View style={styles.rewardsAndIcon}>
+								<Feather
+									name="award"
+									color={Theme.primaryColors.white}
+									size={24}
+								/>
+								<Text style={styles.reward}>{this.renderPoints()}</Text>
+							</View>
 						</View>
 					</View>
 				</View>
-				</View>
-				</LinearGradient>
+			</LinearGradient>
 		);
 	}
 }
@@ -133,6 +133,11 @@ const styles = StyleSheet.create({
 		flexGrow: 1,
 		flexDirection: 'row',
 		padding: 20,
+	},
+	Image: {
+		width: 60,
+		height: 60,
+		borderRadius: 30,
 	},
 	userName: {
 		fontSize: 18,

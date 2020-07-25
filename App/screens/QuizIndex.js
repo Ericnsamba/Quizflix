@@ -6,10 +6,13 @@ import {
 	StatusBar,
 	SafeAreaView,
 	Dimensions,
+	TouchableOpacity,
 	Text,
 	View,
 } from 'react-native';
+import LinearGradient from 'react-native-linear-gradient';
 import * as Animatable from 'react-native-animatable';
+import Icon from 'react-native-vector-icons/Ionicons';
 import { connect } from 'react-redux';
 import {
 	watchQuestionsData,
@@ -60,7 +63,6 @@ class QuizIndex extends React.Component {
 			const name = this.state.username;
 			return (
 				<Animatable.View
-					animation="tada"
 					delay={500}
 					// animation="flipInY"
 					easing={t => Math.pow(t, 1.7)}
@@ -104,11 +106,22 @@ class QuizIndex extends React.Component {
 					</ScrollView>
 
 					<View style={styles.startQuizButton}>
-						<Button
-							text="Back Home"
-							// onPress={() => this.answer(answer.correct)}
+						<TouchableOpacity
 							onPress={() => this.props.navigation.navigate('HomeScreen')}
-						/>
+							style={styles.buttonContainer}>
+							<LinearGradient
+								colors={[
+									'#4569e1',
+									Theme.primaryColors.blue,
+								]}
+								style={styles.button}>
+								<Icon
+									name="ios-home"
+									size={40}
+									style={styles.buttonIcon}
+								/>
+							</LinearGradient>
+						</TouchableOpacity>
 					</View>
 				</View>
 			</SafeAreaView>
@@ -140,8 +153,8 @@ const styles = StyleSheet.create({
 	button: {
 		justifyContent: 'center',
 		alignItems: 'center',
-		width: 160,
-		height: 60,
+		width: 240,
+		height: 70,
 		borderRadius: 12,
 		backgroundColor: Theme.primaryColors.gray,
 	},
@@ -160,6 +173,21 @@ const styles = StyleSheet.create({
 		height: 100,
 	},
 	quizzesContainer: {
+	},
+	buttonContainer: {
+		marginVertical: 10,
+
+	},
+	buttonTitle: {
+		color: Theme.primaryColors.white,
+		fontSize: 18,
+		textAlign: 'center',
+		fontWeight: '800',
+	},
+	buttonIcon: {
+		color: Theme.primaryColors.white,
+		// paddingLeft: 20,
+		// paddingTop: 2,
 	},
 });
 

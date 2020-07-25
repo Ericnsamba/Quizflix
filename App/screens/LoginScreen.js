@@ -231,7 +231,7 @@ export default class LoginScreen extends React.Component {
 					});
 					console.log(
 						'Login success with permissions: ' +
-							result.grantedPermissions.toString(),
+						result.grantedPermissions.toString(),
 						result,
 					);
 				}
@@ -265,8 +265,8 @@ export default class LoginScreen extends React.Component {
 	render() {
 		const isLogin = this.state.userInfo.name;
 		const dynamicButtonText = isLogin
-			? 'Logout with Facebook'
-			: 'Login with Facebook';
+			? 'Logout With Facebook'
+			: 'Login With Facebook';
 		const onPressButton = isLogin
 			? this.logoutWithFacebook
 			: this.loginWithFacebook;
@@ -359,12 +359,12 @@ export default class LoginScreen extends React.Component {
 											size={20}
 										/>
 									) : (
-										<Feather
-											name="eye"
-											color={Theme.secondaryColors.white}
-											size={20}
-										/>
-									)}
+											<Feather
+												name="eye"
+												color={Theme.secondaryColors.white}
+												size={20}
+											/>
+										)}
 								</TouchableOpacity>
 							</View>
 
@@ -412,15 +412,36 @@ export default class LoginScreen extends React.Component {
 									</Text>
 								</TouchableOpacity>
 
+								<View
+									style={{
+										justifyContent: 'space-between',
+										flexDirection: 'row',
+										marginVertical: 20,
+									}}>
+									<View style={styles.viewBorder} />
+									<Text style={styles.orText}> or </Text>
+									<View style={styles.viewBorder} />
+								</View>
+
 								<TouchableOpacity
 									onPress={() =>
 										this.props.navigation.navigate(
 											'SignUpScreen',
 										)
 									}
-									style={[styles.signIn, styles.signInWith]}>
-									<Text style={styles.buttonText}>
-										Create Account
+									style={[
+										styles.signIn,
+										styles.createAccountButton,
+									]}>
+									<Text
+										style={[
+											styles.buttonText,
+											{
+												color:
+													Theme.primaryColors.white,
+											},
+										]}>
+										Create Account With Email
 									</Text>
 								</TouchableOpacity>
 								<View
@@ -430,11 +451,10 @@ export default class LoginScreen extends React.Component {
 									}}>
 									<Text
 										style={{
-											color: Theme.primaryColors.blue,
+											color: Theme.primaryColors.white,
 											fontWeight: Theme.fontWeight.normal,
 										}}>
-										Can't remember your password?{' '}
-										{this.state.userInfo.name}
+										reset password
 									</Text>
 									<View
 										style={{
@@ -503,6 +523,8 @@ const styles = StyleSheet.create({
 		justifyContent: 'center',
 		alignItems: 'center',
 		borderRadius: 30,
+		backgroundColor: Theme.primaryColors.white,
+		marginTop: 15,
 	},
 	textSign: {
 		fontSize: 14,
@@ -519,9 +541,9 @@ const styles = StyleSheet.create({
 	color_textPrivate: {
 		color: Theme.primaryColors.white,
 	},
-	signInWith: {
-		backgroundColor: Theme.primaryColors.white,
-		marginTop: 15,
+	createAccountButton: {
+		backgroundColor: Theme.primaryColors.blue,
+		// marginTop: 15,
 	},
 	buttonText: {
 		color: Theme.primaryColors.blue,
@@ -534,10 +556,21 @@ const styles = StyleSheet.create({
 	},
 	signInButton: {
 		width: 80,
-		height: 60,
+		height: 50,
 		backgroundColor: Theme.primaryColors.white,
 		justifyContent: 'center',
 		alignItems: 'center',
 		borderRadius: 30,
+	},
+	viewBorder: {
+		backgroundColor: Theme.primaryColors.white,
+		height: 1,
+		width: 60,
+		alignSelf: 'center',
+	},
+	orText: {
+		fontSize: 16,
+		paddingHorizontal: 10,
+		color: Theme.primaryColors.white,
 	},
 });

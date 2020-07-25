@@ -87,6 +87,9 @@ target 'QuizAndClock' do
   # https://firebase.google.com/docs/ios/setup#available-pods
 
 
+  #Lottie files
+  pod 'lottie-ios'
+
   target 'QuizAndClockTests' do
     inherit! :complete
     # Pods for testing

@@ -1,12 +1,13 @@
+/* eslint-disable prettier/prettier */
 import React, { Component } from 'react';
 import LottieView from 'lottie-react-native';
-import {
-	View, Text, StyleSheet, Dimensions, SafeAreaView
-} from 'react-native';
+import { View, Text, StyleSheet, Dimensions, SafeAreaView, TouchableOpacity } from 'react-native';
 import * as Theme from '../theme/Theme';
-import ScoreTrophy from '../components/Animated/ScoreTrophyAnim';
-import { Icon } from '../custom/components/'
+// import * as Theme from '../assets/audio/game/tick_tock.mp3';
+// import Sound from 'react-native-sound';
 
+// Import the react-native-sound module
+var Sound = require('react-native-sound');
 
 
 const { width, height } = Dimensions.get('window');
@@ -14,38 +15,99 @@ const { width, height } = Dimensions.get('window');
 export default class InfoScreen extends React.Component {
 	constructor(props) {
 		super(props);
-		this.state = {
-		};
+		this.state = {};
 	}
+
+	renderSound = () => {
+		// Enable playback in silence mode
+		Sound.setCategory('Playback');
+
+
+		var whoosh = new Sound('../assets/audio/game/tick_tock.mp3', Sound.MAIN_BUNDLE, (error) => {
+			if (error) {
+				console.log('failed to load the sound', error);
+				return;
+			}
+			// loaded successfully
+			console.log('duration in seconds: ' + whoosh.getDuration() + 'number of channels: ' + whoosh.getNumberOfChannels());
+
+			// Play the sound with an onEnd callback
+			whoosh.play((success) => {
+				if (success) {
+					console.log('successfully finished playing');
+				} else {
+					console.log('playback failed due to audio decoding errors');
+				}
+			});
+		});
+
+		// const sound = new Sound(
+		// 	'../assets/audio/game/tick_tock.mp3',
+		// 	Sound.MAIN_BUNDLE,
+		// 	error => {
+		// 		if (error) {
+		// 			console.log('failed to load the sound', error);
+		// 			return;
+		// 		}
+		// 		sound.play(() => sound.release());
+		// 	}
+		// );
+		// // The play dispatcher
+		// sound.play();
+
+
+		// const sound = new Sound('../assets/audio/game/tick_tock.mp3',
+		// 	error => {
+		// 		if (error) {
+		// 			console.log('InfoScreen -> renderSound -> error', error);
+		// 			// do something
+		// 		}
+		// 		// play when loaded 
+		// 		sound.play();
+		// 	});
+	}
+
 
 	render() {
 		return (
 			<SafeAreaView style={styles.safearea}>
-
 				<View style={styles.container}>
-
 					<View style={styles.headerContainer}>
 						<Text style={styles.headerTitle}>Quiz Results</Text>
+						{/* {this.renderSound()} */}
 					</View>
 					{/* <LottieView source={require('../assets/Animated/CorrectTick.json')} autoPlay loop /> */}
 					<View style={styles.textContainer}>
-
 						<Text style={styles.heading}>about the game</Text>
 						<Text style={styles.text}>
 							Lorem Ipsum is simply dummy text of the printing and
-							typesetting industry. Lorem Ipsum has been the industry's
-							standard dummy text ever since the 1500s
-					</Text>
-						<View style={{ marginVertical: 20, }} />
+							typesetting industry. Lorem Ipsum has been the
+							industry's standard dummy text ever since the 1500s
+						</Text>
+						<View style={{ marginVertical: 20 }} />
 						<Text style={styles.heading}>Developers</Text>
 						<Text style={styles.text}>
-							when an unknown printer
-							took a galley of type and scrambled it to make a type specimen book.
-							It has survived not only five centuries, but also the leap into electronic typesetting,
-							remaining essentially unchanged.
-					</Text>
+							when an unknown printer took a galley of type and
+							scrambled it to make a type specimen book. It has
+							survived not only five centuries, but also the leap
+							into electronic typesetting, remaining essentially
+							unchanged.
+						</Text>
 
 						<View>
+
+							<TouchableOpacity onPress={this.renderSound} style={{
+								justifyContent: 'center',
+								width: 200,
+								backgroundColor: 'skyblue',
+								marginVertical: 20,
+								alignSelf: 'center',
+								padding: 10
+							}}>
+								<View>
+									<Text style={{ fontSize: 18, textAlign: 'center' }}>Start</Text>
+								</View>
+							</TouchableOpacity>
 							{/* <Icon
 								name="rocket"
 								size={35}
@@ -61,7 +123,7 @@ export default class InfoScreen extends React.Component {
 
 const styles = StyleSheet.create({
 	safearea: {
-		flex: 1
+		flex: 1,
 	},
 	headerContainer: {
 		width: width,
@@ -83,17 +145,16 @@ const styles = StyleSheet.create({
 		fontSize: 20,
 		marginVertical: 10,
 		paddingHorizontal: 30,
-		textTransform: 'capitalize'
+		textTransform: 'capitalize',
 	},
 	textContainer: {
 		width: width,
-		paddingTop: 60
+		paddingTop: 60,
 	},
 	text: {
 		fontSize: 16,
 		color: Theme.primaryColors.blue,
 		lineHeight: 24,
 		paddingHorizontal: 30,
-	}
-
-})
+	},
+});

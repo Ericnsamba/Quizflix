@@ -160,7 +160,7 @@ class HomeScreen extends Component {
 										</Text>
 										<Icon
 											name="md-play-circle"
-											size={30}
+											size={40}
 											style={styles.buttonIcon}
 										/>
 									</LinearGradient>
@@ -184,7 +184,7 @@ class HomeScreen extends Component {
 										</Text>
 										<Icon
 											name="md-play-circle"
-											size={30}
+											size={40}
 											style={styles.buttonIcon}
 										/>
 									</LinearGradient>
@@ -208,7 +208,7 @@ class HomeScreen extends Component {
 										</Text>
 										<Icon
 											name="ios-settings"
-											size={30}
+											size={40}
 											style={styles.buttonIcon}
 										/>
 									</LinearGradient>

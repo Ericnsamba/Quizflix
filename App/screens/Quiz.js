@@ -251,7 +251,7 @@ class Quiz extends React.Component {
 								style={[styles.closeButton]}>
 								<Icon
 									name="ios-close"
-									size={36}
+									size={30}
 									color={Theme.primaryColors.blue}
 								/>
 								<Text
@@ -259,7 +259,7 @@ class Quiz extends React.Component {
 										textAlign: 'center',
 										color: Theme.primaryColors.blue,
 										fontSize: 18,
-										paddingLeft: 8,
+										// marginHorizontal: 8,
 										paddingBottom: 3,
 										fontWeight: Theme.fontWeight.medium,
 									}}>
@@ -368,13 +368,14 @@ const styles = StyleSheet.create({
 		backgroundColor: Theme.secondaryColors.white,
 	},
 	closeButton: {
-		width: 80,
-		height: 50,
+		width: 90,
+		height: 40,
 		borderRadius: 12,
 		backgroundColor: Theme.secondaryColors.white,
-		justifyContent: 'center',
+		justifyContent: 'space-around',
 		flexDirection: 'row',
 		alignItems: 'center',
+		paddingHorizontal: 6,
 		// flex: 1
 		zIndex: 9,
 	},

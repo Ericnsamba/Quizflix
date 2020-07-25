@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 /* eslint-disable react-native/no-inline-styles */
 /* eslint-disable no-unused-vars */
 import React, { useEffect, Component } from 'react';
@@ -90,20 +91,17 @@ class ProfileScreen extends React.Component {
 	};
 	render() {
 		const { isAnonymous } = this.state;
-		// console.log("render -> isAnonymous", this.props)
-
 		const pointsData = this.props.pointsData;
+		const { username, email, profileImage } = this.props.personData;
+		const avatar = require('../assets/images/profileAvatar.jpg');
+		// console.log("render -> this.props", this.props.personData.profileImage)
 		return (
 			<View style={styles.container}>
 				<View style={{ marginTop: 64, alignItems: 'center' }}>
 					<View style={styles.avatarContainer}>
 						<Image
-							source={
-								this.state.user.avatar
-									? // ? { uri: this.state.user.avatar }
-									  require('../assets/images/profileAvatar.jpg')
-									: require('../assets/images/profileAvatar.jpg')
-							}
+							resizeMode={'cover'}
+							source={profileImage ? { uri: profileImage } : avatar}
 							style={styles.avatar}
 						/>
 					</View>
@@ -204,17 +202,17 @@ const styles = StyleSheet.create({
 		marginLeft: 1,
 	},
 	avatarContainer: {
-		// shadowColor: '#151734',
-		// shadowRadius: 1,
-		// shadowOpacity: 0.4,
+		shadowColor: '#151734',
+		shadowRadius: 7,
+		shadowOpacity: 0.4,
 	},
 	avatar: {
 		width: 136,
 		height: 136,
 		borderRadius: 68,
-		borderColor: Theme.primaryColors.blue,
-		borderWidth: 4,
-		backgroundColor: Theme.secondaryColors.orange,
+		// borderColor: Theme.primaryColors.blue,
+		// borderWidth: 4,
+		backgroundColor: Theme.secondaryColors.blue,
 	},
 	name: {
 		marginTop: 24,
