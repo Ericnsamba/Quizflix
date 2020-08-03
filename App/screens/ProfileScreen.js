@@ -56,6 +56,7 @@ class ProfileScreen extends React.Component {
 		this.state = {
 			isAnonymous: firebase.auth().currentUser._user.isAnonymous,
 			user: {},
+			Categories: 0,
 		};
 		this.props.watchPointsData();
 		this.props.watchPersonData();
@@ -82,19 +83,36 @@ class ProfileScreen extends React.Component {
 		}
 	};
 
-	Item = ({ name }) => {
-		return (
-			<View style={styles.item}>
-				<Text style={styles.name}>{name}</Text>
-			</View>
-		);
+	renderPoints = () => {
+		let points = 0;
+		const currentUser = firebase.auth().currentUser;
+		const quizPlayed = this.props.pointsData;
+
+		if (currentUser && quizPlayed) {
+			Object.values(quizPlayed).map(game => (points += game.points));
+		} else if (!currentUser) {
+			return (points = '');
+		}
+		return points;
 	};
+
+	renderCategoryCount = () => {
+		let Categories = 0;
+		const currentUser = firebase.auth().currentUser;
+		const quizPlayed = this.props.pointsData;
+		if (currentUser && quizPlayed) {
+			const obj = Object.keys(quizPlayed).length;
+			Categories = obj;
+		}
+		return Categories;
+	};
+
 	render() {
+		// console.log("ProfileScreen -> renderPoints -> points", )
 		const { isAnonymous } = this.state;
 		const pointsData = this.props.pointsData;
 		const { username, email, profileImage } = this.props.personData;
 		const avatar = require('../assets/images/profileAvatar.jpg');
-		// console.log("render -> this.props", this.props.personData.profileImage)
 		return (
 			<View style={styles.container}>
 				<View style={{ marginTop: 64, alignItems: 'center' }}>
@@ -105,14 +123,18 @@ class ProfileScreen extends React.Component {
 							style={styles.avatar}
 						/>
 					</View>
+					<View style={styles.userNameView}>
+						<Text style={styles.userName}>{username}</Text>
+						<Text style={styles._email}>{email}</Text>
+					</View>
 				</View>
 				<View style={styles.statsContainer}>
 					<View style={styles.stat}>
-						<Text style={styles.statAmount}>21</Text>
+						<Text style={styles.statAmount}>{this.renderPoints()}</Text>
 						<Text style={styles.statTitle}>Points</Text>
 					</View>
 					<View style={styles.stat}>
-						<Text style={styles.statAmount}>981</Text>
+						<Text style={styles.statAmount}>{this.renderCategoryCount()}</Text>
 						<Text style={styles.statTitle}>Categories</Text>
 					</View>
 					<View style={styles.stat}>
@@ -210,14 +232,30 @@ const styles = StyleSheet.create({
 		width: 136,
 		height: 136,
 		borderRadius: 68,
-		// borderColor: Theme.primaryColors.blue,
-		// borderWidth: 4,
 		backgroundColor: Theme.secondaryColors.blue,
 	},
 	name: {
 		marginTop: 24,
 		fontSize: 16,
 		fontWeight: '600',
+	},
+	userNameView: {
+		marginVertical: 20,
+		alignSelf: 'center',
+		justifyContent: 'center',
+		alignItems: 'center',
+		width: width - 60,
+
+	},
+	userName: {
+		fontSize: 20,
+		fontWeight: '800',
+		marginBottom: 5,
+		color: Theme.primaryColors.blue,
+	},
+	_email: {
+		fontSize: 14,
+		color: '#939393',
 	},
 	statsContainer: {
 		flexDirection: 'row',

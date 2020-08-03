@@ -40,43 +40,22 @@ export default class InfoScreen extends React.Component {
 				}
 			});
 		});
+	}
 
-		// const sound = new Sound(
-		// 	'../assets/audio/game/tick_tock.mp3',
-		// 	Sound.MAIN_BUNDLE,
-		// 	error => {
-		// 		if (error) {
-		// 			console.log('failed to load the sound', error);
-		// 			return;
-		// 		}
-		// 		sound.play(() => sound.release());
-		// 	}
-		// );
-		// // The play dispatcher
-		// sound.play();
-
-
-		// const sound = new Sound('../assets/audio/game/tick_tock.mp3',
-		// 	error => {
-		// 		if (error) {
-		// 			console.log('InfoScreen -> renderSound -> error', error);
-		// 			// do something
-		// 		}
-		// 		// play when loaded 
-		// 		sound.play();
-		// 	});
+	renderCloseModal=()=>{
+		this.setState({ isModalVisible: !this.state.isModalVisible });
 	}
 
 
 	render() {
+
 		return (
 			<SafeAreaView style={styles.safearea}>
 				<View style={styles.container}>
-					<View style={styles.headerContainer}>
+					{/* <View style={styles.headerContainer}>
 						<Text style={styles.headerTitle}>Quiz Results</Text>
-						{/* {this.renderSound()} */}
-					</View>
-					{/* <LottieView source={require('../assets/Animated/CorrectTick.json')} autoPlay loop /> */}
+					</View> */}
+
 					<View style={styles.textContainer}>
 						<Text style={styles.heading}>about the game</Text>
 						<Text style={styles.text}>
@@ -93,27 +72,7 @@ export default class InfoScreen extends React.Component {
 							into electronic typesetting, remaining essentially
 							unchanged.
 						</Text>
-
-						<View>
-
-							<TouchableOpacity onPress={this.renderSound} style={{
-								justifyContent: 'center',
-								width: 200,
-								backgroundColor: 'skyblue',
-								marginVertical: 20,
-								alignSelf: 'center',
-								padding: 10
-							}}>
-								<View>
-									<Text style={{ fontSize: 18, textAlign: 'center' }}>Start</Text>
-								</View>
-							</TouchableOpacity>
-							{/* <Icon
-								name="rocket"
-								size={35}
-								color="green"
-							/> */}
-						</View>
+						<View/>
 					</View>
 				</View>
 			</SafeAreaView>
@@ -124,6 +83,12 @@ export default class InfoScreen extends React.Component {
 const styles = StyleSheet.create({
 	safearea: {
 		flex: 1,
+	},
+	container: {
+		// flex: 1,
+		backgroundColor: Theme.primaryColors.white,
+		borderRadius: 20,
+		justifyContent: 'center',
 	},
 	headerContainer: {
 		width: width,
@@ -148,13 +113,21 @@ const styles = StyleSheet.create({
 		textTransform: 'capitalize',
 	},
 	textContainer: {
-		width: width,
-		paddingTop: 60,
+		// width: width,
+		// paddingTop: 60,
+		marginVertical: 60,
 	},
 	text: {
 		fontSize: 16,
 		color: Theme.primaryColors.blue,
 		lineHeight: 24,
 		paddingHorizontal: 30,
+	},
+	closeModalButton: {
+		justifyContent: 'center',
+		width: 200,
+		backgroundColor: 'skyblue',
+		alignSelf: 'center',
+		padding: 10,
 	},
 });

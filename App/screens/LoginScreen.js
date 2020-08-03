@@ -48,6 +48,42 @@ export default class LoginScreen extends React.Component {
 			// offlineAccess: true, // if you want to access Google API on behalf of the user FROM YOUR SERVER
 		});
 	}
+	createUser = async () => {
+		const currentUser = await this.state.userInfo;
+		if (currentUser) {
+			const { username, email, photo, profileImage } = this.state;
+			const password = this.state.userInfo.id;
+			// const profileImage = this.state.userInfo.picture.data.url
+			// 	? this.state.userInfo.picture.data.url
+			// 	: '';
+			firebase
+				.auth()
+				.createUserWithEmailAndPassword(email, username, photo)
+				.then(user => {
+					const fbRootRef = firebase.firestore();
+					const userID = firebase.auth().currentUser.uid;
+
+					// console.log('firebase user', user);
+					const userRef = fbRootRef.collection('users').doc(userID);
+
+					userRef.set({
+						email,
+						profileImage,
+						username,
+					});
+				})
+				.then(() => {
+					if (firebase.auth().currentUser.email) {
+						this.props.navigation.navigate('Root');
+					} else {
+						console.log(':( did not login');
+					}
+				})
+				.catch(error => {
+					console.log('catch error, line 27', error);
+				});
+		}
+	};
 
 	updateSecureTextEntry = () => {
 		this.setState({
@@ -123,7 +159,6 @@ export default class LoginScreen extends React.Component {
 						userInfo: result,
 					});
 					console.log('LoginScreen ---> result', this.state.userInfo);
-					//
 					if (result) {
 						const { name, email, picture } = this.state.userInfo;
 						return firebase
@@ -150,43 +185,6 @@ export default class LoginScreen extends React.Component {
 			this.createUser();
 		}
 		new GraphRequestManager().addRequest(profileRequest).start();
-	};
-
-	createUser = async () => {
-		const currentUser = await this.state.userInfo;
-		if (currentUser) {
-			const { username, email, photo, profileImage } = this.state;
-			const password = this.state.userInfo.id;
-			// const profileImage = this.state.userInfo.picture.data.url
-			// 	? this.state.userInfo.picture.data.url
-			// 	: '';
-			firebase
-				.auth()
-				.createUserWithEmailAndPassword(email, username, photo)
-				.then(user => {
-					const fbRootRef = firebase.firestore();
-					const userID = firebase.auth().currentUser.uid;
-
-					// console.log('firebase user', user);
-					const userRef = fbRootRef.collection('users').doc(userID);
-
-					userRef.set({
-						email,
-						profileImage,
-						username,
-					});
-				})
-				.then(() => {
-					if (firebase.auth().currentUser.email) {
-						this.props.navigation.navigate('Root');
-					} else {
-						console.log(':( did not login');
-					}
-				})
-				.catch(error => {
-					console.log('catch error, line 27', error);
-				});
-		}
 	};
 
 	loginWithFacebook = async () => {

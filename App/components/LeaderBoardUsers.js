@@ -66,7 +66,7 @@ export const LeaderBoardUsers = ({
 			<UserAvatar
 				size={40}
 				name={username}
-				// src="https://pbs.twimg.com/profile_images/429442426038538240/6Ac9kykG_400x400.jpeg"
+				src={image ? image: null}
 				bgColors={[
 					Theme.primaryColors.pink,
 					// Theme.secondaryColors.blue,

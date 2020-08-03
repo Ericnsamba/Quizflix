@@ -1,6 +1,6 @@
 /* eslint-disable prettier/prettier */
 /* eslint-disable react-native/no-inline-styles */
-import React, { Component } from 'react';
+import React, { Component, useState } from 'react';
 import firebase from 'react-native-firebase';
 import {
 	Text,
@@ -12,8 +12,10 @@ import {
 	SafeAreaView,
 	Dimensions,
 	Image,
+	Platform,
 	ImageBackground,
 } from 'react-native';
+import Modal from 'react-native-modal';
 import Feather from 'react-native-vector-icons/Feather';
 import Icon from 'react-native-vector-icons/Ionicons';
 import * as Animatable from 'react-native-animatable';
@@ -27,6 +29,7 @@ import {
 } from '../redux/AppRedux';
 import * as Theme from '../theme/Theme';
 import ScoreHeader from '../components/ScoreHeader';
+import InfoScreen from './InfoScreen';
 const { width, height } = Dimensions.get('window');
 
 const mapStateToProps = state => {
@@ -60,6 +63,8 @@ class HomeScreen extends Component {
 		super(props);
 		this.state = {
 			uid: '',
+			isModalVisible: false,
+			setModalVisible: false,
 		};
 
 		this.props.watchQuestionsData();
@@ -72,23 +77,17 @@ class HomeScreen extends Component {
 		if (firebase.auth().currentUser.uid) {
 			// this.setState({ uid: firebase.auth().currentUser.uid });
 		}
-		// console.log("HomeScreen -> componentDidMount -> irebase.auth().currentUser.uid;", firebase.auth().currentUser.uid)
 	}
 
+	toggleModal = () => {
+		this.setState({ isModalVisible: !this.state.isModalVisible });
+	};
+
 	render() {
+
 		const RankingData = this.props.leaderBoardData;
-
 		let userData;
-		if (RankingData) {
-			// userData = RankingData.find(obj => obj.uid === firebase.auth().currentUser.uid)
-			// console.log("userData======> ", userData.username);
-		}
 
-		if (!userData) {
-			userData = {
-				// username: 'test'
-			};
-		}
 
 		return (
 			<ImageBackground
@@ -106,39 +105,43 @@ class HomeScreen extends Component {
 						<View style={styles.headerContainer}>
 							<ScoreHeader />
 						</View>
-						<View style={[styles.flex, styles.row, styles.header]}>
-							<View style={{ flexDirection: 'row' }}>
-								<Icon
-									name="md-trophy"
-									size={30}
-									color={Theme.primaryColors.orange}
-								/>
-								<Text
-									style={{
-										color: Theme.primaryColors.white,
-										lineHeight: 30,
-										paddingLeft: 10,
-									}}>
-									Ranking
-								</Text>
+
+						<Modal isVisible={this.state.isModalVisible}
+							onBackdropPress={() => this.setState({ isVisible: false })}
+							onSwipeComplete={() => this.setState({ isVisible: false })}
+							swipeDirection="down"
+							animationInTiming={600}
+							animationOutTiming={600}
+							backdropTransitionInTiming={600}
+							backdropTransitionOutTiming={600}
+							backdropColor="#B4B3DB"
+							backdropOpacity={0.8}
+							animationIn="zoomInDown"
+							animationOut="zoomOutUp">
+							<View style={{ flex: 1 , paddingVertical: 60}}>
+								<InfoScreen/>
+								<TouchableOpacity
+									onPress={this.toggleModal}
+									style={[styles.buttonContainer]}>
+									<LinearGradient
+										colors={[
+											'#F56BA5',
+											Theme.primaryColors.pink,
+										]}
+										style={[styles.button,{ justifyContent: 'center',}]}>
+										<Text style={[styles.buttonTitle]}>
+											Close
+										</Text>
+										<Icon
+											name="ios-information-circle"
+											size={40}
+											style={styles.buttonIcon}
+										/>
+									</LinearGradient>
+								</TouchableOpacity>
+
 							</View>
-							<View>
-								<Feather
-									name="star"
-									color={Theme.primaryColors.orange}
-									size={24}
-								/>
-							</View>
-							<View>
-								<Image
-									style={styles.avatar}
-									source={{
-										uri:
-											'https://randomuser.me/api/portraits/women/32.jpg',
-									}}
-								/>
-							</View>
-						</View>
+						</Modal>
 
 						<View>
 							<View style={styles.buttonsView}>
@@ -167,11 +170,7 @@ class HomeScreen extends Component {
 								</TouchableOpacity>
 
 								<TouchableOpacity
-									onPress={() =>
-										this.props.navigation.navigate(
-											'QuizIndex',
-										)
-									}
+									onPress={this.toggleModal}
 									style={styles.buttonContainer}>
 									<LinearGradient
 										colors={[
@@ -180,10 +179,10 @@ class HomeScreen extends Component {
 										]}
 										style={styles.button}>
 										<Text style={[styles.buttonTitle]}>
-											More
+											Information
 										</Text>
 										<Icon
-											name="md-play-circle"
+											name="ios-information-circle"
 											size={40}
 											style={styles.buttonIcon}
 										/>
@@ -289,9 +288,10 @@ const styles = StyleSheet.create({
 		width: 260,
 		alignSelf: 'center',
 		borderRadius: 12,
-		justifyContent: 'center',
+		justifyContent: 'space-between',
 		flexDirection: 'row',
 		alignItems: 'center',
+		paddingHorizontal: 20,
 	},
 	buttonContainer: {
 		marginVertical: 10,
@@ -308,12 +308,19 @@ const styles = StyleSheet.create({
 		paddingTop: 2,
 	},
 	buttonsView: {
-		top: 40,
+		top: '35%',
 		backgroundColor: 'rgba(255, 255, 255, 0.88)',
 		paddingVertical: 25,
 		width: width - 60,
 		alignSelf: 'center',
 		borderRadius: 12,
+	},
+	closeModalButton: {
+		backgroundColor: Theme.primaryColors.white,
+		width: 260,
+		height: 80,
+		justifyContent: 'center',
+		alignSelf: 'center'
 	},
 });
 

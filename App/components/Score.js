@@ -137,6 +137,7 @@ class Score extends React.Component {
 				timeStamp: `${timeStamp}`,
 				username: username ? username : 'Anonymous',
 				uid: currentUser.uid,
+				photoURL: this.props.personData.profileImage,
 			};
 
 			addItem(

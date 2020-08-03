@@ -74,6 +74,18 @@ function QuizHomeStack({ navigation, route }) {
 					tabBarVisible: false,
 				}}
 			/>
+			<Stack.Screen
+				name="Info"
+				component={InfoScreen}
+				options={{
+					title: 'My home',
+					headerStyle: {
+						backgroundColor: '#f4511e',
+					},
+					headerShown: false,
+					tabBarVisible: false,
+				}}
+			/>
 		</Stack.Navigator>
 	);
 }
@@ -174,7 +186,7 @@ export default (ButtonNavigation = () => {
 				}}>
 				<Tab.Screen name="Home" component={QuizHomeStack} />
 				<Tab.Screen name="Score" component={TopScoresScreen} />
-				<Tab.Screen name="Info" component={InfoScreen} />
+				{/* <Tab.Screen name="Info" component={InfoScreen} /> */}
 				<Tab.Screen name="Profile" component={ProfileScreen} />
 			</Tab.Navigator>
 		</NavigationContainer>

@@ -9,11 +9,12 @@ import {
 	SafeAreaView,
 	TouchableOpacity,
 	TouchableHighlight,
-	Image,
+	Platform,
 	ImageBackground,
 	Dimensions,
 } from 'react-native';
 import * as Animatable from 'react-native-animatable';
+import LinearGradient from 'react-native-linear-gradient';
 
 import { Button, ButtonContainer } from '../components/QuizButton';
 import { Alert } from '../components/Alert';
@@ -182,13 +183,11 @@ class Quiz extends React.Component {
 			<View
 				style={[
 					styles.container,
-					// {backgroundColor: this.props.route.params.color},
 				]}>
 				<StatusBar barStyle="dark-content" />
 				<ImageBackground
 					source={require('../assets/images/app-bg.jpg')}
 					style={{ flex: 1, width: '100%', height: '100%' }}>
-					<SafeAreaView style={styles.safearea}>
 						<View style={styles.headerContainer}>
 							<Text style={styles.headerTitle}>
 								Question{' '}
@@ -212,11 +211,16 @@ class Quiz extends React.Component {
 								</Text>
 							</View>
 						</View>
+						<LinearGradient
+							colors={['#F56BA5', Theme.primaryColors.pink]}
+							style={styles.footer}>
+
 						<View style={styles.questionView}>
 							<Text style={styles.question}>
 								{currentQuestion.question}
 							</Text>
 						</View>
+
 						<ScrollView>
 							<View
 								style={{
@@ -273,15 +277,14 @@ class Quiz extends React.Component {
 							parentState={this.state}
 							hideModal={this.hideModal}
 						/>
+						</LinearGradient>
 
 						{/* <Animatable.Image
 						animation="pulse"
 						// iterationCount='infinite'
 						delay={500}
-						
 						style={styles.bgImage}
 					/> */}
-					</SafeAreaView>
 				</ImageBackground>
 				<Alert
 					correct={this.state.answerCorrect}
@@ -301,7 +304,7 @@ const styles = StyleSheet.create({
 		height: height,
 	},
 	headerContainer: {
-		top: 0,
+		top: 30,
 		width: width,
 		height: 124,
 		marginBottom: 24,
@@ -309,8 +312,8 @@ const styles = StyleSheet.create({
 		justifyContent: 'space-between',
 		flexDirection: 'row',
 		alignSelf: 'center',
-		borderBottomColor: Theme.primaryColors.blue,
-		borderBottomWidth: StyleSheet.hairlineWidth,
+		// borderBottomColor: Theme.primaryColors.blue,
+		// borderBottomWidth: StyleSheet.hairlineWidth,
 	},
 	headerTitle: {
 		textAlign: 'center',
@@ -329,13 +332,16 @@ const styles = StyleSheet.create({
 		color: Theme.secondaryColors.white,
 	},
 	questionView: {
-		minHeight: 80,
+		minHeight: 200,
 		width: width - 50,
 		marginBottom: 20,
 		display: 'flex',
 		justifyContent: 'center',
 		alignItems: 'center',
 		alignSelf: 'center',
+		backgroundColor: Theme.primaryColors.blue,
+		borderRadius: 20,
+		padding: 10,
 	},
 	question: {
 		color: Theme.primaryColors.white,
@@ -403,5 +409,13 @@ const styles = StyleSheet.create({
 		height: height,
 		justifyContent: 'space-between',
 		// backgroundColor: Theme.primaryColors.white,
+	},
+	footer: {
+		flex: Platform.OS === 'ios' ? 5 : 5,
+		backgroundColor: Theme.primaryColors.pink,
+		borderTopLeftRadius: 30,
+		borderTopRightRadius: 30,
+		paddingHorizontal: 20,
+		paddingVertical: 30,
 	},
 });

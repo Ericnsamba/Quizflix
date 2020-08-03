@@ -8,6 +8,7 @@ import {
 	ImageBackground,
 	Dimensions,
 	ScrollView,
+	StatusBar
 } from 'react-native';
 import UserAvatar from 'react-native-user-avatar';
 // import Icon from 'react-native-vector-icons/Ionicons';
@@ -80,7 +81,7 @@ class TopScoresScreen extends Component {
 							alignItems: 'center',
 						}}>
 						<LeaderBoardUsers
-							// image={rank.image}
+							image={rank.image}
 							rankNumber={index + 4}
 							username={rank.username}
 							totalPoints={rank.totalPoints}
@@ -109,122 +110,121 @@ class TopScoresScreen extends Component {
 	};
 
 	renderTop3 = RankingData => {
-		// const top3 = [];
-		// let user;
-		// if (!top3.length && RankingData.length) {
-		// for (let i = 0; i < 3; i++) {
-		// 	top3.push(RankingData.shift());
-		// }
-		// if (top3.length) {
-		// 	user = top3;
-		// 	console.log('TopScoresScreen -> top3', top3);
-		// 	return (
-		// 		<View
-		// 			style={{
-		// 				width: width,
-		// 				justifyContent: 'space-evenly',
-		// 				alignItems: 'center',
-		// 				flex: 1,
-		// 				flexDirection: 'row',
-		// 			}}>
-		// 			<View style={styles.topUserInfoView}>
-		// 				<Text style={styles.rankingNumber}>2</Text>
-		// 				<UserAvatar
-		// 					size={65}
-		// 					name={
-		// 						user[1].username ? user[1].username : 'name'
-		// 					}
-		// 					// src="https://pbs.twimg.com/profile_images/429442426038538240/6Ac9kykG_400x400.jpeg"
-		// 					bgColors={[
-		// 						Theme.primaryColors.lightBlue,
-		// 						'#ccaabb',
-		// 						Theme.primaryColors.orange,
-		// 					]}
-		// 					borderRadius={40}
-		// 					style={{
-		// 						width: 70,
-		// 						height: 70,
-		// 					}}
-		// 				/>
-		// 				<View>
-		// 					<Text style={styles.top3UsersName}>
-		// 						{user[1].username
-		// 							? user[1].username
-		// 							: 'No user'}
-		// 					</Text>
-		// 					<Text style={styles.top3UsersPoint}>
-		// 						{user[1].totalPoints
-		// 							? user[1].totalPoints
-		// 							: '0'}{' '}
-		// 						pts
-		// 					</Text>
-		// 				</View>
-		// 			</View>
-		// 			{/* <View style={styles.topUserInfoView}>
-		// 				<Text style={styles.rankingNumber}>1</Text>
-		// 				<UserAvatar
-		// 					size={95}
-		// 					name={user[0].username}
-		// 					src="https://pbs.twimg.com/profile_images/429442426038538240/6Ac9kykG_400x400.jpeg"
-		// 					bgColors={[
-		// 						'#fafafa',
-		// 						'#ccaabb',
-		// 						Theme.primaryColors.orange,
-		// 					]}
-		// 					borderRadius={50}
-		// 					style={{
-		// 						width: 100,
-		// 						height: 100,
-		// 					}}
-		// 				/>
-		// 				<View>
-		// 					<Text style={styles.top3UsersName}>
-		// 						{user[0].username}
-		// 					</Text>
-		// 					<Text style={styles.top3UsersPoint}>
-		// 						{user[0].totalPoints} pts
-		// 					</Text>
-		// 				</View>
-		// 			</View>
-		// 		*/}
-		// 			{/* <View style={styles.topUserInfoView}>
-		// 				<Text style={styles.rankingNumber}>3</Text>
-		// 				<UserAvatar
-		// 					size={65}
-		// 					name={user[1].username}
-		// 					src="https://pbs.twimg.com/profile_images/429442426038538240/6Ac9kykG_400x400.jpeg"
-		// 					bgColors={[
-		// 						Theme.primaryColors.orange,
-		// 						Theme.primaryColors.lightBlue,
-		// 						Theme.primaryColors.pink,
-		// 						// '#fafafa',
-		// 						// '#ccaabb',
-		// 					]}
-		// 					borderRadius={50}
-		// 					style={{
-		// 						width: 70,
-		// 						height: 70,
-		// 					}}
-		// 				/>
-		// 				<View>
-		// 					<Text style={styles.top3UsersName}>
-		// 						{user[2].username}
-		// 					</Text>
-		// 					<Text style={styles.top3UsersPoint}>
-		// 						{user[2].totalPoints} pts
-		// 					</Text>
-		// 				</View>
-		// 			</View> */}
-		// 		</View>
-		// 	);
-		// }
-		// }
+		const top3 = [];
+		let user;
+		if (!top3.length && RankingData.length) {
+			for (let i = 0; i < 3; i++) {
+				top3.push(RankingData.shift());
+			}
+			if (top3.length) {
+				user = top3;
+				console.log('TopScoresScreen -> top3', top3);
+				return (
+					<View
+						style={{
+							width: width,
+							justifyContent: 'space-evenly',
+							alignItems: 'center',
+							flex: 1,
+							flexDirection: 'row',
+						}}>
+						<View style={styles.topUserInfoView}>
+							<Text style={styles.rankingNumber}>2</Text>
+							<UserAvatar
+								size={65}
+								name={
+									user[1].username ? user[1].username : 'name'
+								}
+								src={user[1].photoURL ? user[1].photoURL : null}
+								bgColors={[
+									Theme.primaryColors.lightBlue,
+									'#ccaabb',
+									Theme.primaryColors.orange,
+								]}
+								borderRadius={40}
+								style={{
+									width: 70,
+									height: 70,
+								}}
+							/>
+							<View>
+								<Text style={styles.top3UsersName}>
+									{user[1].username
+										? user[1].username
+										: 'User'}
+								</Text>
+								<Text style={styles.top3UsersPoint}>
+									{user[1].totalPoints
+										? user[1].totalPoints
+										: '0'}
+									pts
+								</Text>
+							</View>
+						</View>
+						<View style={styles.topUserInfoView}>
+							<Text style={styles.rankingNumber}>1</Text>
+							<UserAvatar
+								size={95}
+								name={user[0].username}
+								src={user[0].photoURL ? user[0].photoURL : null}
+								bgColors={[
+									'#fafafa',
+									'#ccaabb',
+									Theme.primaryColors.orange,
+								]}
+								borderRadius={50}
+								style={{
+									width: 100,
+									height: 100,
+								}}
+							/>
+							<View>
+								<Text style={styles.top3UsersName}>
+									{user[0].username}
+								</Text>
+								<Text style={styles.top3UsersPoint}>
+									{user[0].totalPoints} pts
+							</Text>
+							</View>
+						</View>
 
-		return <Text>test</Text>;
+						<View style={styles.topUserInfoView}>
+							<Text style={styles.rankingNumber}>3</Text>
+							<UserAvatar
+								size={65}
+								name={user[2].username}
+								src={user[2].photoURL ? user[2].photoURL : null}
+								bgColors={[
+									Theme.primaryColors.orange,
+									Theme.primaryColors.lightBlue,
+									Theme.primaryColors.pink,
+									// '#fafafa',
+									// '#ccaabb',
+								]}
+								borderRadius={50}
+								style={{
+									width: 70,
+									height: 70,
+								}}
+							/>
+							<View>
+								<Text style={styles.top3UsersName}>
+									{user[2].username}
+								</Text>
+								<Text style={styles.top3UsersPoint}>
+									{user[2].totalPoints} pts
+							</Text>
+							</View>
+						</View>
+					</View>
+				);
+			}
+		}
+
+		// return <Text>test</Text>;
 	};
 
 	render() {
-		// const RankingData = this.props.leaderBoardData;
 		const RankingData = this.props.leaderBoardData
 			? this.props.leaderBoardData
 			: [];
@@ -234,6 +234,12 @@ class TopScoresScreen extends Component {
 					flex: 1,
 					backgroundColor: Theme.primaryColors.blue,
 				}}>
+				<StatusBar
+					barStyle="light-content"
+					hidden={false}
+					backgroundColor="#00BCD4"
+				/>
+
 				<View style={styles.container}>
 					<View
 						style={{
@@ -242,7 +248,7 @@ class TopScoresScreen extends Component {
 							top: 20,
 						}}>
 						{/* <Text style={{ textAlign: 'center', fontSize: 24, top: 20 }}>Top 3 HighScore</Text> */}
-						{/* {this.renderTop3(RankingData)} */}
+						{this.renderTop3(RankingData)}
 					</View>
 
 					<LinearGradient
@@ -311,11 +317,11 @@ const styles = StyleSheet.create({
 		paddingTop: 5,
 	},
 	top3UsersPoint: {
-		fontSize: 18,
+		fontSize: 16,
 		textAlign: 'center',
 		color: Theme.primaryColors.white,
 		alignSelf: 'center',
-		fontWeight: '900',
+		fontWeight: '700',
 	},
 });
 
