@@ -19,7 +19,7 @@ export const ButtonContainer = ({ children }) => (
 
 const styles = StyleSheet.create({
 	button: {
-		backgroundColor: Theme.secondaryColors.white,
+		backgroundColor: Theme.secondaryColors.blue,
 		// backgroundColor: 'rgba(255, 255, 255, 0.3)',
 		borderRadius: 10,
 		paddingVertical: 10,

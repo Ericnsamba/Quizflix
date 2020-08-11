@@ -160,7 +160,9 @@ class Score extends React.Component {
 	};
 
 	render() {
-		const { modalVisible, correctCount, inCorrectCount } = this.props.parentState;
+		const { modalVisible, correctCount, inCorrectCount, username } = this.props.parentState;
+
+        console.log("Score -> render -> this.props", this.props);
 		return (
 			<View style={[styles.container]}>
 				<StatusBar
@@ -182,8 +184,8 @@ class Score extends React.Component {
 
 						<View style={{ top: -40 }}>
 							<Text
-								style={{ color: Theme.primaryColors.blue }}
-							>Nice try <Text style={{ fontWeight: 'bold' }} >Eric Manasse!</Text>
+								style={{ color: Theme.primaryColors.blue, fontSize: 26, textAlign: 'center' }}
+							>Nice try <Text style={{ fontWeight: 'bold' }} >{username}!</Text>
 							</Text>
 
 						</View>
@@ -203,7 +205,7 @@ class Score extends React.Component {
 						</View>
 
 						<LinearGradient
-							colors={['#FF9F88', Theme.primaryColors.orange]}
+							colors={['#4569e1', Theme.primaryColors.blue]}
 							style={styles.playAgainButton}>
 							<TouchableOpacity
 
@@ -303,7 +305,7 @@ const styles = StyleSheet.create({
 		position: 'absolute',
 		alignItems: 'center',
 		bottom: 60,
-		width: 160,
+		width: 200,
 		height: 60,
 		borderRadius: 12,
 		backgroundColor: Theme.primaryColors.blue,

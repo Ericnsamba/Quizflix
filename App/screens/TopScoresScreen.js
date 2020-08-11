@@ -69,9 +69,8 @@ class TopScoresScreen extends Component {
 
 	renderLeaderBoardUsers = RankingData => {
 		if (RankingData && RankingData.length) {
+			console.log("TopScoresScreen -> RankingData", RankingData)
 			return RankingData.map((rank, index) => {
-				if (!rank.totalPoints) {
-				}
 				return (
 					<View
 						key={rank.uid}
@@ -111,13 +110,11 @@ class TopScoresScreen extends Component {
 
 	renderTop3 = RankingData => {
 		const top3 = [];
-		let user;
-		if (!top3.length && RankingData.length) {
+		if (!top3.length && RankingData.length >= 3) {
 			for (let i = 0; i < 3; i++) {
 				top3.push(RankingData.shift());
 			}
-			if (top3.length) {
-				user = top3;
+			if (top3.length === 3) {
 				console.log('TopScoresScreen -> top3', top3);
 				return (
 					<View
@@ -133,9 +130,9 @@ class TopScoresScreen extends Component {
 							<UserAvatar
 								size={65}
 								name={
-									user[1].username ? user[1].username : 'name'
+									top3[1].username ? top3[1].username : 'name'
 								}
-								src={user[1].photoURL ? user[1].photoURL : null}
+								src={top3[1].photoURL ? top3[1].photoURL : null}
 								bgColors={[
 									Theme.primaryColors.lightBlue,
 									'#ccaabb',
@@ -149,13 +146,13 @@ class TopScoresScreen extends Component {
 							/>
 							<View>
 								<Text style={styles.top3UsersName}>
-									{user[1].username
-										? user[1].username
+									{top3[1].username
+										? top3[1].username
 										: 'User'}
 								</Text>
 								<Text style={styles.top3UsersPoint}>
-									{user[1].totalPoints
-										? user[1].totalPoints
+									{top3[1].totalPoints
+										? top3[1].totalPoints
 										: '0'}
 									pts
 								</Text>
@@ -165,8 +162,8 @@ class TopScoresScreen extends Component {
 							<Text style={styles.rankingNumber}>1</Text>
 							<UserAvatar
 								size={95}
-								name={user[0].username}
-								src={user[0].photoURL ? user[0].photoURL : null}
+								name={top3[0].username}
+								src={top3[0].photoURL ? top3[0].photoURL : null}
 								bgColors={[
 									'#fafafa',
 									'#ccaabb',
@@ -180,11 +177,11 @@ class TopScoresScreen extends Component {
 							/>
 							<View>
 								<Text style={styles.top3UsersName}>
-									{user[0].username}
+									{top3[0].username}
 								</Text>
 								<Text style={styles.top3UsersPoint}>
-									{user[0].totalPoints} pts
-							</Text>
+									{top3[0].totalPoints} pts
+								</Text>
 							</View>
 						</View>
 
@@ -192,14 +189,12 @@ class TopScoresScreen extends Component {
 							<Text style={styles.rankingNumber}>3</Text>
 							<UserAvatar
 								size={65}
-								name={user[2].username}
-								src={user[2].photoURL ? user[2].photoURL : null}
+								name={top3[2].username}
+								src={top3[2].photoURL ? top3[2].photoURL : null}
 								bgColors={[
 									Theme.primaryColors.orange,
 									Theme.primaryColors.lightBlue,
 									Theme.primaryColors.pink,
-									// '#fafafa',
-									// '#ccaabb',
 								]}
 								borderRadius={50}
 								style={{
@@ -209,19 +204,17 @@ class TopScoresScreen extends Component {
 							/>
 							<View>
 								<Text style={styles.top3UsersName}>
-									{user[2].username}
+									{top3[2].username}
 								</Text>
 								<Text style={styles.top3UsersPoint}>
-									{user[2].totalPoints} pts
-							</Text>
+									{top3[2].totalPoints} pts
+								</Text>
 							</View>
 						</View>
 					</View>
 				);
 			}
 		}
-
-		// return <Text>test</Text>;
 	};
 
 	render() {
@@ -266,9 +259,7 @@ class TopScoresScreen extends Component {
 							showsVerticalScrollIndicator={false}
 							contentOffset={{ x: 0, y: -60 }}
 							style={{
-								// bottom: -10,
 								width: width - 40,
-								// marginTop: 15,
 								marginBottom: 5,
 							}}>
 							{this.renderLeaderBoardUsers(RankingData)}

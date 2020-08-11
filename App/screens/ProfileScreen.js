@@ -11,7 +11,6 @@ import {
 	TouchableOpacity,
 	SafeAreaView,
 	Dimensions,
-	Button,
 } from 'react-native';
 import { connect } from 'react-redux';
 import LinearGradient from 'react-native-linear-gradient';
@@ -19,12 +18,11 @@ import {
 	watchPersonData,
 	watchPointsData,
 	watchUsersData,
+	watchLeaderBoardData
 } from '../redux/AppRedux';
 import * as Theme from '../theme/Theme';
-import ScoreHeader from '../components/ScoreHeader';
 import { ScoresInCategory } from '../components/ScoresInCategory.js';
 import { ScrollView } from 'react-native-gesture-handler';
-import { Themed } from 'react-navigation';
 
 const { width, height } = Dimensions.get('window');
 
@@ -33,6 +31,7 @@ const mapStateToProps = state => {
 		pointsData: state.pointsData,
 		personData: state.personData,
 		usersData: state.usersData,
+		leaderBoardData: state.leaderBoardData,
 	};
 };
 
@@ -47,6 +46,9 @@ const mapDispatchToProps = dispatch => {
 		watchUsersData: () => {
 			dispatch(watchUsersData());
 		},
+		watchLeaderBoardData: () => {
+			dispatch(watchLeaderBoardData());
+		},
 	};
 };
 
@@ -60,6 +62,7 @@ class ProfileScreen extends React.Component {
 		};
 		this.props.watchPointsData();
 		this.props.watchPersonData();
+		this.props.watchLeaderBoardData();
 	}
 
 	renderScoresInCategory = pointsData => {
@@ -108,7 +111,13 @@ class ProfileScreen extends React.Component {
 	};
 
 	render() {
-		// console.log("ProfileScreen -> renderPoints -> points", )
+		const userID = firebase.auth().currentUser.uid;
+		console.log('leaderBoardData======>', this.props.leaderBoardData);
+		console.log('leaderBoardData======>', this.props.leaderBoardData.map(rank => rank.uid));
+
+		const userRanking = this.props.leaderBoardData.map(rank => rank.uid).indexOf(userID);
+		console.log("ProfileScreen -> render -> userRanking", userRanking)
+
 		const { isAnonymous } = this.state;
 		const pointsData = this.props.pointsData;
 		const { username, email, profileImage } = this.props.personData;
@@ -138,7 +147,7 @@ class ProfileScreen extends React.Component {
 						<Text style={styles.statTitle}>Categories</Text>
 					</View>
 					<View style={styles.stat}>
-						<Text style={styles.statAmount}>63</Text>
+						<Text style={styles.statAmount}>{userRanking + 1}</Text>
 						<Text style={styles.statTitle}>Rank</Text>
 					</View>
 				</View>
@@ -217,16 +226,15 @@ const styles = StyleSheet.create({
 		backgroundColor: Theme.primaryColors.blue,
 	},
 	profile: {
-		marginTop: 64,
 		alignItems: 'center',
 	},
 	scrollView: {
 		marginLeft: 1,
 	},
 	avatarContainer: {
-		shadowColor: '#151734',
-		shadowRadius: 7,
-		shadowOpacity: 0.4,
+		borderColor: Theme.primaryColors.blue,
+		borderWidth: 4,
+		borderRadius: 100,
 	},
 	avatar: {
 		width: 136,
@@ -260,7 +268,7 @@ const styles = StyleSheet.create({
 	statsContainer: {
 		flexDirection: 'row',
 		justifyContent: 'space-between',
-		margin: 32,
+		marginBottom: 12,
 	},
 	stat: {
 		alignItems: 'center',

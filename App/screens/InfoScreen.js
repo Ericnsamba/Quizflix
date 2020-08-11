@@ -52,9 +52,6 @@ export default class InfoScreen extends React.Component {
 		return (
 			<SafeAreaView style={styles.safearea}>
 				<View style={styles.container}>
-					{/* <View style={styles.headerContainer}>
-						<Text style={styles.headerTitle}>Quiz Results</Text>
-					</View> */}
 
 					<View style={styles.textContainer}>
 						<Text style={styles.heading}>about the game</Text>

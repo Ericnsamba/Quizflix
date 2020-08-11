@@ -90,10 +90,10 @@ class HomeScreen extends Component {
 
 
 		return (
-			<ImageBackground
-				resizeMode="cover"
-				source={require('../assets/images/app-bg.jpg')}
-				blurRadius={1}
+			<View
+				// resizeMode="cover"
+				// source={require('../assets/images/app-bg.jpg')}
+				// blurRadius={1}
 				style={styles.appBackGround}>
 				<SafeAreaView
 					style={{
@@ -125,8 +125,8 @@ class HomeScreen extends Component {
 									style={[styles.buttonContainer]}>
 									<LinearGradient
 										colors={[
-											'#F56BA5',
-											Theme.primaryColors.pink,
+											'#FF9F88',
+											Theme.primaryColors.orange,
 										]}
 										style={[styles.button,{ justifyContent: 'center',}]}>
 										<Text style={[styles.buttonTitle]}>
@@ -144,6 +144,11 @@ class HomeScreen extends Component {
 						</Modal>
 
 						<View>
+							<View style={{ height: 100, justifyContent: 'center', alignSelf: 'center' }}>
+								<Image source={require('../assets/images/logo.png')} resizeMode={'contain'}
+									style={{ width: 200 }}
+								/>
+							</View>
 							<View style={styles.buttonsView}>
 								<TouchableOpacity
 									onPress={() =>
@@ -154,8 +159,8 @@ class HomeScreen extends Component {
 									style={styles.buttonContainer}>
 									<LinearGradient
 										colors={[
-											'#FF9F88',
-											Theme.primaryColors.orange,
+											'#4569e1',
+											Theme.primaryColors.blue,
 										]}
 										style={styles.button}>
 										<Text style={[styles.buttonTitle]}>
@@ -174,8 +179,8 @@ class HomeScreen extends Component {
 									style={styles.buttonContainer}>
 									<LinearGradient
 										colors={[
-											'#F56BA5',
-											Theme.primaryColors.pink,
+											'#FF9F88',
+											Theme.primaryColors.orange,
 										]}
 										style={styles.button}>
 										<Text style={[styles.buttonTitle]}>
@@ -188,35 +193,11 @@ class HomeScreen extends Component {
 										/>
 									</LinearGradient>
 								</TouchableOpacity>
-
-								<TouchableOpacity
-									onPress={() =>
-										this.props.navigation.navigate(
-											'QuizIndex',
-										)
-									}
-									style={styles.buttonContainer}>
-									<LinearGradient
-										colors={[
-											'#6BF4FF',
-											Theme.primaryColors.lightBlue,
-										]}
-										style={styles.button}>
-										<Text style={[styles.buttonTitle]}>
-											Options
-										</Text>
-										<Icon
-											name="ios-settings"
-											size={40}
-											style={styles.buttonIcon}
-										/>
-									</LinearGradient>
-								</TouchableOpacity>
 							</View>
 						</View>
 					</View>
 				</SafeAreaView>
-			</ImageBackground>
+			</View>
 		);
 	}
 }
@@ -247,6 +228,7 @@ const styles = StyleSheet.create({
 		width: width,
 		height: height,
 		flex: 1,
+		backgroundColor: Theme.primaryColors.white,
 	},
 	headerContainer: {
 		top: 20,

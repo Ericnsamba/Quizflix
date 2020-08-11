@@ -130,7 +130,7 @@ class Quiz extends React.Component {
 						{correctCount}
 					</Text>
 				</View>
-				<View style={styles.answerCount}>
+				<View style={[styles.answerCount, { backgroundColor: Theme.secondaryColors.pink}]}>
 					<Icon
 						name="ios-close-circle"
 						size={24}
@@ -211,10 +211,7 @@ class Quiz extends React.Component {
 								</Text>
 							</View>
 						</View>
-						<LinearGradient
-							colors={['#F56BA5', Theme.primaryColors.pink]}
-							style={styles.footer}>
-
+						<View style={styles.footer}>
 						<View style={styles.questionView}>
 							<Text style={styles.question}>
 								{currentQuestion.question}
@@ -257,13 +254,13 @@ class Quiz extends React.Component {
 									name="ios-close"
 									size={30}
 									color={Theme.primaryColors.blue}
+									style={styles.closeIcon}
 								/>
 								<Text
 									style={{
 										textAlign: 'center',
 										color: Theme.primaryColors.blue,
 										fontSize: 18,
-										// marginHorizontal: 8,
 										paddingBottom: 3,
 										fontWeight: Theme.fontWeight.medium,
 									}}>
@@ -277,14 +274,7 @@ class Quiz extends React.Component {
 							parentState={this.state}
 							hideModal={this.hideModal}
 						/>
-						</LinearGradient>
-
-						{/* <Animatable.Image
-						animation="pulse"
-						// iterationCount='infinite'
-						delay={500}
-						style={styles.bgImage}
-					/> */}
+						</View>
 				</ImageBackground>
 				<Alert
 					correct={this.state.answerCorrect}
@@ -299,7 +289,6 @@ export default Quiz;
 
 const styles = StyleSheet.create({
 	container: {
-		// backgroundColor: Theme.primaryColors.white,
 		flex: 1,
 		height: height,
 	},
@@ -312,8 +301,6 @@ const styles = StyleSheet.create({
 		justifyContent: 'space-between',
 		flexDirection: 'row',
 		alignSelf: 'center',
-		// borderBottomColor: Theme.primaryColors.blue,
-		// borderBottomWidth: StyleSheet.hairlineWidth,
 	},
 	headerTitle: {
 		textAlign: 'center',
@@ -371,30 +358,30 @@ const styles = StyleSheet.create({
 		borderRadius: 10,
 		alignItems: 'center',
 		justifyContent: 'center',
-		backgroundColor: Theme.secondaryColors.white,
+		backgroundColor: Theme.secondaryColors.blue,
 	},
 	closeButton: {
 		width: 90,
 		height: 40,
 		borderRadius: 12,
-		backgroundColor: Theme.secondaryColors.white,
-		justifyContent: 'space-around',
+		backgroundColor: Theme.secondaryColors.blue,
+		justifyContent: 'center',
 		flexDirection: 'row',
 		alignItems: 'center',
 		paddingHorizontal: 6,
-		// flex: 1
 		zIndex: 9,
+	},
+	closeIcon: {
+		paddingRight: 10,
 	},
 
 	quizFooter: {
 		width: width - 60,
-		// marginTop: 80,
 		flexDirection: 'row',
 		justifyContent: 'space-between',
 		bottom: 0,
 		position: 'relative',
 		alignSelf: 'center',
-		// backgroundColor: Theme.primaryColors.gray
 	},
 
 	bgImage: {
@@ -412,7 +399,7 @@ const styles = StyleSheet.create({
 	},
 	footer: {
 		flex: Platform.OS === 'ios' ? 5 : 5,
-		backgroundColor: Theme.primaryColors.pink,
+		backgroundColor: Theme.primaryColors.white,
 		borderTopLeftRadius: 30,
 		borderTopRightRadius: 30,
 		paddingHorizontal: 20,
