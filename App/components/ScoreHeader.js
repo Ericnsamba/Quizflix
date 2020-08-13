@@ -9,6 +9,7 @@ import Feather from 'react-native-vector-icons/Feather';
 import * as Theme from '../theme/Theme';
 import { connect } from 'react-redux';
 import { watchPersonData, watchPointsData } from '../redux/AppRedux';
+import Icon from 'react-native-vector-icons/Ionicons';
 
 const { width, height } = Dimensions.get('window');
 
@@ -53,7 +54,6 @@ class ScoreHeader extends Component {
 		} else if (!currentUser) {
 			return (points = '');
 		}
-		// this.setState({ points: points })
 		return points;
 	};
 
@@ -62,45 +62,35 @@ class ScoreHeader extends Component {
 	}
 
 	render() {
+		const br = `\n`;
 		const { username, email, profileImage } = this.props.personData;
 		const avatar = require('../assets/images/profileAvatar.jpg');
 		return (
-			<LinearGradient colors={['#F56BA5', Theme.primaryColors.pink]} style={styles.container}>
-				<View >
-					<View style={styles.innerContainer}>
-						<View style={{ width: 60, justifyContent: 'center' }}>
-							<Image
-								resizeMode={'center'}
-								source={profileImage ? { uri: profileImage } : avatar}
-								style={styles.Image}
-							/>
-						</View>
-						<View
-							style={{
-								flexGrow: 1,
-								marginLeft: 20,
-								display: 'flex',
-								justifyContent: 'center',
-							}}>
-							<Text style={styles.userName}>
-								{username ? username : 'anonymous'}
-							</Text>
-						</View>
+			<View style={styles.container} >
+				<View style={styles.innerContainer}>
+					<View style={{ width: 60, justifyContent: 'center' }}>
+						<Image
+							resizeMode={'center'}
+							source={profileImage ? { uri: profileImage } : avatar}
+							style={styles.Image}
+						/>
+					</View>
 
-						{/* Icon and Reward*/}
-						<View style={{ justifyContent: 'center' }}>
-							<View style={styles.rewardsAndIcon}>
-								<Feather
-									name="award"
-									color={Theme.primaryColors.white}
-									size={24}
-								/>
-								<Text style={styles.reward}>{this.renderPoints()}</Text>
-							</View>
+					<View style={styles.rewardsAndIcon}>
+						<View>
+							<Icon name="ios-podium" color={Theme.primaryColors.blue} size={50} style={styles.Icon}/>
 						</View>
+						<Text style={styles.reward}>{this.renderPoints()}</Text>
 					</View>
 				</View>
-			</LinearGradient>
+				<View style={{
+					marginLeft: 5,
+				}}>
+					<Text style={styles.userName}>
+						{`Hi! ${br}${username ? username : 'anonymous'}`}
+					</Text>
+				</View>
+			</View>
 		);
 	}
 }
@@ -108,17 +98,14 @@ class ScoreHeader extends Component {
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
-		height: 80,
-		width: width - 50,
-		backgroundColor: Theme.primaryColors.pink,
+		width: width - 60,
 		borderRadius: 12,
 		alignSelf: 'center',
-		justifyContent: 'center',
+		justifyContent: 'space-between',
 	},
 	headerContainer: {
 		top: 0,
 		width: width,
-		height: 124,
 		marginBottom: 24,
 		backgroundColor: 'tomato',
 		justifyContent: 'center',
@@ -130,44 +117,39 @@ const styles = StyleSheet.create({
 		color: Theme.primaryColors.white,
 	},
 	innerContainer: {
-		flexGrow: 1,
 		flexDirection: 'row',
-		padding: 20,
+		justifyContent: 'space-between',
+		height: 60,
 	},
 	Image: {
 		width: 60,
 		height: 60,
-		borderRadius: 30,
+		borderRadius: 10,
+		borderColor: Theme.primaryColors.blue,
+		borderWidth: 1
 	},
 	userName: {
-		fontSize: 18,
-		fontWeight: '600',
+		fontSize: 32,
+		fontWeight: '800',
 		textAlign: 'left',
-		color: Theme.primaryColors.white,
+		color: Theme.primaryColors.black,
+		width: width - 30,
 	},
 	rewardsAndIcon: {
-		display: 'flex',
 		flexDirection: 'row',
-		justifyContent: 'center',
+		alignItems: 'flex-end',
 	},
 	reward: {
 		textAlign: 'center',
-		fontSize: 18,
-		color: Theme.primaryColors.white,
-	},
-	playAgainButton: {
-		justifyContent: 'center',
-		alignItems: 'center',
-		bottom: 20,
-		width: 160,
-		height: 60,
-		borderRadius: 12,
-		backgroundColor: Theme.primaryColors.gray,
-	},
-	closeButtonText: {
-		textAlign: 'center',
-		fontWeight: 'bold',
 		color: Theme.primaryColors.black,
+		fontSize: 32,
+		fontWeight: '800',
+		marginLeft: 10,
+		bottom: -7,
+	},
+	Icon:{
+		alignSelf: 'flex-end',
+		bottom: -14,
 	},
 });
 

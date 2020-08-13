@@ -1,10 +1,12 @@
 const primaryColors = {
 	blue: '#1337AE',
-	black: '#323643',
+	blue2: '#4068EB',
+	black: '#333030',
 	green: '#4CDB43',
 	gray: '#DCE0E9',
 	lightBlue: '#39C2F5',
 	orange: '#F95C3B',
+	orange2: '#FF9F88',
 	// orange: '#EF6D56',
 	// pink: '#E4417A',
 	pink: '#FF2F62',
@@ -13,7 +15,7 @@ const primaryColors = {
 
 const secondaryColors = {
 	blue: '#B9C3E7',
-	black: '#323643',
+	black: '#4F4F4F',
 	green: '#CAF5C7',
 	gray: '#DCE0E9',
 	lightBlue: '#C4EDFC',

@@ -135,58 +135,42 @@ export default (ButtonNavigation = () => {
 						}
 
 						return (
-							<MaskedView
+							<View
 								style={{
-									flex: 1,
-									flexDirection: 'row',
-									height: size /*paddingTop: 20*/,
-								}}
-								maskElement={
-									<View
+									backgroundColor: 'transparent',
+									justifyContent: 'center',
+									alignItems: 'center',
+								}}>
+								<Animatable.View
+									animation={iconAnimation}
+									iterationCount={iconIteration}
+									delay={500}
+									style={styles.icons}>
+									<Icon
+										name={iconName}
+										size={size}
+										color={color}
 										style={{
-											backgroundColor: 'transparent',
 											justifyContent: 'center',
-											alignItems: 'center',
-										}}>
-										<Animatable.View
-											animation={iconAnimation}
-											iterationCount={iconIteration}
-											delay={500}
-											style={styles.icons}>
-											<Icon
-												name={iconName}
-												size={size}
-												color={color}
-												style={{
-													justifyContent: 'center',
-													alignSelf: 'center',
-													// paddingTop: 20,
-													bottom: -10,
-												}}
-											/>
-										</Animatable.View>
-									</View>
-								}>
-								<LinearGradient
-									colors={[
-										Theme.secondaryColors.pink,
-										'#FF93AD',
-									]}
-									style={{ flex: 1 }}
-								/>
-							</MaskedView>
+											alignSelf: 'center',
+											bottom: -10,
+										}}
+									/>
+								</Animatable.View>
+							</View>
 						);
 					},
 				})}
 				tabBarOptions={{
 					showLabel: false,
+					activeTintColor: Theme.primaryColors.blue,
+					inactiveTintColor: Theme.secondaryColors.blue,
 					style: {
-						backgroundColor: Theme.primaryColors.pink,
+						backgroundColor: Theme.primaryColors.white,
 					},
 				}}>
 				<Tab.Screen name="Home" component={QuizHomeStack} />
 				<Tab.Screen name="Score" component={TopScoresScreen} />
-				{/* <Tab.Screen name="Info" component={InfoScreen} /> */}
 				<Tab.Screen name="Profile" component={ProfileScreen} />
 			</Tab.Navigator>
 		</NavigationContainer>

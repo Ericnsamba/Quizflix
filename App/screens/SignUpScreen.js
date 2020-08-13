@@ -92,7 +92,10 @@ export default class SignUpScreen extends React.Component {
 					</TouchableOpacity>
 				</View>
 				<LinearGradient
-					colors={['#F56BA5', Theme.primaryColors.pink]}
+					colors={[
+						Theme.primaryColors.orange,
+						Theme.primaryColors.orange2,
+					]}
 					style={styles.footer}>
 					<Animatable.View
 						animation="fadeInUpBig"

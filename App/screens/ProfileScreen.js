@@ -10,6 +10,7 @@ import {
 	Image,
 	TouchableOpacity,
 	SafeAreaView,
+	StatusBar,
 	Dimensions,
 } from 'react-native';
 import { connect } from 'react-redux';
@@ -124,6 +125,7 @@ class ProfileScreen extends React.Component {
 		const avatar = require('../assets/images/profileAvatar.jpg');
 		return (
 			<View style={styles.container}>
+				<StatusBar isVisible barStyle="dark-content" />
 				<View style={{ marginTop: 64, alignItems: 'center' }}>
 					<View style={styles.avatarContainer}>
 						<Image
@@ -153,7 +155,7 @@ class ProfileScreen extends React.Component {
 				</View>
 
 				<LinearGradient
-					colors={['#F56BA5', Theme.primaryColors.pink]}
+					colors={[Theme.primaryColors.orange, Theme.primaryColors.orange2, Theme.primaryColors.white]}
 					style={styles.innerContainer}>
 					<View>
 						<View
@@ -233,14 +235,15 @@ const styles = StyleSheet.create({
 	},
 	avatarContainer: {
 		borderColor: Theme.primaryColors.blue,
-		borderWidth: 4,
-		borderRadius: 100,
+		borderWidth: 2,
+		borderRadius: 30,
+		overflow: 'hidden',
 	},
 	avatar: {
-		width: 136,
-		height: 136,
-		borderRadius: 68,
-		backgroundColor: Theme.secondaryColors.blue,
+		width: 116,
+		height: 116,
+		// borderRadius: 30,
+		// backgroundColor: Theme.secondaryColors.blue,
 	},
 	name: {
 		marginTop: 24,

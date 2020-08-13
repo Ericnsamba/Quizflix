@@ -27,90 +27,83 @@ export default class WelcomeScreen extends React.Component {
 				if (error.code === 'auth/operation-not-allowed') {
 					console.log('Enable anonymous in your firebase console.');
 				}
-
 				console.error(error);
 			});
 	};
 
 	render() {
 		return (
-			<ImageBackground
-				source={require('../assets/images/app-bg.jpg')}
-				style={styles.container}>
-				<View style={styles.container}>
-					<StatusBar barStyle="light-content" />
-					<View style={styles.header}>
-						<Animatable.Text
-							style={styles.appLogo}
-							animation="zoomInUp">
-							APP LOGO
-						</Animatable.Text>
-					</View>
-
-					<LinearGradient
-						colors={['#F56BA5', Theme.primaryColors.pink]}
-						style={[styles.footer, styles.bottomContainer]}>
-						<Animatable.View
-							// style={[styles.footer, styles.bottomContainer]}
-							animation="fadeInUpBig">
-							<Text style={[styles.title]}>
-								Stay connected with everyone!
-							</Text>
-							<Text style={styles.text}>
-								Sign in to get your name on the leaderBoard
-								chart. Guest users will not appear on the chart.
-							</Text>
-							<View style={styles.buttons}>
-								<TouchableOpacity
-									onPress={() =>
-										this.props.navigation.navigate(
-											'LoginScreen',
-										)
-									}>
-									<LinearGradient
-										colors={[
-											'#4569e1',
-											Theme.primaryColors.blue,
-										]}
-										style={styles.signIn}>
-										<Text style={styles.textSign}>
-											Get Started
-										</Text>
-										<MaterialIcons
-											name="navigate-next"
-											color="#fff"
-											size={20}
-										/>
-									</LinearGradient>
-								</TouchableOpacity>
-
-								<TouchableOpacity
-									onPress={this.handleQAnonnymousLogin}
-									style={styles.playAsguestBtn}>
-									<View style={[styles.signIn]}>
-										<Text
-											style={[
-												styles.textSign,
-												{
-													color:
-														Theme.primaryColors
-															.white,
-												},
-											]}>
-											Play as Guest
-										</Text>
-										<MaterialIcons
-											name="navigate-next"
-											color={Theme.primaryColors.white}
-											size={20}
-										/>
-									</View>
-								</TouchableOpacity>
-							</View>
-						</Animatable.View>
-					</LinearGradient>
+			<View style={styles.container}>
+				<StatusBar isVisible barStyle="dark-content" />
+				<View style={styles.header}>
+					<Animatable.View style={styles.appLogo} animation="bounce">
+						<Image
+							source={require('../assets/images/logo.png')}
+							resizeMode={'contain'}
+							style={{ width: 220 }}
+						/>
+					</Animatable.View>
 				</View>
-			</ImageBackground>
+
+				<LinearGradient
+					colors={['#FF9F88', Theme.primaryColors.orange]}
+					style={[styles.footer, styles.bottomContainer]}>
+					<Animatable.View animation="fadeInUpBig">
+						<Text style={[styles.title]}>Welcome!</Text>
+						<Text style={styles.text}>
+							Please note: Sign in to get your name on the
+							leaderBoard chart. Guest users will not appear on
+							the chart.
+						</Text>
+						<View style={styles.buttons}>
+							<TouchableOpacity
+								onPress={() =>
+									this.props.navigation.navigate(
+										'LoginScreen',
+									)
+								}>
+								<LinearGradient
+									colors={[
+										'#4569e1',
+										Theme.primaryColors.blue,
+									]}
+									style={styles.signIn}>
+									<Text style={styles.textSign}>
+										Get Started
+									</Text>
+									<MaterialIcons
+										name="navigate-next"
+										color="#fff"
+										size={20}
+									/>
+								</LinearGradient>
+							</TouchableOpacity>
+
+							<TouchableOpacity
+								onPress={this.handleQAnonnymousLogin}
+								style={styles.playAsguestBtn}>
+								<View style={[styles.signIn]}>
+									<Text
+										style={[
+											styles.textSign,
+											{
+												color:
+													Theme.primaryColors.white,
+											},
+										]}>
+										Play as Guest
+									</Text>
+									<MaterialIcons
+										name="navigate-next"
+										color={Theme.primaryColors.white}
+										size={20}
+									/>
+								</View>
+							</TouchableOpacity>
+						</View>
+					</Animatable.View>
+				</LinearGradient>
+			</View>
 		);
 	}
 }
@@ -153,13 +146,12 @@ const styles = StyleSheet.create({
 		fontWeight: 'bold',
 	},
 	text: {
-		color: Theme.secondaryColors.white,
+		color: Theme.primaryColors.white,
 		marginTop: 10,
 		marginBottom: 10,
 		fontSize: 15,
 	},
 	buttons: {
-		// alignItems: 'flex-end',s
 		marginTop: 30,
 		flexDirection: 'row',
 		justifyContent: 'space-between',
@@ -169,7 +161,6 @@ const styles = StyleSheet.create({
 		height: 50,
 		borderWidth: 1,
 		borderRadius: 50,
-		// left: -20,
 	},
 	signIn: {
 		width: 150,

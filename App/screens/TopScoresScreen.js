@@ -69,7 +69,6 @@ class TopScoresScreen extends Component {
 
 	renderLeaderBoardUsers = RankingData => {
 		if (RankingData && RankingData.length) {
-			console.log("TopScoresScreen -> RankingData", RankingData)
 			return RankingData.map((rank, index) => {
 				return (
 					<View
@@ -115,7 +114,6 @@ class TopScoresScreen extends Component {
 				top3.push(RankingData.shift());
 			}
 			if (top3.length === 3) {
-				console.log('TopScoresScreen -> top3', top3);
 				return (
 					<View
 						style={{
@@ -225,32 +223,21 @@ class TopScoresScreen extends Component {
 			<SafeAreaView
 				style={{
 					flex: 1,
-					backgroundColor: Theme.primaryColors.blue,
+					backgroundColor: Theme.primaryColors.blue2,
 				}}>
-				<StatusBar
-					barStyle="light-content"
-					hidden={false}
-					backgroundColor="#00BCD4"
-				/>
-
+				<StatusBar isVisible barStyle="light-content" />
 				<View style={styles.container}>
 					<View
-						style={{
-							flex: 1,
-							justifyContent: 'center',
-							top: 20,
-						}}>
-						{/* <Text style={{ textAlign: 'center', fontSize: 24, top: 20 }}>Top 3 HighScore</Text> */}
+						style={{ flex: 1, justifyContent: 'center', top: 20 }}>
 						{this.renderTop3(RankingData)}
 					</View>
 
-					<LinearGradient
-						colors={['#F56BA5', Theme.primaryColors.pink]}
+					<View
 						style={{
 							flex: Platform.OS === 'ios' ? 3 : 5,
 							justifyContent: 'center',
 							alignItems: 'center',
-							backgroundColor: Theme.primaryColors.blue,
+							backgroundColor: Theme.primaryColors.white,
 							bottom: -40,
 							borderTopLeftRadius: 30,
 							borderTopRightRadius: 30,
@@ -264,7 +251,7 @@ class TopScoresScreen extends Component {
 							}}>
 							{this.renderLeaderBoardUsers(RankingData)}
 						</ScrollView>
-					</LinearGradient>
+					</View>
 				</View>
 			</SafeAreaView>
 		);
@@ -277,16 +264,16 @@ const IMAGE_SIZE = 200;
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
-		backgroundColor: Theme.primaryColors.blue,
+		backgroundColor: Theme.secondaryColors.blue2,
 		height: height,
 	},
 	header: {
 		backgroundColor: '#fff',
 		// backgroundColor: '#f7f5eee8',
 		shadowColor: '#000000',
-		paddingTop: 20,
-		borderTopLeftRadius: 20,
-		borderTopRightRadius: 20,
+		paddingTop: 30,
+		borderTopLeftRadius: 60,
+		borderTopRightRadius: 60,
 	},
 	rankingNumber: {
 		fontSize: 24,

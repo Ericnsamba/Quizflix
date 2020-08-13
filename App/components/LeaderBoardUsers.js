@@ -23,15 +23,14 @@ export const LeaderBoardUsers = ({
 	time,
 	totalPoints,
 }) => (
-	<LinearGradient
+	<View
 		colors={[Theme.secondaryColors.pink, '#FF93AD']}
-		// colors={['#F56BA5', Theme.primaryColors.pink]}
 		style={{
 			width: '100%',
 			flexGrow: 1,
 			flexDirection: 'row',
 			marginVertical: 5,
-			backgroundColor: Theme.secondaryColors.blue,
+			backgroundColor: Theme.primaryColors.blue2,
 			height: 73,
 			alignItems: 'center',
 			borderRadius: 10,
@@ -48,38 +47,27 @@ export const LeaderBoardUsers = ({
 					fontSize: 24,
 					fontWeight: '800',
 					textAlign: 'center',
-					color: Theme.primaryColors.black,
+					color: Theme.secondaryColors.white,
 				}}>
 				{rankNumber}
 			</Text>
 		</View>
 
 		<View style={{ width: 60 }}>
-			{/* <Image
-				source={require('../assets/images/profileAvatar.jpg')}
-				style={{
-					width: 44,
-					height: 44,
-					borderRadius: 30,
-				}}
-			/> */}
 			<UserAvatar
-				size={40}
+				size={50}
 				name={username}
 				src={image ? image: null}
 				bgColors={[
 					Theme.primaryColors.pink,
 					// Theme.secondaryColors.blue,
-					Theme.primaryColors.orange,
+					// Theme.primaryColors.blue2,
 					Theme.primaryColors.blue,
-					Theme.primaryColors.black,
-					// '#fafafa',
-					// '#ccaabb',
 				]}
 				borderRadius={40}
 				style={{
-					width: 44,
-					height: 44,
+					width: 50,
+					height: 50,
 				}}
 			/>
 		</View>
@@ -94,7 +82,7 @@ export const LeaderBoardUsers = ({
 				style={{
 					fontSize: 16,
 					textAlign: 'left',
-					color: Theme.primaryColors.black,
+					color: Theme.secondaryColors.white,
 					width: 100,
 					left: -20,
 				}}>
@@ -109,59 +97,16 @@ export const LeaderBoardUsers = ({
 			}}>
 			<Text
 				style={{
-					fontSize: 16,
+					fontSize: 18,
 					fontWeight: '600',
 					textAlign: 'left',
-					color: Theme.primaryColors.black,
+					color: Theme.secondaryColors.white,
 				}}>
 				{totalPoints} pts
 			</Text>
 		</View>
-	</LinearGradient>
+	</View>
 	// </TouchableOpacity>
 );
 
-// const styles = StyleSheet.create({
-// 	container: {
-// 		width: '100%',
-// 		height: 60,
-// 		borderBottomColor: Theme.primaryColors.gray,
-// 		borderBottomWidth: StyleSheet.hairlineWidth,
-// 		flexGrow: 1,
-// 		flexDirection: 'row',
-// 		marginVertical: 10,
-// 	},
-// 	rankNumber: {
-// 		width: 60,
-// 		justifyContent: 'center',
-// 		top: -5
-// 	},
-// 	image: {
-// 		width: 50,
-// 		height: 50,
-// 		borderRadius: 30
-// 	},
-// 	userInfo: {
-// 		paddingTop: 5,
-// 		flexGrow: 1,
-// 		marginLeft: 20
-// 	},
-// 	row: {
-// 		paddingHorizontal: 15,
-// 		paddingVertical: 20,
-// 		marginBottom: 1,
-// 		height: 200,
-// 		width: width - 80,
-// 		justifyContent: 'center',
-// 		borderRadius: 12,
-// 		marginVertical: 5,
-// 	},
-// 	text: {
-// 		fontSize: 24,
-// 		color: '#fff',
-// 		fontWeight: '600',
-// 		textAlign: 'center',
-// 		position: 'relative',
-// 		bottom: 0,
-// 	},
-// });
+const styles = StyleSheet.create({});

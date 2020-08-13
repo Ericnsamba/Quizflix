@@ -90,114 +90,102 @@ class HomeScreen extends Component {
 
 
 		return (
-			<View
-				// resizeMode="cover"
-				// source={require('../assets/images/app-bg.jpg')}
-				// blurRadius={1}
-				style={styles.appBackGround}>
-				<SafeAreaView
-					style={{
-						flex: 1,
-						// backgroundColor: Theme.primaryColors.blue,
-					}}>
-					<StatusBar barStyle="dark-content" />
-					<View style={styles.container}>
-						<View style={styles.headerContainer}>
-							<ScoreHeader />
-						</View>
-
-						<Modal isVisible={this.state.isModalVisible}
-							onBackdropPress={() => this.setState({ isVisible: false })}
-							onSwipeComplete={() => this.setState({ isVisible: false })}
-							swipeDirection="down"
-							animationInTiming={600}
-							animationOutTiming={600}
-							backdropTransitionInTiming={600}
-							backdropTransitionOutTiming={600}
-							backdropColor="#B4B3DB"
-							backdropOpacity={0.8}
-							animationIn="zoomInDown"
-							animationOut="zoomOutUp">
-							<View style={{ flex: 1 , paddingVertical: 60}}>
-								<InfoScreen/>
-								<TouchableOpacity
-									onPress={this.toggleModal}
-									style={[styles.buttonContainer]}>
-									<LinearGradient
-										colors={[
-											'#FF9F88',
-											Theme.primaryColors.orange,
-										]}
-										style={[styles.button,{ justifyContent: 'center',}]}>
-										<Text style={[styles.buttonTitle]}>
-											Close
-										</Text>
-										<Icon
-											name="ios-information-circle"
-											size={40}
-											style={styles.buttonIcon}
-										/>
-									</LinearGradient>
-								</TouchableOpacity>
-
-							</View>
-						</Modal>
-
-						<View>
-							<View style={{ height: 100, justifyContent: 'center', alignSelf: 'center' }}>
-								<Image source={require('../assets/images/logo.png')} resizeMode={'contain'}
-									style={{ width: 200 }}
-								/>
-							</View>
-							<View style={styles.buttonsView}>
-								<TouchableOpacity
-									onPress={() =>
-										this.props.navigation.navigate(
-											'QuizIndex',
-										)
-									}
-									style={styles.buttonContainer}>
-									<LinearGradient
-										colors={[
-											'#4569e1',
-											Theme.primaryColors.blue,
-										]}
-										style={styles.button}>
-										<Text style={[styles.buttonTitle]}>
-											Start
-										</Text>
-										<Icon
-											name="md-play-circle"
-											size={40}
-											style={styles.buttonIcon}
-										/>
-									</LinearGradient>
-								</TouchableOpacity>
-
-								<TouchableOpacity
-									onPress={this.toggleModal}
-									style={styles.buttonContainer}>
-									<LinearGradient
-										colors={[
-											'#FF9F88',
-											Theme.primaryColors.orange,
-										]}
-										style={styles.button}>
-										<Text style={[styles.buttonTitle]}>
-											Information
-										</Text>
-										<Icon
-											name="ios-information-circle"
-											size={40}
-											style={styles.buttonIcon}
-										/>
-									</LinearGradient>
-								</TouchableOpacity>
-							</View>
-						</View>
+			<SafeAreaView
+				style={{ flex: 1, backgroundColor: Theme.primaryColors.white }}>
+				<StatusBar isVisible barStyle="dark-content" />
+				<View style={styles.container}>
+					<View style={styles.headerContainer}>
+						<ScoreHeader />
 					</View>
-				</SafeAreaView>
-			</View>
+					<Modal isVisible={this.state.isModalVisible}
+						onBackdropPress={() => this.setState({ isVisible: false })}
+						onSwipeComplete={() => this.setState({ isVisible: false })}
+						swipeDirection="down"
+						animationInTiming={600}
+						animationOutTiming={600}
+						backdropTransitionInTiming={600}
+						backdropTransitionOutTiming={600}
+						backdropColor="#B4B3DB"
+						backdropOpacity={0.8}
+						animationIn="zoomInDown"
+						animationOut="zoomOutUp">
+						<View style={{ flex: 1, paddingVertical: 60 }}>
+							<InfoScreen />
+							<TouchableOpacity
+								onPress={this.toggleModal}
+								style={[styles.buttonContainer]}>
+								<LinearGradient
+									colors={[
+										'#FF9F88',
+										Theme.primaryColors.orange,
+									]}
+									style={[styles.button, { justifyContent: 'center', }]}>
+									<Text style={[styles.buttonTitle]}>
+										Close
+										</Text>
+									<Icon
+										name="ios-information-circle"
+										size={40}
+										style={styles.buttonIcon}
+									/>
+								</LinearGradient>
+							</TouchableOpacity>
+
+						</View>
+					</Modal>
+
+					<View style={styles.buttonsView}>
+						<TouchableOpacity
+							onPress={() =>
+								this.props.navigation.navigate(
+									'QuizIndex',
+								)
+							}
+							style={styles.buttonContainer}>
+							<LinearGradient
+								colors={[
+									'#4569e1',
+									Theme.primaryColors.blue,
+								]}
+								style={styles.button}>
+								<Text style={[styles.buttonTitle]}>
+									Start
+										</Text>
+								<Icon
+									name="md-play-circle"
+									size={40}
+									style={styles.buttonIcon}
+								/>
+							</LinearGradient>
+						</TouchableOpacity>
+
+						<TouchableOpacity
+							onPress={this.toggleModal}
+							style={styles.buttonContainer}>
+							<LinearGradient
+								colors={[
+									'#FF9F88',
+									Theme.primaryColors.orange,
+								]}
+								style={styles.button}>
+								<Text style={[styles.buttonTitle]}>
+									Information
+										</Text>
+								<Icon
+									name="ios-information-circle"
+									size={40}
+									style={styles.buttonIcon}
+								/>
+							</LinearGradient>
+						</TouchableOpacity>
+					</View>
+					<View style={{ height: 100, justifyContent: 'center', alignSelf: 'center' }}>
+						<Image source={require('../assets/images/logo.png')} resizeMode={'contain'}
+							style={{ width: 130 }}
+						/>
+					</View>
+				</View>
+			</SafeAreaView>
 		);
 	}
 }
@@ -231,11 +219,11 @@ const styles = StyleSheet.create({
 		backgroundColor: Theme.primaryColors.white,
 	},
 	headerContainer: {
-		top: 20,
+		marginTop: 60,
 		width: width,
-		height: 100,
-		marginBottom: 24,
-		justifyContent: 'center',
+		height: 200,
+		marginBottom: 40,
+		// justifyContent: 'center',
 		borderBottomColor: Theme.primaryColors.black,
 	},
 
@@ -290,9 +278,8 @@ const styles = StyleSheet.create({
 		paddingTop: 2,
 	},
 	buttonsView: {
-		top: '35%',
-		backgroundColor: 'rgba(255, 255, 255, 0.88)',
-		paddingVertical: 25,
+		backgroundColor: Theme.secondaryColors.blue,
+		paddingVertical: 20,
 		width: width - 60,
 		alignSelf: 'center',
 		borderRadius: 12,
@@ -302,7 +289,7 @@ const styles = StyleSheet.create({
 		width: 260,
 		height: 80,
 		justifyContent: 'center',
-		alignSelf: 'center'
+		alignSelf: 'center',
 	},
 });
 
