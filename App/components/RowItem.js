@@ -7,25 +7,30 @@ import {
 	Dimensions,
 	ImageBackground,
 } from 'react-native';
+import styled from 'styled-components/native'
 import * as Theme from '../theme/Theme';
-import { Themed } from 'react-navigation';
 const { width, height } = Dimensions.get('window');
+
+const Title = styled.Text`
+  font-size: 24px;
+  font-weight: 600;
+  color: #fff;
+  text-align: center;
+  position: relative;
+  bottom: 0;
+`;
+
 
 export const RowItem = ({ onPress = () => { }, name, color, image }) => (
 	<TouchableOpacity
 		onPress={onPress}
 		activeOpacity={0.8}
-		style={{
-			justifyContent: 'center',
-			alignSelf: 'center',
-			marginVertical: 10,
-			borderRadius: 20,
-			overflow: 'hidden',
-		}}>
+		style={styles.card}>
 		<View style={styles.container}>
-			<ImageBackground source={{ uri: image }} style={{ width: '100%', height: 130, backgroundColor: Theme.primaryColors.lightBlue }}>
+			<ImageBackground source={{ uri: image }} style={{ width: '100%', height: 130, backgroundColor: Theme.primaryColors.blue }}>
 				<View style={[styles.row, { backgroundColor: color, width: '100%' }]}>
-					<Text style={styles.text}>{name}</Text>
+					<Title>{name}</Title>
+					{/* <Text style={styles.text}>{name}</Text> */}
 				</View>
 			</ImageBackground>
 		</View>
@@ -34,10 +39,17 @@ export const RowItem = ({ onPress = () => { }, name, color, image }) => (
 
 const styles = StyleSheet.create({
 	container: {
-		backgroundColor: Theme.primaryColors.lightBlue,
+		backgroundColor: Theme.primaryColors.blue,
 		height: 130,
 		width: 328,
 		justifyContent: 'center',
+	},
+	card: {
+		justifyContent: 'center',
+		alignSelf: 'center',
+		marginVertical: 10,
+		borderRadius: 20,
+		overflow: 'hidden',
 	},
 	row: {
 		paddingHorizontal: 15,

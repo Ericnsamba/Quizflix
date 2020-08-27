@@ -46,7 +46,6 @@ export default class SignUpScreen extends React.Component {
 			.createUserWithEmailAndPassword(email, password)
 			.then(user => {
 				const fbRootRef = firebase.firestore();
-				// const userID = user.uid;
 				const userID = firebase.auth().currentUser.uid;
 				console.log('fbRootRef', fbRootRef);
 				const userRef = fbRootRef.collection('users').doc(userID);
@@ -60,15 +59,14 @@ export default class SignUpScreen extends React.Component {
 				if (firebase.auth().currentUser.email) {
 					this.props.navigation.navigate('Root');
 				} else {
-					// this.props.navigation.navigate('Verify');
 					console.log(':( did not login');
 				}
 			})
-			.catch(error => {
-				console.log('catch error, line 27', error);
-				Alert(error);
-			});
+			.catch(error =>
+				this.setState({errorMessage: error.message }),
+			);
 	};
+
 
 	updateSecureTextEntry = () => {
 		this.setState({
@@ -313,7 +311,7 @@ const styles = StyleSheet.create({
 		textAlign: 'center',
 	},
 	errorMessage: {
-		color: Theme.secondaryColors.pink,
+		color: Theme.primaryColors.blue,
 		marginBottom: 10,
 	},
 	signInButton: {

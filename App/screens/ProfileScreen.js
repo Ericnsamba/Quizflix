@@ -113,19 +113,17 @@ class ProfileScreen extends React.Component {
 
 	render() {
 		const userID = firebase.auth().currentUser.uid;
-		console.log('leaderBoardData======>', this.props.leaderBoardData);
-		console.log('leaderBoardData======>', this.props.leaderBoardData.map(rank => rank.uid));
+		// console.log('leaderBoardData======>', this.props.leaderBoardData);
+		// console.log('leaderBoardData======>', this.props.leaderBoardData.map(rank => rank.uid));
 
 		const userRanking = this.props.leaderBoardData.map(rank => rank.uid).indexOf(userID);
-		console.log("ProfileScreen -> render -> userRanking", userRanking)
-
 		const { isAnonymous } = this.state;
 		const pointsData = this.props.pointsData;
 		const { username, email, profileImage } = this.props.personData;
 		const avatar = require('../assets/images/profileAvatar.jpg');
 		return (
 			<View style={styles.container}>
-				<StatusBar isVisible barStyle="dark-content" />
+				<StatusBar  barStyle="dark-content" />
 				<View style={{ marginTop: 64, alignItems: 'center' }}>
 					<View style={styles.avatarContainer}>
 						<Image

@@ -11,7 +11,6 @@ import {
 	StatusBar
 } from 'react-native';
 import UserAvatar from 'react-native-user-avatar';
-// import Icon from 'react-native-vector-icons/Ionicons';
 import * as firebase from 'react-native-firebase';
 import * as Theme from '../theme/Theme';
 import { LeaderBoardUsers } from '../components/LeaderBoardUsers';
@@ -42,6 +41,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
 	return {
 		watchLeaderBoardData: () => {
+			console.log("watchLeaderBoardData", watchLeaderBoardData)
 			dispatch(watchLeaderBoardData());
 		},
 		watchPointsData: () => {
@@ -57,17 +57,24 @@ class TopScoresScreen extends Component {
 			visible: false,
 			userData: [],
 			top3Users: [],
+			remainingUsers: [],
 		};
-
 		this.props.watchLeaderBoardData();
+	}
+
+	componentWillReceiveProps() {
+
+		this.top3function()
 	}
 
 	componentDidMount() {
 		let rankUsers;
 		let currentUser = firebase.auth().currentUser;
+		this.top3function();
 	}
 
-	renderLeaderBoardUsers = RankingData => {
+	renderLeaderBoardUsers = () => {
+		const RankingData = this.state.remainingUsers;
 		if (RankingData && RankingData.length) {
 			return RankingData.map((rank, index) => {
 				return (
@@ -107,118 +114,120 @@ class TopScoresScreen extends Component {
 		return userRankings;
 	};
 
-	renderTop3 = RankingData => {
+	top3function = () => {
+		const { leaderBoardData } = this.props;
 		const top3 = [];
-		if (!top3.length && RankingData.length >= 3) {
-			for (let i = 0; i < 3; i++) {
-				top3.push(RankingData.shift());
-			}
-			if (top3.length === 3) {
-				return (
-					<View
+		const RankingData = [...leaderBoardData]
+		for (let i = 0; i < 3; i++) { //immutable - you can't mutate the data
+			top3.push(RankingData.shift());
+		}
+		this.setState({
+			top3Users: top3,
+			remainingUsers: RankingData
+		})
+	}
+
+	renderTop3 = () => {
+		const top3 = this.state.top3Users;
+		return (
+			<View
+				style={{
+					width: width,
+					justifyContent: 'space-evenly',
+					alignItems: 'center',
+					flex: 1,
+					flexDirection: 'row',
+				}}>
+				<View style={styles.topUserInfoView}>
+					<Text style={styles.rankingNumber}>2</Text>
+					<UserAvatar
+						size={65}
+						name={
+							top3[1].username ? top3[1].username : 'name'
+						}
+						src={top3[1].photoURL ? top3[1].photoURL : null}
+						bgColors={[
+							Theme.primaryColors.lightBlue,
+							'#ccaabb',
+							Theme.primaryColors.orange,
+						]}
+						borderRadius={40}
 						style={{
-							width: width,
-							justifyContent: 'space-evenly',
-							alignItems: 'center',
-							flex: 1,
-							flexDirection: 'row',
-						}}>
-						<View style={styles.topUserInfoView}>
-							<Text style={styles.rankingNumber}>2</Text>
-							<UserAvatar
-								size={65}
-								name={
-									top3[1].username ? top3[1].username : 'name'
-								}
-								src={top3[1].photoURL ? top3[1].photoURL : null}
-								bgColors={[
-									Theme.primaryColors.lightBlue,
-									'#ccaabb',
-									Theme.primaryColors.orange,
-								]}
-								borderRadius={40}
-								style={{
-									width: 70,
-									height: 70,
-								}}
-							/>
-							<View>
-								<Text style={styles.top3UsersName}>
-									{top3[1].username
-										? top3[1].username
-										: 'User'}
-								</Text>
-								<Text style={styles.top3UsersPoint}>
-									{top3[1].totalPoints
-										? top3[1].totalPoints
-										: '0'}
+							width: 70,
+							height: 70,
+						}}
+					/>
+					<View>
+						<Text style={styles.top3UsersName}>
+							{top3[1].username
+								? top3[1].username
+								: 'User'}
+						</Text>
+						<Text style={styles.top3UsersPoint}>
+							{top3[1].totalPoints
+								? top3[1].totalPoints
+								: '0'}
 									pts
 								</Text>
-							</View>
-						</View>
-						<View style={styles.topUserInfoView}>
-							<Text style={styles.rankingNumber}>1</Text>
-							<UserAvatar
-								size={95}
-								name={top3[0].username}
-								src={top3[0].photoURL ? top3[0].photoURL : null}
-								bgColors={[
-									'#fafafa',
-									'#ccaabb',
-									Theme.primaryColors.orange,
-								]}
-								borderRadius={50}
-								style={{
-									width: 100,
-									height: 100,
-								}}
-							/>
-							<View>
-								<Text style={styles.top3UsersName}>
-									{top3[0].username}
-								</Text>
-								<Text style={styles.top3UsersPoint}>
-									{top3[0].totalPoints} pts
-								</Text>
-							</View>
-						</View>
-
-						<View style={styles.topUserInfoView}>
-							<Text style={styles.rankingNumber}>3</Text>
-							<UserAvatar
-								size={65}
-								name={top3[2].username}
-								src={top3[2].photoURL ? top3[2].photoURL : null}
-								bgColors={[
-									Theme.primaryColors.orange,
-									Theme.primaryColors.lightBlue,
-									Theme.primaryColors.pink,
-								]}
-								borderRadius={50}
-								style={{
-									width: 70,
-									height: 70,
-								}}
-							/>
-							<View>
-								<Text style={styles.top3UsersName}>
-									{top3[2].username}
-								</Text>
-								<Text style={styles.top3UsersPoint}>
-									{top3[2].totalPoints} pts
-								</Text>
-							</View>
-						</View>
 					</View>
-				);
-			}
-		}
+				</View>
+				<View style={styles.topUserInfoView}>
+					<Text style={styles.rankingNumber}>1</Text>
+					<UserAvatar
+						size={95}
+						name={top3[0].username}
+						src={top3[0].photoURL ? top3[0].photoURL : null}
+						bgColors={[
+							Theme.primaryColors.lightBlue,
+							Theme.primaryColors.pink,
+						]}
+						borderRadius={50}
+						style={{
+							width: 100,
+							height: 100,
+						}}
+					/>
+					<View>
+						<Text style={styles.top3UsersName}>
+							{top3[0].username}
+						</Text>
+						<Text style={styles.top3UsersPoint}>
+							{top3[0].totalPoints} pts
+								</Text>
+					</View>
+				</View>
+
+				<View style={styles.topUserInfoView}>
+					<Text style={styles.rankingNumber}>3</Text>
+					<UserAvatar
+						size={65}
+						name={top3[2].username}
+						src={top3[2].photoURL ? top3[2].photoURL : null}
+						bgColors={[
+							Theme.primaryColors.lightBlue,
+							Theme.primaryColors.pink,
+						]}
+						borderRadius={50}
+						style={{
+							width: 70,
+							height: 70,
+						}}
+					/>
+					<View>
+						<Text style={styles.top3UsersName}>
+							{top3[2].username}
+						</Text>
+						<Text style={styles.top3UsersPoint}>
+							{top3[2].totalPoints} pts
+								</Text>
+					</View>
+				</View>
+			</View>
+		);
 	};
 
 	render() {
-		const RankingData = this.props.leaderBoardData
-			? this.props.leaderBoardData
-			: [];
+
 		return (
 			<SafeAreaView
 				style={{
@@ -227,9 +236,8 @@ class TopScoresScreen extends Component {
 				}}>
 				<StatusBar isVisible barStyle="light-content" />
 				<View style={styles.container}>
-					<View
-						style={{ flex: 1, justifyContent: 'center', top: 20 }}>
-						{this.renderTop3(RankingData)}
+					<View style={{ flex: 1, justifyContent: 'center', top: 20 }}>
+						{this.state.top3Users.length === 3 && this.renderTop3()}
 					</View>
 
 					<View
@@ -249,7 +257,7 @@ class TopScoresScreen extends Component {
 								width: width - 40,
 								marginBottom: 5,
 							}}>
-							{this.renderLeaderBoardUsers(RankingData)}
+							{this.renderLeaderBoardUsers()}
 						</ScrollView>
 					</View>
 				</View>
@@ -268,8 +276,7 @@ const styles = StyleSheet.create({
 		height: height,
 	},
 	header: {
-		backgroundColor: '#fff',
-		// backgroundColor: '#f7f5eee8',
+		backgroundColor: Theme.primaryColors.white,
 		shadowColor: '#000000',
 		paddingTop: 30,
 		borderTopLeftRadius: 60,

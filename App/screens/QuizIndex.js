@@ -64,7 +64,6 @@ class QuizIndex extends React.Component {
 			return (
 				<Animatable.View
 					delay={500}
-					// animation="flipInY"
 					easing={t => Math.pow(t, 1.7)}
 					style={styles.footer}
 					useNativeDriver={true}

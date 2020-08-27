@@ -10,9 +10,8 @@ import {
 	StyleSheet,
 	ScrollView,
 	StatusBar,
-	alert,
+	Alert,
 } from 'react-native';
-// import auth from 'react-native-firebase/auth';
 import firebase from 'react-native-firebase';
 import * as Theme from '../theme/Theme';
 import { GoogleSignin, statusCodes } from 'react-native-google-signin';
@@ -35,7 +34,7 @@ export default class LoginScreen extends React.Component {
 			email: '',
 			profileImage: '',
 			password: '',
-			errorMessage: null,
+			errorMessage: '',
 			isLoading: false,
 			userInfo: {},
 		};
@@ -53,19 +52,13 @@ export default class LoginScreen extends React.Component {
 		if (currentUser) {
 			const { username, email, photo, profileImage } = this.state;
 			const password = this.state.userInfo.id;
-			// const profileImage = this.state.userInfo.picture.data.url
-			// 	? this.state.userInfo.picture.data.url
-			// 	: '';
 			firebase
 				.auth()
 				.createUserWithEmailAndPassword(email, username, photo)
 				.then(user => {
 					const fbRootRef = firebase.firestore();
 					const userID = firebase.auth().currentUser.uid;
-
-					// console.log('firebase user', user);
 					const userRef = fbRootRef.collection('users').doc(userID);
-
 					userRef.set({
 						email,
 						profileImage,
@@ -80,10 +73,14 @@ export default class LoginScreen extends React.Component {
 					}
 				})
 				.catch(error => {
-					console.log('catch error, line 27', error);
+					console.log('catch error, line 27', error.message);
+					this.setState({ errorMessage: error.message, })
 				});
 		}
 	};
+
+
+
 
 	updateSecureTextEntry = () => {
 		this.setState({
@@ -249,7 +246,6 @@ export default class LoginScreen extends React.Component {
 				if (firebase.auth().currentUser.email) {
 					this.props.navigation.navigate('Root');
 				} else {
-					// this.props.navigation.navigate('Verify');
 					console.log(':( did not login');
 				}
 			})
@@ -343,28 +339,16 @@ export default class LoginScreen extends React.Component {
 										})
 									}
 									value={this.state.password}
-									secureTextEntry={
-										this.state.secureTextEntry
-											? true
-											: false
-									}
+									secureTextEntry={this.state.secureTextEntry ? true : false}
 									style={styles.textInput}
 									autoCapitalize="none"
 								/>
 								<TouchableOpacity
 									onPress={this.updateSecureTextEntry}>
 									{this.state.secureTextEntry ? (
-										<Feather
-											name="eye-off"
-											color={Theme.secondaryColors.white}
-											size={20}
-										/>
+										<Feather name="eye-off" color={Theme.secondaryColors.white} size={20} />
 									) : (
-											<Feather
-												name="eye"
-												color={Theme.secondaryColors.white}
-												size={20}
-											/>
+											<Feather name="eye" color={Theme.secondaryColors.white} size={20} />
 										)}
 								</TouchableOpacity>
 							</View>
@@ -552,7 +536,7 @@ const styles = StyleSheet.create({
 		textAlign: 'center',
 	},
 	errorMessage: {
-		color: Theme.secondaryColors.pink,
+		color: Theme.primaryColors.blue,
 		marginBottom: 10,
 	},
 	signInButton: {

@@ -148,9 +148,7 @@ class HomeScreen extends Component {
 									Theme.primaryColors.blue,
 								]}
 								style={styles.button}>
-								<Text style={[styles.buttonTitle]}>
-									Start
-										</Text>
+								<Text style={[styles.buttonTitle]}>Start</Text>
 								<Icon
 									name="md-play-circle"
 									size={40}
@@ -168,9 +166,7 @@ class HomeScreen extends Component {
 									Theme.primaryColors.orange,
 								]}
 								style={styles.button}>
-								<Text style={[styles.buttonTitle]}>
-									Information
-										</Text>
+								<Text style={[styles.buttonTitle]}> Information</Text>
 								<Icon
 									name="ios-information-circle"
 									size={40}

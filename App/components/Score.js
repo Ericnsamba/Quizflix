@@ -9,19 +9,14 @@ import {
 	Dimensions,
 	Modal,
 	TouchableOpacity,
-	ImageBackground
 } from 'react-native';
 import firebase from 'react-native-firebase';
-import Feather from 'react-native-vector-icons/Feather';
-import { db } from '../firebase/Firebase';
 import LottieView from 'lottie-react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import * as Theme from '../theme/Theme';
 import ShareButton from './Share';
-import ScoreTrophy from './Animated/ScoreTrophyAnim';
 import { connect } from 'react-redux';
 import { watchPersonData, watchPointsData } from '../redux/AppRedux';
-// import { TouchableOpacity } from 'react-native-gesture-handler';
 
 const { width, height } = Dimensions.get('window');
 
@@ -48,7 +43,6 @@ let addItem = (data, quizCategory, uid, correctCount) => {
 	const adaNameRef = firebase.database().ref(`/scores/${uid}/${quizCategory}/`);
 	if (adaNameRef) {
 		adaNameRef.update(data);
-		// adaNameRef.update({points: correctCount});
 	} else {
 		adaNameRef.push(data);
 	}
@@ -56,13 +50,14 @@ let addItem = (data, quizCategory, uid, correctCount) => {
 
 
 
-let updateLeaderBoard = (totalPointsData, uid) => {
-	console.log("updateLeaderBoard -> totalPointsData, uid", totalPointsData, uid);
-
+let updateLeaderBoard = (totalPointsData, uid, isAnonymous, username) => {
 	const adaNameRef = firebase.database().ref(`/leader_board/${uid}/`);
-	if (adaNameRef) {
+	if (adaNameRef && !isAnonymous) {
 		adaNameRef.update(totalPointsData);
-	} else {
+	} else if (isAnonymous === true) {
+		return null
+	}
+	else {
 		adaNameRef.push(totalPointsData);
 	}
 };
@@ -100,7 +95,6 @@ class Score extends React.Component {
 			Object.values(quizPlayed).map(game => (points += game.points));
 			this.setState({ totalPoints: points });
 		}
-		console.log("Score -> renderPoints -> points", points);
 		return points;
 	};
 
@@ -115,11 +109,12 @@ class Score extends React.Component {
 			username,
 		} = this.props.parentState;
 		const { currentUser, totalPoints } = this.state;
+        console.log("Score -> handleScores -> currentUser", currentUser.isAnonymous)
 
 		const updatedTotalPoints = totalPoints + correctCount;
 
 
-		if (!currentUser) {
+		if (!currentUser && currentUser.isAnonymous) {
 
 			console.log('anonymous user');
 		}
@@ -140,6 +135,9 @@ class Score extends React.Component {
 				photoURL: this.props.personData.profileImage,
 			};
 
+			const isAnonymous = currentUser.isAnonymous;
+
+
 			addItem(
 				data,
 				this.props.parentState.quizCategory,
@@ -150,9 +148,10 @@ class Score extends React.Component {
 			updateLeaderBoard(
 				totalPointsData,
 				currentUser.uid,
+				isAnonymous,
 			);
 
-			console.log('submited the score 🎉🎉🎉🎉🎉');
+			// console.log('submited the score 🎉🎉🎉🎉🎉');
 		}
 
 
@@ -162,7 +161,7 @@ class Score extends React.Component {
 	render() {
 		const { modalVisible, correctCount, inCorrectCount, username } = this.props.parentState;
 
-        console.log("Score -> render -> this.props", this.props);
+        // console.log("Score -> render -> this.props", this.props);
 		return (
 			<View style={[styles.container]}>
 				<StatusBar
@@ -228,12 +227,10 @@ export default connect(
 
 const styles = StyleSheet.create({
 	centeredView: {
-		// keeping everything centered
 		flex: 1,
 		justifyContent: 'center',
 		alignItems: 'center',
 		marginTop: 22,
-		// backgroundColor: Theme.primaryColors.white,
 	},
 	container: {
 		flex: 1,

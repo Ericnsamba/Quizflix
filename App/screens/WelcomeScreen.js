@@ -46,9 +46,9 @@ export default class WelcomeScreen extends React.Component {
 				</View>
 
 				<LinearGradient
-					colors={['#FF9F88', Theme.primaryColors.orange]}
+					colors={[Theme.primaryColors.orange, Theme.primaryColors.orange]}
 					style={[styles.footer, styles.bottomContainer]}>
-					<Animatable.View animation="fadeInUpBig">
+					<Animatable.View animation="fadeInDownBig">
 						<Text style={[styles.title]}>Welcome!</Text>
 						<Text style={styles.text}>
 							Please note: Sign in to get your name on the
@@ -129,11 +129,11 @@ const styles = StyleSheet.create({
 		color: Theme.primaryColors.white,
 	},
 	footer: {
-		flex: 1,
+		flex: 0.7,
 		backgroundColor: '#fff',
 		borderTopLeftRadius: 30,
 		borderTopRightRadius: 30,
-		paddingVertical: 50,
+		paddingVertical: 30,
 		paddingHorizontal: 30,
 	},
 	logo: {
@@ -152,7 +152,7 @@ const styles = StyleSheet.create({
 		fontSize: 15,
 	},
 	buttons: {
-		marginTop: 30,
+		marginTop: 10,
 		flexDirection: 'row',
 		justifyContent: 'space-between',
 	},
