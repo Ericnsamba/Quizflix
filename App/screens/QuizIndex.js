@@ -137,8 +137,7 @@ const styles = StyleSheet.create({
 	},
 	headerContainer: {
 		width: width,
-		height: 124,
-		// backgroundColor: 'tomato',
+		height: 80,
 		justifyContent: 'center',
 		borderBottomColor: Theme.primaryColors.blue,
 		borderBottomWidth: StyleSheet.hairlineWidth,
@@ -172,6 +171,7 @@ const styles = StyleSheet.create({
 		height: 100,
 	},
 	quizzesContainer: {
+		flex: 1
 	},
 	buttonContainer: {
 		marginVertical: 10,
@@ -185,8 +185,6 @@ const styles = StyleSheet.create({
 	},
 	buttonIcon: {
 		color: Theme.primaryColors.white,
-		// paddingLeft: 20,
-		// paddingTop: 2,
 	},
 });
 

@@ -2,6 +2,7 @@
 import React from 'react';
 import LottieView from 'lottie-react-native';
 import { View, StyleSheet, Dimensions, Image } from 'react-native';
+import * as Theme from '../theme/Theme';
 
 const screen = Dimensions.get('window');
 
@@ -15,9 +16,11 @@ const styles = StyleSheet.create({
 		flex: 1,
 		alignItems: 'center',
 		justifyContent: 'center',
+		// backgroundColor: 'yellow',
+		// opacity: 0.4
 	},
 	circle: {
-		backgroundColor: '#ff4136',
+		backgroundColor: Theme.secondaryColors.pink,
 		width: screen.width / 2,
 		height: screen.width / 2,
 		borderRadius: screen.width / 2,
@@ -25,7 +28,7 @@ const styles = StyleSheet.create({
 		justifyContent: 'center',
 	},
 	circleCorrect: {
-		backgroundColor: '#28A125',
+		backgroundColor: Theme.secondaryColors.green,
 	},
 	icon: {
 		width: screen.width / 3,
@@ -37,13 +40,9 @@ export const Alert = ({ correct, visible }) => {
 		return null;
 	}
 
-	// const icon = correct
-	// 	? require('../assets/images/check.png')
-	// 	: require('../assets/images/close.png');
-
 	const icon = correct
 		? require('../assets/Animated/CorrectTick.json')
-		: require('../assets/Animated/CorrectTick.json');
+		: require('../assets/Animated/IncorrectTick.json');
 
 	const circleStyles = [styles.circle];
 

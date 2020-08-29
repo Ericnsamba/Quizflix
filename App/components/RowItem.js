@@ -12,12 +12,24 @@ import * as Theme from '../theme/Theme';
 const { width, height } = Dimensions.get('window');
 
 const Title = styled.Text`
-  font-size: 24px;
+  font-size: 18px;
   font-weight: 600;
   color: #fff;
   text-align: center;
   position: relative;
   bottom: 0;
+  line-height: 24px;
+`;
+const Background = styled.View`
+  background: ${props => props.color ? props.color : none };
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  height: 34px;
+  width: auto;
+  justify-content: center;
+  align-self: center;
+  padding: 5px 15px;
 `;
 
 
@@ -29,8 +41,9 @@ export const RowItem = ({ onPress = () => { }, name, color, image }) => (
 		<View style={styles.container}>
 			<ImageBackground source={{ uri: image }} style={{ width: '100%', height: 130, backgroundColor: Theme.primaryColors.blue }}>
 				<View style={[styles.row, { backgroundColor: color, width: '100%' }]}>
-					<Title>{name}</Title>
-					{/* <Text style={styles.text}>{name}</Text> */}
+					<Background color={Theme.primaryColors.orange}>
+						<Title>{name}</Title>
+					</Background>
 				</View>
 			</ImageBackground>
 		</View>

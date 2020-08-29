@@ -1,6 +1,3 @@
-/* eslint-disable prettier/prettier */
-/* eslint-disable react-native/no-inline-styles */
-/* eslint-disable no-unused-vars */
 import React, { useEffect, Component } from 'react';
 import firebase from 'react-native-firebase';
 import {
@@ -9,7 +6,6 @@ import {
 	StyleSheet,
 	Image,
 	TouchableOpacity,
-	SafeAreaView,
 	StatusBar,
 	Dimensions,
 } from 'react-native';

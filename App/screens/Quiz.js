@@ -8,14 +8,10 @@ import {
 	Text,
 	SafeAreaView,
 	TouchableOpacity,
-	TouchableHighlight,
 	Platform,
 	ImageBackground,
 	Dimensions,
 } from 'react-native';
-import * as Animatable from 'react-native-animatable';
-import LinearGradient from 'react-native-linear-gradient';
-
 import { Button, ButtonContainer } from '../components/QuizButton';
 import { Alert } from '../components/Alert';
 import { ScrollView } from 'react-native-gesture-handler';
@@ -40,7 +36,7 @@ class Quiz extends React.Component {
 			setModalVisible: false,
 			quizCategory: this.props.route.params.arrayData[0].category,
 			quizImage: this.props.route.params.arrayData[0].image,
-			timer: 30,
+			timer: 15,
 			quizQuestions: this.props.route.params.arrayData.sort((a, b) => {
 				return Math.round(Math.random()) - Math.round(Math.random());
 			}),
@@ -98,7 +94,7 @@ class Quiz extends React.Component {
 			return {
 				activeQuestionIndex: nextIndex,
 				answered: false,
-				timer: 30,
+				timer: 15,
 			};
 		});
 	};
