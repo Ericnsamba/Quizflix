@@ -8,7 +8,7 @@ import LinearGradient from 'react-native-linear-gradient';
 import Feather from 'react-native-vector-icons/Feather';
 import * as Theme from '../theme/Theme';
 import { connect } from 'react-redux';
-import { watchPersonData, watchPointsData } from '../redux/AppRedux';
+import { watchPersonData, watchPointsData, watchLeaderBoardData} from '../redux/AppRedux';
 import Icon from 'react-native-vector-icons/Ionicons';
 
 const { width, height } = Dimensions.get('window');
@@ -17,6 +17,7 @@ const mapStateToProps = state => {
 	return {
 		pointsData: state.pointsData,
 		personData: state.personData,
+		leaderBoardData: state.leaderBoardData,
 	};
 };
 
@@ -27,6 +28,9 @@ const mapDispatchToProps = dispatch => {
 		},
 		watchPointsData: () => {
 			dispatch(watchPointsData());
+		},
+		watchLeaderBoardData: () => {
+			dispatch(watchLeaderBoardData());
 		},
 	};
 };
@@ -43,16 +47,14 @@ class ScoreHeader extends Component {
 
 		this.props.watchPointsData();
 		this.props.watchPersonData();
+		this.props.watchLeaderBoardData();
 	}
 	renderPoints = () => {
 		let points = 0;
-		const currentUser = firebase.auth().currentUser;
-		const quizPlayed = this.props.pointsData;
-
-		if (currentUser && quizPlayed) {
-			Object.values(quizPlayed).map(game => (points += game.points));
-		} else if (!currentUser) {
-			return (points = '');
+		const userID = firebase.auth().currentUser.uid;
+		if (userID) {
+			const rank = this.props.leaderBoardData.find(userScore => userScore.uid === userID);
+			points = rank.totalPoints;
 		}
 		return points;
 	};
@@ -78,7 +80,7 @@ class ScoreHeader extends Component {
 
 					<View style={styles.rewardsAndIcon}>
 						<View>
-							<Icon name="ios-podium" color={Theme.primaryColors.blue} size={50} style={styles.Icon}/>
+							<Icon name="ios-podium" color={Theme.primaryColors.blue} size={50} style={styles.Icon} />
 						</View>
 						<Text style={styles.reward}>{this.renderPoints()}</Text>
 					</View>
@@ -147,7 +149,7 @@ const styles = StyleSheet.create({
 		marginLeft: 10,
 		bottom: -7,
 	},
-	Icon:{
+	Icon: {
 		alignSelf: 'flex-end',
 		bottom: -14,
 	},

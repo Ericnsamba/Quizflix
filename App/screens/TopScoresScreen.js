@@ -14,8 +14,6 @@ import UserAvatar from 'react-native-user-avatar';
 import * as firebase from 'react-native-firebase';
 import * as Theme from '../theme/Theme';
 import { LeaderBoardUsers } from '../components/LeaderBoardUsers';
-import FeatherIcon from 'react-native-vector-icons/Feather';
-import LinearGradient from 'react-native-linear-gradient';
 
 const avatar = require('../assets/images/profileAvatar.jpg');
 

@@ -15,7 +15,7 @@ import {
 	watchPersonData,
 	watchPointsData,
 	watchUsersData,
-	watchLeaderBoardData
+	watchLeaderBoardData,
 } from '../redux/AppRedux';
 import * as Theme from '../theme/Theme';
 import { ScoresInCategory } from '../components/ScoresInCategory.js';
@@ -85,13 +85,12 @@ class ProfileScreen extends React.Component {
 
 	renderPoints = () => {
 		let points = 0;
-		const currentUser = firebase.auth().currentUser;
-		const quizPlayed = this.props.pointsData;
-
-		if (currentUser && quizPlayed) {
-			Object.values(quizPlayed).map(game => (points += game.points));
-		} else if (!currentUser) {
-			return (points = '');
+		const userID = firebase.auth().currentUser.uid;
+		if (userID) {
+			const rank = this.props.leaderBoardData.find(
+				userScore => userScore.uid === userID,
+			);
+			points = rank.totalPoints;
 		}
 		return points;
 	};
@@ -110,21 +109,23 @@ class ProfileScreen extends React.Component {
 	render() {
 		const userID = firebase.auth().currentUser.uid;
 		// console.log('leaderBoardData======>', this.props.leaderBoardData);
-		// console.log('leaderBoardData======>', this.props.leaderBoardData.map(rank => rank.uid));
-
-		const userRanking = this.props.leaderBoardData.map(rank => rank.uid).indexOf(userID);
+		const userRanking = this.props.leaderBoardData
+			.map(rank => rank.uid)
+			.indexOf(userID);
 		const { isAnonymous } = this.state;
 		const pointsData = this.props.pointsData;
 		const { username, email, profileImage } = this.props.personData;
 		const avatar = require('../assets/images/profileAvatar.jpg');
 		return (
 			<View style={styles.container}>
-				<StatusBar  barStyle="dark-content" />
+				<StatusBar barStyle="dark-content" />
 				<View style={{ marginTop: 64, alignItems: 'center' }}>
 					<View style={styles.avatarContainer}>
 						<Image
 							resizeMode={'cover'}
-							source={profileImage ? { uri: profileImage } : avatar}
+							source={
+								profileImage ? { uri: profileImage } : avatar
+							}
 							style={styles.avatar}
 						/>
 					</View>
@@ -135,11 +136,15 @@ class ProfileScreen extends React.Component {
 				</View>
 				<View style={styles.statsContainer}>
 					<View style={styles.stat}>
-						<Text style={styles.statAmount}>{this.renderPoints()}</Text>
+						<Text style={styles.statAmount}>
+							{this.renderPoints()}
+						</Text>
 						<Text style={styles.statTitle}>Points</Text>
 					</View>
 					<View style={styles.stat}>
-						<Text style={styles.statAmount}>{this.renderCategoryCount()}</Text>
+						<Text style={styles.statAmount}>
+							{this.renderCategoryCount()}
+						</Text>
 						<Text style={styles.statTitle}>Categories</Text>
 					</View>
 					<View style={styles.stat}>
@@ -149,7 +154,11 @@ class ProfileScreen extends React.Component {
 				</View>
 
 				<LinearGradient
-					colors={[Theme.primaryColors.orange, Theme.primaryColors.orange2, Theme.primaryColors.white]}
+					colors={[
+						Theme.primaryColors.orange,
+						Theme.primaryColors.orange2,
+						Theme.primaryColors.white,
+					]}
 					style={styles.innerContainer}>
 					<View>
 						<View
@@ -250,7 +259,6 @@ const styles = StyleSheet.create({
 		justifyContent: 'center',
 		alignItems: 'center',
 		width: width - 60,
-
 	},
 	userName: {
 		fontSize: 20,
