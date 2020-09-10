@@ -8,7 +8,7 @@ import LinearGradient from 'react-native-linear-gradient';
 import Feather from 'react-native-vector-icons/Feather';
 import * as Theme from '../theme/Theme';
 import { connect } from 'react-redux';
-import { watchPersonData, watchPointsData, watchLeaderBoardData} from '../redux/AppRedux';
+import { watchPersonData, watchPointsData, watchLeaderBoardData } from '../redux/AppRedux';
 import Icon from 'react-native-vector-icons/Ionicons';
 
 const { width, height } = Dimensions.get('window');
@@ -49,13 +49,17 @@ class ScoreHeader extends Component {
 		this.props.watchPersonData();
 		this.props.watchLeaderBoardData();
 	}
-	renderPoints = () => {
+	renderPoints = (data) => {
 		let points = 0;
 		const userID = firebase.auth().currentUser.uid;
-		if (userID) {
-			const rank = this.props.leaderBoardData.find(userScore => userScore.uid === userID);
+		if (userID && Object.keys(data).length > 0) {
+			const rank = data.find(
+				userScore => userScore.uid === userID,
+			);
 			points = rank.totalPoints;
+            console.log("points ====>", points)
 		}
+		console.log("leaderBoardData ======>", this.props.leaderBoardData)
 		return points;
 	};
 
@@ -65,7 +69,7 @@ class ScoreHeader extends Component {
 
 	render() {
 		const br = `\n`;
-		const { username, email, profileImage } = this.props.personData;
+		const { username, profileImage } = this.props.personData;
 		const avatar = require('../assets/images/profileAvatar.jpg');
 		return (
 			<View style={styles.container} >
@@ -82,7 +86,7 @@ class ScoreHeader extends Component {
 						<View>
 							<Icon name="ios-podium" color={Theme.primaryColors.blue} size={50} style={styles.Icon} />
 						</View>
-						<Text style={styles.reward}>{this.renderPoints()}</Text>
+						<Text style={styles.reward}>{this.renderPoints(this.props.leaderBoardData) }</Text>
 					</View>
 				</View>
 				<View style={{

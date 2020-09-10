@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { Text, View } from 'react-native';
 import moment from 'moment';
 import * as Theme from '../theme/Theme';
-import { Themed } from 'react-navigation';
 
 export class Time extends Component {
 	constructor(props) {
