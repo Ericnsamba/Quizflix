@@ -85,12 +85,23 @@ class ProfileScreen extends React.Component {
 
 	renderPoints = () => {
 		let points = 0;
+		const quizPlayed = this.props.pointsData || undefined;
 		const userID = firebase.auth().currentUser.uid;
-		if (userID) {
+		if (
+			firebase.auth().currentUser.isAnonymous &&
+			quizPlayed === undefined
+		) {
+			points = 0;
+		} else if (userID && !firebase.auth().currentUser.isAnonymous) {
 			const rank = this.props.leaderBoardData.find(
 				userScore => userScore.uid === userID,
 			);
 			points = rank.totalPoints;
+		} else if (
+			firebase.auth().currentUser.isAnonymous &&
+			Object.keys(quizPlayed).length > 0
+		) {
+			Object.values(quizPlayed).map(game => (points += game.points));
 		}
 		return points;
 	};

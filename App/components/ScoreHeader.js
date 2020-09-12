@@ -51,15 +51,22 @@ class ScoreHeader extends Component {
 	}
 	renderPoints = (data) => {
 		let points = 0;
+		const quizPlayed = this.props.pointsData || undefined;
 		const userID = firebase.auth().currentUser.uid;
-		if (userID && Object.keys(data).length > 0) {
+		if (firebase.auth().currentUser.isAnonymous && quizPlayed === undefined) {
+			points = 0;
+		}
+		else if (userID && Object.keys(data).length > 0 && !firebase.auth().currentUser.isAnonymous) {
 			const rank = data.find(
 				userScore => userScore.uid === userID,
 			);
 			points = rank.totalPoints;
-            console.log("points ====>", points)
+			console.log("points ====>", points);
 		}
-		console.log("leaderBoardData ======>", this.props.leaderBoardData)
+		else if (firebase.auth().currentUser.isAnonymous && Object.keys(quizPlayed).length > 0 ) {
+			Object.values(quizPlayed).map(game => (points += game.points));
+
+		}
 		return points;
 	};
 
@@ -86,12 +93,10 @@ class ScoreHeader extends Component {
 						<View>
 							<Icon name="ios-podium" color={Theme.primaryColors.blue} size={50} style={styles.Icon} />
 						</View>
-						<Text style={styles.reward}>{this.renderPoints(this.props.leaderBoardData) }</Text>
+						<Text style={styles.reward}>{this.renderPoints(this.props.leaderBoardData)}</Text>
 					</View>
 				</View>
-				<View style={{
-					marginLeft: 5,
-				}}>
+				<View style={{ marginLeft: 5 }}>
 					<Text style={styles.userName}>
 						{`Hi! ${br}${username ? username : 'anonymous'}`}
 					</Text>

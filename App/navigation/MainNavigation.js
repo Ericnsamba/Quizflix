@@ -4,6 +4,7 @@ import HomeScreen from '../screens/HomeScreen';
 import LoginScreen from '../screens/LoginScreen';
 import SignUpScreen from '../screens/SignUpScreen';
 import WelcomeScreen from '../screens/WelcomeScreen';
+import ResetPassword from '../screens/ResetPassword';
 
 import Root from './RootNavigation';
 import Loading from './Loading';
@@ -18,6 +19,7 @@ const RootStack = createSwitchNavigator(
 		LoginScreen,
 		SignUpScreen,
 		WelcomeScreen,
+		ResetPassword,
 	},
 	{
 		initialRouteName: 'Loading',

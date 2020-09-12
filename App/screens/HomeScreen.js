@@ -162,11 +162,11 @@ class HomeScreen extends Component {
 							style={styles.buttonContainer}>
 							<LinearGradient
 								colors={[
-									'#FF9F88',
+									Theme.primaryColors.orange2,
 									Theme.primaryColors.orange,
 								]}
 								style={styles.button}>
-								<Text style={[styles.buttonTitle]}> Information</Text>
+								<Text style={[styles.buttonTitle]}>information</Text>
 								<Icon
 									name="ios-information-circle"
 									size={40}
@@ -174,6 +174,7 @@ class HomeScreen extends Component {
 								/>
 							</LinearGradient>
 						</TouchableOpacity>
+
 					</View>
 					<View style={{ height: 100, justifyContent: 'center', alignSelf: 'center' }}>
 						<Image source={require('../assets/images/logo.png')} resizeMode={'contain'}
@@ -219,45 +220,18 @@ const styles = StyleSheet.create({
 		width: width,
 		height: 200,
 		marginBottom: 40,
-		// justifyContent: 'center',
 		borderBottomColor: Theme.primaryColors.black,
-	},
-
-	startQuizButton: {
-		position: 'absolute',
-		alignSelf: 'center',
-		justifyContent: 'center',
-		alignItems: 'center',
-		bottom: 60,
-	},
-	rankingContainer: {
-		alignSelf: 'center',
-		flexDirection: 'row',
-		width: width - 50,
-	},
-	ranking: {
-		flex: 1,
-		height: 90,
-		borderRadius: 8,
-		alignSelf: 'center',
-		justifyContent: 'center',
-		alignItems: 'center',
-		backgroundColor: Theme.secondaryColors.pink,
-	},
-	avatar: {
-		width: 40,
-		height: 40,
-		borderRadius: 20,
 	},
 	button: {
 		height: 80,
-		width: 260,
+		width: 240,
 		alignSelf: 'center',
 		borderRadius: 12,
 		justifyContent: 'space-between',
 		flexDirection: 'row',
 		alignItems: 'center',
 		paddingHorizontal: 20,
+		flex: 0
 	},
 	buttonContainer: {
 		marginVertical: 10,
@@ -275,17 +249,10 @@ const styles = StyleSheet.create({
 	},
 	buttonsView: {
 		backgroundColor: Theme.secondaryColors.blue,
-		paddingVertical: 20,
+		paddingVertical: 30,
 		width: width - 60,
 		alignSelf: 'center',
 		borderRadius: 12,
-	},
-	closeModalButton: {
-		backgroundColor: Theme.primaryColors.white,
-		width: 260,
-		height: 80,
-		justifyContent: 'center',
-		alignSelf: 'center',
 	},
 });
 

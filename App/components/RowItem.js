@@ -7,40 +7,46 @@ import {
 	Dimensions,
 	ImageBackground,
 } from 'react-native';
-import styled from 'styled-components/native'
+import styled from 'styled-components/native';
 import * as Theme from '../theme/Theme';
 const { width, height } = Dimensions.get('window');
 
 const Title = styled.Text`
-  font-size: 18px;
-  font-weight: 600;
-  color: #fff;
-  text-align: center;
-  position: relative;
-  bottom: 0;
-  line-height: 24px;
+	font-size: 18px;
+	font-weight: 600;
+	color: #fff;
+	text-align: center;
+	position: relative;
+	bottom: 0;
+	line-height: 24px;
 `;
 const Background = styled.View`
-  background: ${props => props.color ? props.color : none };
-  border-radius: 20px;
-  display: flex;
-  align-items: center;
-  height: 34px;
-  width: auto;
-  justify-content: center;
-  align-self: center;
-  padding: 5px 15px;
+	background: ${props => (props.color ? props.color : none)};
+	border-radius: 20px;
+	display: flex;
+	align-items: center;
+	height: 34px;
+	width: auto;
+	justify-content: center;
+	align-self: center;
+	padding: 5px 15px;
 `;
 
-
-export const RowItem = ({ onPress = () => { }, name, color, image }) => (
-	<TouchableOpacity
-		onPress={onPress}
-		activeOpacity={0.8}
-		style={styles.card}>
+export const RowItem = ({ onPress = () => {}, name, color, image }) => (
+	<TouchableOpacity onPress={onPress} activeOpacity={0.8} style={styles.card}>
 		<View style={styles.container}>
-			<ImageBackground source={{ uri: image }} style={{ width: '100%', height: 130, backgroundColor: Theme.primaryColors.blue }}>
-				<View style={[styles.row, { backgroundColor: color, width: '100%' }]}>
+			<ImageBackground
+				source={{ uri: image }}
+				style={{
+					width: '100%',
+					height: 130,
+					backgroundColor: Theme.primaryColors.blue,
+				}}>
+				<View
+					style={[
+						styles.row,
+						{ backgroundColor: color, width: '100%' },
+					]}>
 					<Background color={Theme.primaryColors.orange}>
 						<Title>{name}</Title>
 					</Background>
@@ -83,6 +89,3 @@ const styles = StyleSheet.create({
 		bottom: 0,
 	},
 });
-
-
-

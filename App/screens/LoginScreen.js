@@ -74,13 +74,10 @@ export default class LoginScreen extends React.Component {
 				})
 				.catch(error => {
 					console.log('catch error, line 27', error.message);
-					this.setState({ errorMessage: error.message, })
+					this.setState({ errorMessage: error.message });
 				});
 		}
 	};
-
-
-
 
 	updateSecureTextEntry = () => {
 		this.setState({
@@ -226,7 +223,7 @@ export default class LoginScreen extends React.Component {
 					});
 					console.log(
 						'Login success with permissions: ' +
-						result.grantedPermissions.toString(),
+							result.grantedPermissions.toString(),
 						result,
 					);
 				}
@@ -339,17 +336,29 @@ export default class LoginScreen extends React.Component {
 										})
 									}
 									value={this.state.password}
-									secureTextEntry={this.state.secureTextEntry ? true : false}
+									secureTextEntry={
+										this.state.secureTextEntry
+											? true
+											: false
+									}
 									style={styles.textInput}
 									autoCapitalize="none"
 								/>
 								<TouchableOpacity
 									onPress={this.updateSecureTextEntry}>
 									{this.state.secureTextEntry ? (
-										<Feather name="eye-off" color={Theme.secondaryColors.white} size={20} />
+										<Feather
+											name="eye-off"
+											color={Theme.secondaryColors.white}
+											size={20}
+										/>
 									) : (
-											<Feather name="eye" color={Theme.secondaryColors.white} size={20} />
-										)}
+										<Feather
+											name="eye"
+											color={Theme.secondaryColors.white}
+											size={20}
+										/>
+									)}
 								</TouchableOpacity>
 							</View>
 
@@ -434,13 +443,22 @@ export default class LoginScreen extends React.Component {
 										alignSelf: 'center',
 										marginVertical: 30,
 									}}>
-									<Text
-										style={{
-											color: Theme.primaryColors.white,
-											fontWeight: Theme.fontWeight.normal,
-										}}>
-										reset password
-									</Text>
+									<TouchableOpacity
+										onPress={() =>
+											this.props.navigation.navigate(
+												'ResetPassword',
+											)
+										}>
+										<Text
+											style={{
+												color:
+													Theme.primaryColors.white,
+												fontWeight:
+													Theme.fontWeight.normal,
+											}}>
+											reset password
+										</Text>
+									</TouchableOpacity>
 									<View
 										style={{
 											marginTop: 10,
