@@ -8,6 +8,7 @@ import {
 	TouchableOpacity,
 	StatusBar,
 	Dimensions,
+	SafeAreaView,
 } from 'react-native';
 import { connect } from 'react-redux';
 import LinearGradient from 'react-native-linear-gradient';
@@ -20,6 +21,7 @@ import {
 import * as Theme from '../theme/Theme';
 import { ScoresInCategory } from '../components/ScoresInCategory.js';
 import { ScrollView } from 'react-native-gesture-handler';
+import Icon from 'react-native-vector-icons/Ionicons';
 
 const { width, height } = Dimensions.get('window');
 
@@ -119,7 +121,6 @@ class ProfileScreen extends React.Component {
 
 	render() {
 		const userID = firebase.auth().currentUser.uid;
-		// console.log('leaderBoardData======>', this.props.leaderBoardData);
 		const userRanking = this.props.leaderBoardData
 			.map(rank => rank.uid)
 			.indexOf(userID);
@@ -128,8 +129,13 @@ class ProfileScreen extends React.Component {
 		const { username, email, profileImage } = this.props.personData;
 		const avatar = require('../assets/images/profileAvatar.jpg');
 		return (
-			<View style={styles.container}>
+			<SafeAreaView style={styles.container}>
 				<StatusBar barStyle="dark-content" />
+				<View style={styles.logout}>
+					<TouchableOpacity onPress={() => firebase.auth().signOut()}>
+						<Icon name="exit-outline" size={30} />
+					</TouchableOpacity>
+				</View>
 				<View style={{ marginTop: 64, alignItems: 'center' }}>
 					<View style={styles.avatarContainer}>
 						<Image
@@ -200,33 +206,8 @@ class ProfileScreen extends React.Component {
 							{this.renderScoresInCategory(pointsData)}
 						</ScrollView>
 					</View>
-
-					<View
-						style={{
-							position: 'absolute',
-							bottom: 20,
-							padding: 10,
-							backgroundColor: Theme.primaryColors.blue,
-							width: 100,
-							alignItems: 'center',
-							alignSelf: 'center',
-							borderRadius: 30,
-						}}>
-						<TouchableOpacity
-							onPress={() => firebase.auth().signOut()}>
-							<Text
-								style={{
-									color: Theme.primaryColors.white,
-									textTransform: 'uppercase',
-									fontWeight: '500',
-									fontSize: 12,
-								}}>
-								Logout
-							</Text>
-						</TouchableOpacity>
-					</View>
 				</LinearGradient>
-			</View>
+			</SafeAreaView>
 		);
 	}
 }
@@ -256,8 +237,6 @@ const styles = StyleSheet.create({
 	avatar: {
 		width: 116,
 		height: 116,
-		// borderRadius: 30,
-		// backgroundColor: Theme.secondaryColors.blue,
 	},
 	name: {
 		marginTop: 24,
@@ -303,6 +282,12 @@ const styles = StyleSheet.create({
 	},
 	ScoresInCategory: {
 		marginHorizontal: 10,
+	},
+	logout: {
+		backgroundColor: Theme.secondaryColors.blue,
+		width: width,
+		alignItems: 'flex-end',
+		paddingHorizontal: 30,
 	},
 });
 

@@ -224,7 +224,7 @@ const styles = StyleSheet.create({
 	},
 	button: {
 		height: 80,
-		width: 240,
+		width: '100%',
 		alignSelf: 'center',
 		borderRadius: 12,
 		justifyContent: 'space-between',
@@ -250,6 +250,7 @@ const styles = StyleSheet.create({
 	buttonsView: {
 		backgroundColor: Theme.secondaryColors.blue,
 		paddingVertical: 30,
+		paddingHorizontal: 20,
 		width: width - 60,
 		alignSelf: 'center',
 		borderRadius: 12,
