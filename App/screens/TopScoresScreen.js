@@ -8,7 +8,7 @@ import {
 	ImageBackground,
 	Dimensions,
 	ScrollView,
-	StatusBar
+	StatusBar,
 } from 'react-native';
 import UserAvatar from 'react-native-user-avatar';
 import * as firebase from 'react-native-firebase';
@@ -39,7 +39,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
 	return {
 		watchLeaderBoardData: () => {
-			console.log("watchLeaderBoardData", watchLeaderBoardData)
+			console.log('watchLeaderBoardData', watchLeaderBoardData);
 			dispatch(watchLeaderBoardData());
 		},
 		watchPointsData: () => {
@@ -61,8 +61,7 @@ class TopScoresScreen extends Component {
 	}
 
 	componentWillReceiveProps() {
-
-		this.top3function()
+		this.top3function();
 	}
 
 	componentDidMount() {
@@ -115,15 +114,16 @@ class TopScoresScreen extends Component {
 	top3function = () => {
 		const { leaderBoardData } = this.props;
 		const top3 = [];
-		const RankingData = [...leaderBoardData]
-		for (let i = 0; i < 3; i++) { //immutable - you can't mutate the data
+		const RankingData = [...leaderBoardData];
+		for (let i = 0; i < 3; i++) {
+			//immutable - you can't mutate the data
 			top3.push(RankingData.shift());
 		}
 		this.setState({
 			top3Users: top3,
-			remainingUsers: RankingData
-		})
-	}
+			remainingUsers: RankingData,
+		});
+	};
 
 	renderTop3 = () => {
 		const top3 = this.state.top3Users;
@@ -140,14 +140,12 @@ class TopScoresScreen extends Component {
 					<Text style={styles.rankingNumber}>2</Text>
 					<UserAvatar
 						size={65}
-						name={
-							top3[1].username ? top3[1].username : 'name'
-						}
+						name={top3[1].username ? top3[1].username : 'name'}
 						src={top3[1].photoURL ? top3[1].photoURL : null}
 						bgColors={[
-							Theme.primaryColors.lightBlue,
-							'#ccaabb',
-							Theme.primaryColors.orange,
+							Theme.primaryColors.blue,
+							// '#ccaabb',
+							// Theme.primaryColors.orange,
 						]}
 						borderRadius={40}
 						style={{
@@ -157,16 +155,12 @@ class TopScoresScreen extends Component {
 					/>
 					<View>
 						<Text style={styles.top3UsersName}>
-							{top3[1].username
-								? top3[1].username
-								: 'User'}
+							{top3[1].username ? top3[1].username : 'User'}
 						</Text>
 						<Text style={styles.top3UsersPoint}>
-							{top3[1].totalPoints
-								? top3[1].totalPoints
-								: '0'}
-									pts
-								</Text>
+							{top3[1].totalPoints ? top3[1].totalPoints : '0'}
+							pts
+						</Text>
 					</View>
 				</View>
 				<View style={styles.topUserInfoView}>
@@ -176,8 +170,8 @@ class TopScoresScreen extends Component {
 						name={top3[0].username}
 						src={top3[0].photoURL ? top3[0].photoURL : null}
 						bgColors={[
-							Theme.primaryColors.lightBlue,
-							Theme.primaryColors.pink,
+							Theme.primaryColors.blue,
+							// Theme.primaryColors.pink,s
 						]}
 						borderRadius={50}
 						style={{
@@ -191,7 +185,7 @@ class TopScoresScreen extends Component {
 						</Text>
 						<Text style={styles.top3UsersPoint}>
 							{top3[0].totalPoints} pts
-								</Text>
+						</Text>
 					</View>
 				</View>
 
@@ -202,8 +196,8 @@ class TopScoresScreen extends Component {
 						name={top3[2].username}
 						src={top3[2].photoURL ? top3[2].photoURL : null}
 						bgColors={[
-							Theme.primaryColors.lightBlue,
-							Theme.primaryColors.pink,
+							Theme.primaryColors.blue,
+							// Theme.primaryColors.pink,
 						]}
 						borderRadius={50}
 						style={{
@@ -217,7 +211,7 @@ class TopScoresScreen extends Component {
 						</Text>
 						<Text style={styles.top3UsersPoint}>
 							{top3[2].totalPoints} pts
-								</Text>
+						</Text>
 					</View>
 				</View>
 			</View>
@@ -225,16 +219,16 @@ class TopScoresScreen extends Component {
 	};
 
 	render() {
-
 		return (
 			<SafeAreaView
 				style={{
 					flex: 1,
-					backgroundColor: Theme.primaryColors.blue2,
+					backgroundColor: Theme.secondaryColors.blue,
 				}}>
-				<StatusBar isVisible barStyle="light-content" />
+				<StatusBar isVisible barStyle="dark-content" />
 				<View style={styles.container}>
-					<View style={{ flex: 1, justifyContent: 'center', top: 20 }}>
+					<View
+						style={{ flex: 1, justifyContent: 'center', top: 20 }}>
 						{this.state.top3Users.length === 3 && this.renderTop3()}
 					</View>
 
@@ -284,8 +278,9 @@ const styles = StyleSheet.create({
 		fontSize: 24,
 		fontWeight: '900',
 		textAlign: 'center',
-		color: Theme.primaryColors.white,
+		color: Theme.primaryColors.blue,
 		width: '100%',
+		marginBottom: 5,
 	},
 	topUserInfoView: {
 		justifyContent: 'center',
@@ -294,7 +289,7 @@ const styles = StyleSheet.create({
 	top3UsersName: {
 		fontSize: 14,
 		textAlign: 'center',
-		color: Theme.primaryColors.white,
+		color: Theme.primaryColors.black,
 		alignSelf: 'center',
 		width: 100,
 		paddingTop: 5,
@@ -302,7 +297,7 @@ const styles = StyleSheet.create({
 	top3UsersPoint: {
 		fontSize: 16,
 		textAlign: 'center',
-		color: Theme.primaryColors.white,
+		color: Theme.primaryColors.black,
 		alignSelf: 'center',
 		fontWeight: '700',
 	},

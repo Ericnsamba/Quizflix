@@ -159,21 +159,32 @@ const watchPersonData = () => {
 		if (firebase.auth().currentUser) {
 			const currentUser = firebase.auth().currentUser;
 			const docRef = db.collection('users').doc(currentUser.uid);
-			docRef
-				.get()
-				.then(function (doc) {
-					if (doc.exists) {
-						const personData = doc.data();
-						dispatch(setPersonData(personData));
-						// console.log('watchPersonData -> personData', personData);
-					} else {
-						// doc.data() will be undefined in this case
-						console.log('No such document!');
-					}
-				})
-				.catch(function (error) {
-					console.log('Error getting document:', error);
-				});
+			docRef.onSnapshot(function(doc) {
+				if (doc.exists) {
+					const personData = doc.data();
+					dispatch(setPersonData(personData));
+					// console.log('watchPersonData -> personData', personData);
+				} else {
+					// doc.data() will be undefined in this case
+					console.log('No such document!');
+				}
+				const onError = (error) => {
+					console.error(error);
+				};
+			});
+				// .then(function (doc) {
+				// 	if (doc.exists) {
+				// 		const personData = doc.data();
+				// 		dispatch(setPersonData(personData));
+				// 		// console.log('watchPersonData -> personData', personData);
+				// 	} else {
+				// 		// doc.data() will be undefined in this case
+				// 		console.log('No such document!');
+				// 	}
+				// })
+				// .catch(function (error) {
+				// 	console.log('Error getting document:', error);
+				// });
 		}
 	};
 };

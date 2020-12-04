@@ -103,10 +103,7 @@ export default class LoginScreen extends React.Component {
 					.signInWithCredential(credentials)
 					.then(user => {
 						const fbRootRef = firebase.firestore();
-						// const userID = user.uid;
 						const userID = firebase.auth().currentUser.uid;
-						console.log(' ====> fbRootRef', fbRootRef);
-						console.log(' =====> userID:', userID);
 						const userRef = fbRootRef
 							.collection('users')
 							.doc(userID);
