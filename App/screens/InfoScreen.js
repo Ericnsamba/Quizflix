@@ -1,156 +1,184 @@
 /* eslint-disable prettier/prettier */
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import LottieView from 'lottie-react-native';
-import { View, Text, StyleSheet, Dimensions, SafeAreaView, TouchableOpacity, StatusBar } from 'react-native';
-import * as Theme from '../theme/Theme';
-import LinearGradient from 'react-native-linear-gradient';
-import { ScrollView } from 'react-native-gesture-handler';
+import {
+  View,
+  Text,
+  StyleSheet,
+  Dimensions,
+  SafeAreaView,
+  TouchableOpacity,
+  StatusBar,
+} from 'react-native';
+import {
+  watchPersonData,
+  watchPointsData,
+  watchUsersData,
+  watchLeaderBoardData,
+} from '../redux/AppRedux';
 import firebase from 'react-native-firebase';
+import {connect} from 'react-redux';
 import FastImage from 'react-native-fast-image';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-// import * as Theme from '../assets/audio/game/tick_tock.mp3';
-// import Sound from 'react-native-sound';
-
-// Import the react-native-sound module
+import * as Theme from '../theme/Theme';
 var Sound = require('react-native-sound');
 
+const {width, height} = Dimensions.get('window');
 
-const { width, height } = Dimensions.get('window');
+const mapStateToProps = state => {
+  return {
+    pointsData: state.pointsData,
+    personData: state.personData,
+    usersData: state.usersData,
+    leaderBoardData: state.leaderBoardData,
+  };
+};
 
-export default class InfoScreen extends React.Component {
-                 constructor(props) {
-                   super(props);
-                   this.state = {
-                     isAnonymous: firebase.auth().currentUser
-                       ._user.isAnonymous,
-                     user: {},
-                     Categories: 0,
-                   };
-                 }
+const mapDispatchToProps = dispatch => {
+  return {
+    watchPersonData: () => {
+      dispatch(watchPersonData());
+    },
+    watchPointsData: () => {
+      dispatch(watchPointsData());
+    },
+    watchUsersData: () => {
+      dispatch(watchUsersData());
+    },
+    watchLeaderBoardData: () => {
+      dispatch(watchLeaderBoardData());
+    },
+  };
+};
 
-                 render() {
-                   const userID = firebase.auth().currentUser
-                     .uid;
-                //    const {
-                //      username,
-                //      email,
-                //      profileImage,
-                //    } = this.props.personData;
-                   const avatar = require('../assets/images/profileAvatar.jpg');
-                   return (
-                     <SafeAreaView style={styles.container}>
-                       <StatusBar barStyle="dark-content" />
-                       <View style={styles.logout}>
-                         <TouchableOpacity
-                           onPress={() =>
-                             this.props.navigation.openDrawer()
-                           }>
-                           <Ionicons
-                             name="ellipsis-vertical"
-                             size={24}
-                             color={Theme.primaryColors.black}
-                           />
-                         </TouchableOpacity>
-                       </View>
-                       <View style={{alignItems: 'center'}}>
-                         <View style={styles.avatarContainer}>
-                           {/* <FastImage
-                             resizeMode={'cover'}
-                             source={
-                               profileImage
-                                 ? {
-                                     uri: profileImage,
-                                     priority:
-                                       FastImage.priority.high,
-                                   }
-                                 : avatar
-                             }
-                             style={styles.avatar}
-                           /> */}
-                         </View>
-                         <View style={styles.userNameView}>
-                           <Text style={styles.userName}>
-                             {/* {username} */}
-                           </Text>
-                           <Text style={styles._email}>
-                             {/* {email} */}
-                           </Text>
-                         </View>
-                       </View>
-                       <View style={styles.statsContainer}>
-                         <View style={styles.stat}>
-                           <Text style={styles.statAmount}>
-                             {/* {this.renderPoints()} */}
-                           </Text>
-                           <Text style={styles.statTitle}>
-                             Points
-                           </Text>
-                         </View>
-                         <View style={styles.stat}>
-                           <Text style={styles.statAmount}>
-                             {/* {this.renderCategoryCount()} */}
-                           </Text>
-                           <Text style={styles.statTitle}>
-                             Categories
-                           </Text>
-                         </View>
-                         <View style={styles.stat}>
-                           <Text style={styles.statAmount}>
-                             {/* {userRanking + 1} */}
-                           </Text>
-                           <Text style={styles.statTitle}>
-                             Rank
-                           </Text>
-                         </View>
-                       </View>
+class InfoScreen extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      isAnonymous: firebase.auth().currentUser._user.isAnonymous,
+      user: {},
+      Categories: 0,
+      data: {},
+    };
+  }
 
-                       <LinearGradient
-                         colors={[
-						   Theme.primaryColors.white
-						   ,
-						   Theme.primaryColors.white
-						   ,
-                         ]}
-                         style={styles.innerContainer}>
-                         <View>
-                           <View style={styles.quizzesPlayed}>
-                             <Text
-                               style={styles.quizzesPlayedTitle}>
-                               Quizzes Played
-                             </Text>
-                           </View>
+  componentDidMount() {
+   this.getDevInfo()
+  }
 
-                           <ScrollView
-                             contentOffset={{x: -20, y: 0}}
-                             bouncesZoom={true}
-                             horizontal={true}
-                             showsHorizontalScrollIndicator={
-                               false
-                             }
-                             style={styles.scrollView} />
-                         </View>
-                       </LinearGradient>
-                     </SafeAreaView>
-                   );
-                 }
-               }
+  getDevInfo = () => {
+    firebase
+      .database()
+      .ref('/information/developer')
+      .on('value', snapshot => {
+        const devInfo = snapshot.val();
+        this.setState({user: devInfo});
+      });
+  };
+
+  render() {
+
+	  const userID = firebase.auth().currentUser.uid;
+	  const {name, lastname, bio, profileImage} = this.state.user;
+       const {
+         username,
+         email,
+       } = this.props.personData;
+    const avatar = require('../assets/images/profileAvatar.jpg');
+    return (
+      <SafeAreaView style={styles.container}>
+        <StatusBar barStyle="dark-content" />
+        <View style={styles.logout}>
+          <TouchableOpacity onPress={() => this.props.navigation.openDrawer()}>
+            <Ionicons
+              name="ellipsis-vertical"
+              size={24}
+              color={Theme.primaryColors.black}
+            />
+          </TouchableOpacity>
+        </View>
+        <View style={styles.headerSection}>
+          <View style={styles.userNameView}>
+            <Text style={styles.userName}>{name} {'\n'}{lastname}</Text>
+            <Text style={styles._email}>Developer | Designer</Text>
+          </View>
+          <View style={styles.avatarContainer}>
+            <FastImage
+              resizeMode={'cover'}
+              source={
+                   profileImage
+                     ? {
+                         uri: profileImage,
+                         priority:
+                           FastImage.priority.high,
+                       }
+                     : avatar
+              }
+              style={styles.avatar}
+            />
+          </View>
+        </View>
+        <View style={styles.innerContainer}>
+          <View style={styles.quizzesPlayed}>
+            <Text style={styles.quizzesPlayedTitle}>Hi {username ? username: 'There'}</Text>
+            <Text style={[styles.paragrathText, {marginBottom: 20}]}>
+              Thank you for downloading and playing QuizFlix.
+            </Text>
+            <Text style={[styles.paragrathText, {marginBottom: 20}]}>
+             {bio}.
+			 </Text>
+            <Text style={styles.paragrathText}>Connect with me via:</Text>
+            <View>
+              <View style={styles.socialHandles}>
+                <Ionicons
+                  name="logo-instagram"
+                  size={24}
+                  color={Theme.primaryColors.black}
+                  style={styles.socialIcon}
+                />
+                <Ionicons
+                  name="logo-twitter"
+                  size={24}
+                  color={Theme.primaryColors.black}
+                  style={styles.socialIcon}
+                />
+                <Ionicons
+                  name="logo-linkedin"
+                  size={24}
+                  color={Theme.primaryColors.black}
+                  style={styles.socialIcon}
+                />
+                {/* <Text style={styles.paragrathText}>ericAndTheWeb</Text> */}
+              </View>
+            </View>
+          </View>
+        </View>
+      </SafeAreaView>
+    );
+  }
+}
 
 const styles = StyleSheet.create({
   container: {
-	flex: 1,
-	backgroundColor: Theme.primaryColors.orange,
+    flex: 1,
+    backgroundColor: Theme.primaryColors.orange,
+  },
+  headerSection: {
+    alignItems: 'center',
+    flexDirection: 'row',
+    width: Theme.sizes.container,
+    justifyContent: 'space-between',
+    alignSelf: 'center',
+    marginVertical: 40,
   },
   innerContainer: {
     flex: 1,
     borderTopLeftRadius: 30,
     borderTopRightRadius: 30,
-    backgroundColor: Theme.primaryColors.blue,
+    backgroundColor: Theme.primaryColors.white,
   },
   profile: {
     alignItems: 'center',
-  },
-  scrollView: {
-    marginLeft: 1,
   },
   avatarContainer: {
     borderColor: Theme.primaryColors.blue,
@@ -159,8 +187,8 @@ const styles = StyleSheet.create({
     overflow: 'hidden',
   },
   avatar: {
-    width: 116,
-    height: 116,
+    width: 98,
+    height: 98,
   },
   name: {
     marginTop: 24,
@@ -168,21 +196,33 @@ const styles = StyleSheet.create({
     fontWeight: '600',
   },
   userNameView: {
-    marginVertical: 20,
-    alignSelf: 'center',
-    justifyContent: 'center',
-    alignItems: 'center',
-    width: width - 60,
+    // marginVertical: 20,
+    // alignSelf: 'center',
+    // justifyContent: 'center',
+    // alignItems: 'center',
+    // width: width - 60,
   },
   userName: {
-    fontSize: 20,
+    fontSize: 52,
     fontWeight: '800',
     marginBottom: 5,
-    color: Theme.primaryColors.blue,
+    color: Theme.primaryColors.black,
+    textTransform: 'capitalize',
   },
   _email: {
     fontSize: 14,
-    color: '#939393',
+    color: Theme.primaryColors.black,
+    fontWeight: Theme.fontWeight.medium,
+  },
+  paragrathText: {
+    fontSize: 16,
+    lineHeight: 24,
+  },
+  socialHandles: {
+    flexDirection: 'row',
+    paddingVertical: 15,
+    width: '40%',
+    justifyContent: 'space-between',
   },
   statsContainer: {
     flexDirection: 'row',
@@ -216,9 +256,12 @@ const styles = StyleSheet.create({
   quizzesPlayedTitle: {
     textAlign: 'left',
     fontSize: 20,
-    color: Theme.primaryColors.white,
+    color: Theme.primaryColors.orange,
     fontWeight: 'bold',
     marginBottom: 20,
+  },
+  socialIcon: {
+    paddingRight: 10,
   },
   logout: {
     // backgroundColor: Theme.secondaryColors.blue,
@@ -228,3 +271,8 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
   },
 });
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(InfoScreen);

@@ -49,12 +49,12 @@ export function DrawerContent(props) {
           icon={({color, size}) => (
             <Icon
               name="exit-outline"
-              color={Theme.primaryColors.pink}
+              color={Theme.secondaryColors.black}
               size={size}
             />
           )}
           label="Sign Out"
-          inactiveTintColor={Theme.primaryColors.pink}
+          inactiveTintColor={Theme.secondaryColors.black}
           onPress={logout}
         />
       </View>
@@ -104,10 +104,10 @@ const styles = StyleSheet.create({
   },
   bottomDrawerSection: {
     // marginBottom: 10,
-    borderTopColor: Theme.primaryColors.pink,
+    borderTopColor: '#d8dae4',
     borderTopWidth: 1,
     justifyContent: 'center',
-    backgroundColor: Theme.secondaryColors.pink,
+    backgroundColor: '#d8dae4',
   },
   preference: {
     flexDirection: 'row',

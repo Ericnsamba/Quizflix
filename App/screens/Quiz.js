@@ -36,7 +36,7 @@ class Quiz extends React.Component {
 			setModalVisible: false,
 			quizCategory: this.props.route.params.arrayData[0].category,
 			quizImage: this.props.route.params.arrayData[0].image,
-			timer: 15,
+			timer: 10,
 			quizQuestions: this.props.route.params.arrayData.sort((a, b) => {
 				return Math.round(Math.random()) - Math.round(Math.random());
 			}),
@@ -94,7 +94,7 @@ class Quiz extends React.Component {
 			return {
 				activeQuestionIndex: nextIndex,
 				answered: false,
-				timer: 15,
+				timer: 10,
 			};
 		});
 	};

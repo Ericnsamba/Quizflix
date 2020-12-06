@@ -160,8 +160,6 @@ class Score extends React.Component {
 
 	render() {
 		const { modalVisible, correctCount, inCorrectCount, username } = this.props.parentState;
-
-        // console.log("Score -> render -> this.props", this.props);
 		return (
 			<View style={[styles.container]}>
 				<StatusBar

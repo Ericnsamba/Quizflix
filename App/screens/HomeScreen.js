@@ -30,6 +30,7 @@ import {
 import * as Theme from '../theme/Theme';
 import ScoreHeader from '../components/ScoreHeader';
 import InfoScreen from './InfoScreen';
+import AboutInfo from './aboutTheGame';
 const { width, height } = Dimensions.get('window');
 
 const mapStateToProps = state => {
@@ -62,10 +63,9 @@ class HomeScreen extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			uid: '',
-			isModalVisible: false,
-			setModalVisible: false,
-		};
+      uid: '',
+      isModalVisible: false,
+    };
 
 		this.props.watchQuestionsData();
 		this.props.watchPointsData();
@@ -79,8 +79,12 @@ class HomeScreen extends Component {
 		}
 	}
 
+	setModalVisible(visible) {
+    this.setState({modalVisible: visible});
+  }
+
 	toggleModal = () => {
-		this.setState({ isModalVisible: !this.state.isModalVisible });
+	 this.setState({isModalVisible: !this.state.isModalVisible});
 	};
 
 	render() {
@@ -97,7 +101,12 @@ class HomeScreen extends Component {
             <ScoreHeader />
           </View>
 
-          <View style={{width: Theme.sizes.container, marginVertical: 30, marginTop: 60}}>
+          <View
+            style={{
+              width: Theme.sizes.container,
+              marginVertical: 30,
+              marginTop: 60,
+            }}>
             <Text style={styles.introText}>
               {`Go ahead! ${br}${'Start playing'}`}
             </Text>
@@ -137,12 +146,23 @@ class HomeScreen extends Component {
               </LinearGradient>
             </TouchableOpacity>
           </View>
-          <View
-            style={{
-              height: 100,
-              justifyContent: 'center',
-              alignSelf: 'center',
-            }}>
+
+          <Modal
+            isVisible={this.state.isModalVisible}
+            // animationIn={'slideInRight'}
+          >
+            <View style={{flex: 1}}>
+              <TouchableOpacity
+              style={{ zIndex:10, marginVertical: 20}}
+                title="Hide modal"
+                onPress={this.toggleModal}>
+                <Icon name="close" size={40} style={styles.buttonIcon} />
+              </TouchableOpacity>
+              <AboutInfo/>
+            </View>
+          </Modal>
+
+          <View style={styles.bottomLogo}>
             <Image
               source={require('../assets/images/logo.png')}
               resizeMode={'contain'}
@@ -227,6 +247,12 @@ const styles = StyleSheet.create({
     width: Theme.sizes.container,
     alignSelf: 'center',
     borderRadius: 12,
+    zIndex: 10,
+  },
+  bottomLogo: {
+    height: 100,
+    justifyContent: 'center',
+    alignSelf: 'center',
   },
 });
 
