@@ -1,177 +1,253 @@
-import React from 'react';
+/* eslint-disable react-native/no-inline-styles */
+import React, {Component} from 'react';
 import {
-	View,
-	Text,
-	TouchableOpacity,
-	Dimensions,
-	StyleSheet,
-	StatusBar,
-	Image,
-	ImageBackground,
+  View,
+  Text,
+  TouchableOpacity,
+  Dimensions,
+  StyleSheet,
+  Image,
+  TouchableWithoutFeedback,
+  StatusBar,
+  SafeAreaView,
+  LayoutAnimation,
+  Platform,
+  UIManager,
 } from 'react-native';
 import firebase from 'react-native-firebase';
 import * as Animatable from 'react-native-animatable';
-import LinearGradient from 'react-native-linear-gradient';
-import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import * as Theme from '../theme/Theme';
+import Animated from 'react-native-reanimated';
 
-export default class WelcomeScreen extends React.Component {
-	handleQAnonnymousLogin = () => {
-		firebase
-			.auth()
-			.signInAnonymously()
-			.then(() => {
-				console.log('User signed in anonymously');
-			})
-			.catch(error => {
-				if (error.code === 'auth/operation-not-allowed') {
-					console.log('Enable anonymous in your firebase console.');
-				}
-				console.error(error);
-			});
-	};
-
-	render() {
-		return (
-			<View style={styles.container}>
-				<StatusBar isVisible barStyle="dark-content" />
-				<View style={styles.header}>
-					<Animatable.View style={styles.appLogo} animation="bounce">
-						<Image
-							source={require('../assets/images/logo.png')}
-							resizeMode={'contain'}
-							style={{ width: 220 }}
-						/>
-					</Animatable.View>
-				</View>
-
-				<LinearGradient
-					colors={[Theme.primaryColors.orange, Theme.primaryColors.orange]}
-					style={[styles.footer, styles.bottomContainer]}>
-					<Animatable.View animation="fadeInDownBig">
-						<Text style={[styles.title]}>Welcome!</Text>
-						<Text style={styles.text}>
-							Please note: Sign in to get your name on the
-							leaderBoard chart. Guest users will not appear on
-							the chart.
-						</Text>
-						<View style={styles.buttons}>
-							<TouchableOpacity
-								onPress={() =>
-									this.props.navigation.navigate(
-										'LoginScreen',
-									)
-								}>
-								<LinearGradient
-									colors={[
-										'#4569e1',
-										Theme.primaryColors.blue,
-									]}
-									style={styles.signIn}>
-									<Text style={styles.textSign}>
-										Get Started
-									</Text>
-									<MaterialIcons
-										name="navigate-next"
-										color="#fff"
-										size={20}
-									/>
-								</LinearGradient>
-							</TouchableOpacity>
-
-							<TouchableOpacity
-								onPress={this.handleQAnonnymousLogin}
-								style={styles.playAsguestBtn}>
-								<View style={[styles.signIn]}>
-									<Text
-										style={[
-											styles.textSign,
-											{
-												color:
-													Theme.primaryColors.white,
-											},
-										]}>
-										Play as Guest
-									</Text>
-									<MaterialIcons
-										name="navigate-next"
-										color={Theme.primaryColors.white}
-										size={20}
-									/>
-								</View>
-							</TouchableOpacity>
-						</View>
-					</Animatable.View>
-				</LinearGradient>
-			</View>
-		);
-	}
+if (
+  Platform.OS === 'android' &&
+  UIManager.setLayoutAnimationEnabledExperimental
+) {
+  UIManager.setLayoutAnimationEnabledExperimental(true);
 }
 
-const { height } = Dimensions.get('screen');
+class WelcomeScreen extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      selectedOption: '',
+      pressed: false,
+      activeBorder: 0,
+      isUser: false,
+      isAnonymous: false,
+    };
+  }
+
+  activateButton = buttonToActivate => {
+    const newState = Object.assign(
+      {},
+      {
+        isUser: false,
+        isAnonymous: false,
+      },
+      {[buttonToActivate]: true},
+    );
+
+    this.setState(newState);
+
+    if (newState.isUser) {
+      this.setState({
+        selectedOption: 'Create Account',
+      });
+      LayoutAnimation.configureNext(LayoutAnimation.Presets.linear);
+    } else if (newState.isAnonymous) {
+      this.setState({
+        selectedOption: 'Login Anonymously',
+      });
+      LayoutAnimation.configureNext(LayoutAnimation.Presets.linear);
+    }
+  };
+
+  handleSelected = () => {
+    const {isUser, isAnonymous} = this.state;
+    if (isUser) {
+      return this.props.navigation.navigate('LoginScreen');
+    } else if (isAnonymous) {
+      // return this.handleQAnonnymousLogin;
+    }
+  };
+
+  render() {
+    const {isUser, isAnonymous} = this.state;
+    console.log('🚀 ~  isUser', isUser);
+    console.log('🚀 ~ isAnonymous', isAnonymous);
+    const dynamicButtonText = this.state.selectedOption;
+    const avatarAnonymous = require('../assets/images/avatars/avatarAnonymous.png');
+    const avatarLogin = require('../assets/images/avatars/avatarLogin.png');
+
+    return (
+      <SafeAreaView style={styles.container}>
+        <StatusBar isVisible barStyle="dark-content" />
+        <View style={styles.header}>
+          <Image
+            source={require('../assets/images/logo.png')}
+            resizeMode={'contain'}
+            style={{width: 220}}
+          />
+        </View>
+
+        <View style={{alignItems: 'center'}}>
+          <View>
+            <Text style={styles.subTitle}>Please select your login option</Text>
+          </View>
+          <View style={styles.pickContainer}>
+            <TouchableWithoutFeedback
+              onPress={() => {
+                this.activateButton('isUser');
+              }}
+              style={{}}>
+              <View style={styles.pickWrapper}>
+                <View style={[styles.pickBox, isUser && styles.selectedBox]}>
+                  <Image source={avatarLogin} style={styles.image} />
+                </View>
+              </View>
+            </TouchableWithoutFeedback>
+
+            <TouchableWithoutFeedback
+              onPress={() => {
+                this.activateButton('isAnonymous');
+              }}
+              style={{}}>
+              <View style={styles.pickWrapper}>
+                <View
+                  style={[styles.pickBox, isAnonymous && styles.selectedBox]}>
+                  <Image source={avatarAnonymous} style={styles.image} />
+                </View>
+              </View>
+            </TouchableWithoutFeedback>
+          </View>
+          {this.state.selectedOption === 'Login Anonymously' ? (
+            <View
+              style={{
+                alignItems: 'center',
+                alignSelf: 'center',
+              }}>
+              <Text style={styles.noticeBoard}>
+                Please note: to avoid multi anonymous name on the leaderboard,
+                we have decided to not add the user on the leaderboard.
+              </Text>
+            </View>
+          ) : null}
+        </View>
+        {this.state.selectedOption !== '' ? (
+          <View style={styles.buttonContainer}>
+            <TouchableOpacity
+              style={styles.cardButton}
+              onPress={this.handleSelected}>
+              <Text style={styles.dynamicButtonText}>{dynamicButtonText}</Text>
+            </TouchableOpacity>
+          </View>
+        ) : null}
+      </SafeAreaView>
+    );
+  }
+}
+const {height, width} = Dimensions.get('screen');
 const height_logo = height * 0.28;
 
 const styles = StyleSheet.create({
-	container: {
-		flex: 1,
-	},
-	bottomContainer: {
-		backgroundColor: Theme.primaryColors.white,
-	},
-	header: {
-		flex: 2,
-		justifyContent: 'center',
-		alignItems: 'center',
-	},
-	appLogo: {
-		fontSize: 35,
-		fontWeight: 'bold',
-		color: Theme.primaryColors.white,
-	},
-	footer: {
-		flex: 0.7,
-		backgroundColor: '#fff',
-		borderTopLeftRadius: 30,
-		borderTopRightRadius: 30,
-		paddingVertical: 30,
-		paddingHorizontal: 30,
-	},
-	logo: {
-		width: height_logo,
-		height: height_logo,
-	},
-	title: {
-		color: Theme.secondaryColors.white,
-		fontSize: 30,
-		fontWeight: 'bold',
-	},
-	text: {
-		color: Theme.primaryColors.white,
-		marginTop: 10,
-		marginBottom: 10,
-		fontSize: 15,
-	},
-	buttons: {
-		marginTop: 10,
-		flexDirection: 'row',
-		justifyContent: 'space-between',
-	},
-	playAsguestBtn: {
-		borderColor: Theme.primaryColors.white,
-		height: 50,
-		borderWidth: 1,
-		borderRadius: 50,
-	},
-	signIn: {
-		width: 150,
-		height: 50,
-		justifyContent: 'center',
-		alignItems: 'center',
-		borderRadius: 50,
-		flexDirection: 'row',
-	},
-	textSign: {
-		color: 'white',
-		fontWeight: 'bold',
-	},
+  container: {
+    flex: 1,
+    // backgroundColor: '#e1e1e1',
+    // justifyContent: 'center'
+  },
+  heading: {
+    textAlign: 'center',
+    fontWeight: 'bold',
+    fontSize: 15,
+    color: '#333333',
+  },
+  header: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    // backgroundColor: Theme.secondaryColors.pink,
+    height: '20%',
+  },
+  subTitle: {
+    alignItems: 'center',
+    fontSize: 24,
+    width: 200,
+    textAlign: 'center',
+  },
+  noticeBoard: {
+    alignItems: 'center',
+    fontSize: 16,
+    lineHeight: 20,
+    width: width - 80,
+    textAlign: 'center',
+    color: Theme.primaryColors.gray,
+  },
+  pickContainer: {
+    alignSelf: 'center',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    width: width - 60,
+    marginVertical: 40,
+    // backgroundColor: Theme.secondaryColors.pink,
+  },
+  pickWrapper: {
+    // flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    alignItems: 'center',
+    marginTop: 10,
+  },
+  pickBox: {
+    backgroundColor: Theme.primaryColors.white,
+    paddingHorizontal: 10,
+    paddingTop: 20,
+    borderRadius: 10,
+    width: 160,
+    height: 218,
+    shadowColor: Theme.primaryColors.black,
+    shadowOffset: {
+      width: 1,
+      height: 10,
+    },
+    shadowOpacity: 0.2,
+    shadowRadius: 10,
+  },
+  selectedBox: {
+    // backgroundColor: 'red',
+    borderColor: Theme.primaryColors.black,
+    borderWidth: 1,
+    // shadowColor: Theme.primaryColors.black,
+    // shadowOffset: {
+    //   width: 1,
+    //   height: 10,
+    // },
+    // shadowOpacity: 0.2,
+    // shadowRadius: 10,
+  },
+  image: {
+    width: '100%',
+    height: '100%',
+  },
+  cardButton: {
+    // bottom: 20,
+    // top: 40,
+    // alignSelf: 'center',
+    borderColor: Theme.primaryColors.black,
+    borderWidth: 1,
+    borderRadius: 20,
+    paddingVertical: 34,
+    paddingHorizontal: 58,
+  },
+  buttonContainer: {
+    position: 'absolute',
+    bottom: 80,
+    width: width,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  dynamicButtonText: {
+    fontSize: 18,
+  },
 });
+
+export default WelcomeScreen;

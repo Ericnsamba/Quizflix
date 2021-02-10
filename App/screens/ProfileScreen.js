@@ -129,7 +129,7 @@ class ProfileScreen extends React.Component {
     return (
       <SafeAreaView style={styles.container}>
         <StatusBar barStyle="dark-content" />
-        <View style={styles.logout}>
+        <View style={styles.openDrawer}>
           <TouchableOpacity onPress={() => this.props.navigation.openDrawer()}>
             <Ionicons
               name="ellipsis-vertical"
@@ -284,7 +284,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     marginBottom: 20,
   },
-  logout: {
+  openDrawer: {
     // backgroundColor: Theme.secondaryColors.blue,
     width: width,
     alignItems: 'flex-end',

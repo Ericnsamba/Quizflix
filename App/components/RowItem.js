@@ -8,6 +8,8 @@ import {
   ImageBackground,
 } from 'react-native';
 import FastImage from 'react-native-fast-image';
+import {SharedElement} from 'react-navigation-shared-element';
+import TouchableScale from 'react-native-touchable-scale';
 import styled from 'styled-components/native';
 import * as Theme from '../theme/Theme';
 const {width, height} = Dimensions.get('window');
@@ -34,19 +36,21 @@ const Background = styled.View`
 `;
 
 export const RowItem = ({onPress = () => {}, name, color, image}) => (
-  <TouchableOpacity onPress={onPress} activeOpacity={0.8} style={styles.card}>
+  <TouchableScale style={styles.card} onPress={onPress} activeScale={0.7}>
     <View style={styles.container}>
-      <FastImage
-        source={{uri: image, priority: FastImage.priority.high}}
-        style={styles.image}>
-        <View style={[styles.row, {backgroundColor: color, width: '100%'}]}>
-          <Background color={Theme.primaryColors.orange}>
-            <Title>{name}</Title>
-          </Background>
-        </View>
-      </FastImage>
+      <SharedElement id={'question'}>
+        <FastImage
+          source={{uri: image, priority: FastImage.priority.high}}
+          style={styles.image}>
+          <View style={[styles.row, {backgroundColor: color, width: '100%'}]}>
+            <Background color={Theme.primaryColors.orange}>
+              <Title>{name}</Title>
+            </Background>
+          </View>
+        </FastImage>
+      </SharedElement>
     </View>
-  </TouchableOpacity>
+  </TouchableScale>
 );
 
 const styles = StyleSheet.create({

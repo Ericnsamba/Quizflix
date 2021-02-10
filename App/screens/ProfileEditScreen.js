@@ -72,10 +72,6 @@ const mapDispatchToProps = dispatch => {
 };
 
 export class ProfileEditScreen extends Component {
-  // static propTypes = {
-  // 	prop: PropTypes,
-  // };
-
   constructor(props) {
     super(props);
     this.state = {
@@ -306,6 +302,16 @@ export class ProfileEditScreen extends Component {
               }> */}
             <View style={styles.container}>
               {/** Display image */}
+              <View style={styles.openDrawer}>
+                <TouchableOpacity
+                  onPress={() => this.props.navigation.openDrawer()}>
+                  <Ionicons
+                    name="ellipsis-vertical"
+                    size={24}
+                    color={Theme.primaryColors.black}
+                  />
+                </TouchableOpacity>
+              </View>
 
               {imgSource !== '' && (
                 <View>
@@ -408,7 +414,9 @@ export class ProfileEditScreen extends Component {
                 </View>
               </View>
               <View style={styles.infoContainer}>
-                <Text style={[styles.text, {fontSize: 36}]}>{username}</Text>
+                <Text style={[styles.text, {fontSize: 36}]}>
+                  {username}
+                </Text>
                 <Text style={[styles.text]}>
                   {currentUser && currentUser.email}
                 </Text>
@@ -421,7 +429,9 @@ export class ProfileEditScreen extends Component {
 
               <View style={styles.errorMessage}>
                 {this.state.errorMessage && (
-                  <Text style={styles.error}>{this.state.errorMessage}</Text>
+                  <Text style={styles.error}>
+                    {this.state.errorMessage}
+                  </Text>
                 )}
               </View>
               <View style={styles.form}>
@@ -445,7 +455,9 @@ export class ProfileEditScreen extends Component {
                   style={{
                     marginTop: 20,
                   }}>
-                  <Text style={styles.inputTitle}>Update Email Address</Text>
+                  <Text style={styles.inputTitle}>
+                    Update Email Address
+                  </Text>
                   <TextInput
                     style={styles.input}
                     autoCapitalize="none"
@@ -626,11 +638,14 @@ const styles = StyleSheet.create({
     shadowRadius: 10,
     elevation: 5,
   },
+  openDrawer: {
+    // backgroundColor: Theme.secondaryColors.blue,
+    width: width,
+    alignItems: 'flex-end',
+    paddingHorizontal: 20,
+    paddingVertical: 10,
+  },
 });
-
-// const mapStateToProps = state => ({});
-
-// const mapDispatchToProps = {};
 
 export default connect(
   mapStateToProps,

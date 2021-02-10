@@ -15,9 +15,12 @@ import {
 import { Button, ButtonContainer } from '../components/QuizButton';
 import { Alert } from '../components/Alert';
 import { ScrollView } from 'react-native-gesture-handler';
+import TouchableScale from 'react-native-touchable-scale';
 import Score from '../components/Score';
 import * as Theme from '../theme/Theme';
 import Icon from 'react-native-vector-icons/Ionicons';
+import { SharedElement } from 'react-navigation-shared-element';
+import LinearGradient from 'react-native-linear-gradient';
 
 const { width, height } = Dimensions.get('window');
 class Quiz extends React.Component {
@@ -46,7 +49,7 @@ class Quiz extends React.Component {
 	componentDidMount() {
 		if (this.state.timer > 1) {
 			this.interval = setInterval(() => {
-				console.log({ timer: this.state.timer });
+				// console.log({ timer: this.state.timer });
 				return this.setState(prevState => ({
 					timer: prevState.timer - 1,
 				}));
@@ -176,229 +179,259 @@ class Quiz extends React.Component {
 		let { timer } = this.state;
 
 		return (
-			<View
-				style={[
-					styles.container,
-				]}>
-				<StatusBar barStyle="dark-content" />
-				<ImageBackground
-					source={require('../assets/images/app-bg.jpg')}
-					style={{ flex: 1, width: '100%', height: '100%' }}>
-						<View style={styles.headerContainer}>
-							<Text style={styles.headerTitle}>
-								Question{' '}
-								{`${this.state.activeQuestionIndex + 1}/${
-									this.state.totalCount
-								}`}
-							</Text>
-							<View style={styles.timer}>
-								<Text
-									style={[
-										styles.headerTitle,
-										{
-											color: Theme.secondaryColors.blue,
-										},
-									]}>
-									{timer === 0 ? (
-										this.renderTimer()
-									) : (
-										<Text>{this.state.timer}</Text>
-									)}
-								</Text>
-							</View>
-						</View>
-						<View style={styles.footer}>
-						<View style={styles.questionView}>
-							<Text style={styles.question}>
-								{currentQuestion.question}
-							</Text>
-						</View>
+      <View style={[styles.container]}>
+        <StatusBar barStyle="dark-content" />
+        <ImageBackground
+          source={require('../assets/images/app-bg.jpg')}
+          style={{flex: 1, width: '100%', height: '100%'}}>
+          <View style={styles.headerContainer}>
+            <Text style={styles.headerTitle}>
+              Question{' '}
+              {`${this.state.activeQuestionIndex + 1}/${
+                this.state.totalCount
+              }`}
+            </Text>
+            <View style={styles.timer}>
+              <Text
+                style={[
+                  styles.headerTitle,
+                  {
+                    color: Theme.secondaryColors.blue,
+                  },
+                ]}>
+                {timer === 0 ? (
+                  this.renderTimer()
+                ) : (
+                  <Text>{this.state.timer}</Text>
+                )}
+              </Text>
+            </View>
+          </View>
+          <View style={styles.footer}>
+            <View style={styles.questionView}>
+              <SharedElement id={`${currentQuestion.category}`}>
+                <Text style={styles.question}>
+                  {currentQuestion.question}
+                </Text>
+              </SharedElement>
+            </View>
 
-						<ScrollView>
-							<View
-								style={{
-									width: width - 60,
-									justifyContent: 'center',
-									alignSelf: 'center',
-								}}>
-								<ButtonContainer>
-									{currentQuestion.answers.map(
-										(answer, index) => (
-											<Button
-												key={index}
-												answerNum={index + 1}
-												text={answer.text}
-												onPress={() =>
-													this.answer(answer.correct)
-												}
-												correct={
-													this.state.answerCorrect
-												}
-												visible={this.state.answered}
-											/>
-										),
-									)}
-								</ButtonContainer>
-							</View>
-						</ScrollView>
+            <ScrollView>
+              <View
+                style={{
+                  width: width - 60,
+                  justifyContent: 'center',
+                  alignSelf: 'center',
+                }}>
+                <ButtonContainer>
+                  {currentQuestion.answers.map((answer, index) => (
+                    <Button
+                      key={index}
+                      answerNum={index + 1}
+                      text={answer.text}
+                      onPress={() => this.answer(answer.correct)}
+                      correct={this.state.answerCorrect}
+                      visible={this.state.answered}
+                    />
+                  ))}
+                </ButtonContainer>
+              </View>
+            </ScrollView>
 
-						<View style={styles.quizFooter}>
-							<TouchableOpacity
-								onPress={() => this.props.navigation.goBack()}
-								style={[styles.closeButton]}>
-								<Icon
-									name="ios-close"
-									size={30}
-									color={Theme.primaryColors.blue}
-									style={styles.closeIcon}
-								/>
-								<Text
-									style={{
-										textAlign: 'center',
-										color: Theme.primaryColors.blue,
-										fontSize: 18,
-										paddingBottom: 3,
-										fontWeight: Theme.fontWeight.medium,
-									}}>
-									Quit
-								</Text>
-							</TouchableOpacity>
+            <View style={styles.quizFooter}>
+              <TouchableScale
+                style={styles.card}
+                onPress={() => this.props.navigation.goBack()}
+                activeScale={0.7}>
+                <LinearGradient
+                  colors={['#4569e1', Theme.primaryColors.blue]}
+                  style={[styles.closeButton]}>
+                  <Icon
+                    name="ios-close"
+                    size={30}
+                    color={Theme.primaryColors.white}
+                    style={styles.closeIcon}
+                  />
+                  <Text
+                    style={{
+                      textAlign: 'center',
+                      color: Theme.primaryColors.white,
+                      fontSize: 18,
+                      paddingBottom: 3,
+                      fontWeight: Theme.fontWeight.medium,
+                    }}>
+                    Quit
+                  </Text>
+                </LinearGradient>
+              </TouchableScale>
 
-							{this.renderCountTracker()}
-						</View>
-						<Score
-							parentState={this.state}
-							hideModal={this.hideModal}
-						/>
-						</View>
-				</ImageBackground>
-				<Alert
-					correct={this.state.answerCorrect}
-					visible={this.state.answered}
-				/>
-			</View>
-		);
+              {this.renderCountTracker()}
+            </View>
+            <Score parentState={this.state} hideModal={this.hideModal} />
+          </View>
+        </ImageBackground>
+        <Alert
+          correct={this.state.answerCorrect}
+          visible={this.state.answered}
+        />
+      </View>
+    );
 	}
 }
 
-export default Quiz;
+
+Quiz.sharedElements = route => {
+  const {item} = route.params;
+  console.log("🚀 ~ file: Quiz.js ~ line 290 ~ item", item);
+  return [
+    {
+      id: `item.${item.id}.photo`,
+      animation: 'move',
+      resize: 'clip',
+    },
+    // {
+    //   id: `item.${item.id}.title`,
+    //   animation: 'fade',
+    //   resize: 'clip',
+    // },
+    // {
+    //   id: `item.${item.id}.description`,
+    //   animation: 'fade',
+    //   resize: 'clip',
+    // },
+    // {
+    //   id: `item.${item.id}.iconName`,
+    //   animation: 'move',
+    //   resize: 'clip',
+    // },
+  ];
+};
 
 const styles = StyleSheet.create({
-	container: {
-		flex: 1,
-		height: height,
-	},
-	headerContainer: {
-		top: 30,
-		width: width,
-		height: 124,
-		marginBottom: 24,
-		paddingHorizontal: 30,
-		justifyContent: 'space-between',
-		flexDirection: 'row',
-		alignSelf: 'center',
-	},
-	headerTitle: {
-		textAlign: 'center',
-		fontSize: 24,
-		fontWeight: 'bold',
-		color: Theme.primaryColors.white,
-		alignSelf: 'center',
-	},
-	timer: {
-		width: 50,
-		height: 50,
-		borderRadius: 12,
-		backgroundColor: Theme.primaryColors.blue,
-		justifyContent: 'center',
-		alignSelf: 'center',
-		color: Theme.secondaryColors.white,
-	},
-	questionView: {
-		minHeight: 200,
-		width: width - 50,
-		marginBottom: 20,
-		display: 'flex',
-		justifyContent: 'center',
-		alignItems: 'center',
-		alignSelf: 'center',
-		backgroundColor: Theme.primaryColors.blue,
-		borderRadius: 20,
-		padding: 10,
-	},
-	question: {
-		color: Theme.primaryColors.white,
-		fontSize: 24,
-		textAlign: 'center',
-		alignItems: 'center',
-		alignSelf: 'center',
-		letterSpacing: -0.02,
-		fontWeight: '500',
-	},
-	renderCountTracker: {
-		width: width - 60,
-		marginTop: 40,
-		flexDirection: 'row',
-		justifyContent: 'space-between',
-		bottom: 40,
-		// position: 'relative',
-		alignSelf: 'center',
-		flex: 1,
-		position: 'absolute',
-	},
-	answerCount: {
-		flexDirection: 'row',
-		paddingHorizontal: 5,
-		height: 40,
-		width: 60,
-		borderRadius: 10,
-		alignItems: 'center',
-		justifyContent: 'center',
-		backgroundColor: Theme.secondaryColors.blue,
-	},
-	closeButton: {
-		width: 90,
-		height: 40,
-		borderRadius: 12,
-		backgroundColor: Theme.secondaryColors.blue,
-		justifyContent: 'center',
-		flexDirection: 'row',
-		alignItems: 'center',
-		paddingHorizontal: 6,
-		zIndex: 9,
-	},
-	closeIcon: {
-		paddingRight: 10,
-	},
+  container: {
+    flex: 1,
+    height: height,
+  },
+  headerContainer: {
+    top: 30,
+    width: width,
+    height: 124,
+    marginBottom: 24,
+    paddingHorizontal: 30,
+    justifyContent: 'space-between',
+    flexDirection: 'row',
+    alignSelf: 'center',
+  },
+  headerTitle: {
+    textAlign: 'center',
+    fontSize: 24,
+    fontWeight: 'bold',
+    color: Theme.primaryColors.white,
+    alignSelf: 'center',
+  },
+  timer: {
+    width: 50,
+    height: 50,
+    borderRadius: 12,
+    backgroundColor: Theme.primaryColors.blue,
+    justifyContent: 'center',
+    alignSelf: 'center',
+    color: Theme.secondaryColors.white,
+  },
+  questionView: {
+    minHeight: 200,
+    width: width - 50,
+    marginBottom: 20,
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    alignSelf: 'center',
+    backgroundColor: Theme.primaryColors.blue,
+    borderRadius: 20,
+    padding: 10,
+    shadowColor: Theme.primaryColors.blue,
+    shadowOffset: {
+      width: 0,
+      height: 10,
+    },
+    shadowOpacity: 0.3,
+    shadowRadius: 20,
+  },
+  question: {
+    color: Theme.primaryColors.white,
+    fontSize: 24,
+    textAlign: 'center',
+    alignItems: 'center',
+    alignSelf: 'center',
+    letterSpacing: -0.02,
+    fontWeight: '500',
+  },
+  renderCountTracker: {
+    width: width - 60,
+    marginTop: 40,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    bottom: 40,
+    // position: 'relative',
+    alignSelf: 'center',
+    flex: 1,
+    position: 'absolute',
+  },
+  answerCount: {
+    flexDirection: 'row',
+    paddingHorizontal: 5,
+    height: 40,
+    width: 60,
+    borderRadius: 10,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: Theme.secondaryColors.blue,
+  },
+  closeButton: {
+    width: 100,
+    height: 50,
+    borderRadius: 12,
+    backgroundColor: Theme.secondaryColors.blue,
+    justifyContent: 'center',
+    flexDirection: 'row',
+    alignItems: 'center',
+    // paddingHorizontal: 6,
+    zIndex: 9,
+    borderColor: Theme.secondaryColors.blue,
+    borderWidth: 2,
+  },
+  closeIcon: {
+    // paddingRight: 5,
+  },
 
-	quizFooter: {
-		width: width - 60,
-		flexDirection: 'row',
-		justifyContent: 'space-between',
-		bottom: 0,
-		position: 'relative',
-		alignSelf: 'center',
-	},
+  quizFooter: {
+    width: width - 60,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    bottom: 0,
+    position: 'relative',
+    alignSelf: 'center',
+  },
 
-	bgImage: {
-		width: width,
-		// height: width,
-		position: 'absolute',
-		bottom: -130,
-		opacity: 0.5,
-	},
-	safearea: {
-		flex: 1,
-		height: height,
-		justifyContent: 'space-between',
-		// backgroundColor: Theme.primaryColors.white,
-	},
-	footer: {
-		flex: Platform.OS === 'ios' ? 5 : 5,
-		backgroundColor: Theme.primaryColors.white,
-		borderTopLeftRadius: 30,
-		borderTopRightRadius: 30,
-		paddingHorizontal: 20,
-		paddingVertical: 30,
-	},
+  bgImage: {
+    width: width,
+    position: 'absolute',
+    bottom: -130,
+    opacity: 0.5,
+  },
+  safearea: {
+    flex: 1,
+    height: height,
+    justifyContent: 'space-between',
+  },
+  footer: {
+    flex: Platform.OS === 'ios' ? 5 : 5,
+    backgroundColor: Theme.primaryColors.white,
+    borderTopLeftRadius: 30,
+    borderTopRightRadius: 30,
+    paddingHorizontal: 20,
+    paddingVertical: 30,
+  },
 });
+
+export default Quiz;

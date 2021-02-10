@@ -1,122 +1,33 @@
 /* eslint-disable react-native/no-inline-styles */
 import React from 'react';
-import firebase from 'react-native-firebase';
-import FastImage from 'react-native-fast-image';
-import {View, StyleSheet, Text} from 'react-native';
+import {StyleSheet, View} from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import * as Animatable from 'react-native-animatable';
 import {NavigationContainer} from '@react-navigation/native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import {createStackNavigator} from '@react-navigation/stack';
-import {
-  createDrawerNavigator,
-  DrawerContentScrollView,
-  DrawerItemList,
-  DrawerItem,
-} from '@react-navigation/drawer';
+import {createDrawerNavigator} from '@react-navigation/drawer';
 import * as Theme from '../theme/Theme';
 
 // Screens
-import HomeScreen from '../screens/HomeScreen';
 import ProfileScreen from '../screens/ProfileScreen';
 import TopScoresScreen from '../screens/TopScoresScreen';
 import InfoScreen from '../screens/InfoScreen';
-import QuizIndex from '../screens/QuizIndex';
-import Quiz from '../screens/Quiz';
-import Score from '../components/Score';
 import ProfileEditScreen from '../screens/ProfileEditScreen';
-import {ScrollView, TouchableOpacity} from 'react-native-gesture-handler';
-import {SafeAreaView} from 'react-native-safe-area-context';
-import {color} from 'react-native-reanimated';
 import {DrawerContent} from './DrawerContents';
+import QuizHomeStack from './cardstack';
 
-firebase.auth().onAuthStateChanged(user => {
-  if (user) {
-    // User is signed in.
-    console.log('User is signed in.');
-    profilePhoto = firebase.auth().currentUser.photoURL;
-  } else {
-    // No user is signed in.
-  }
-});
-
-const Stack = createStackNavigator();
-function QuizHomeStack({navigation, route}) {
-  if (route.state && route.state.index >= 1) {
-    navigation.setOptions({tabBarVisible: false});
-  } else {
-    navigation.setOptions({tabBarVisible: true});
-  }
-  return (
-    <Stack.Navigator>
-      <Stack.Screen
-        name="HomeScreen"
-        component={HomeScreen}
-        options={({navigation}) => ({
-          headerShown: false,
-        })}
-      />
-      <Stack.Screen
-        name="QuizIndex"
-        component={QuizIndex}
-        options={({navigation}) => ({
-          tabBarVisible: false,
-          headerShown: false,
-        })}
-      />
-      <Stack.Screen name="Score" component={Score} />
-      <Stack.Screen
-        name="Quiz"
-        component={Quiz}
-        options={{
-          // title: 'My home',
-          headerStyle: {
-            backgroundColor: '#f4511e',
-          },
-          headerShown: false,
-          tabBarVisible: false,
-        }}
-      />
-      <Stack.Screen
-        name="Info"
-        component={InfoScreen}
-        options={{
-          // title: 'My home',
-          headerStyle: {
-            backgroundColor: '#f4511e',
-          },
-          headerShown: false,
-          tabBarVisible: false,
-        }}
-      />
-    </Stack.Navigator>
-  );
-}
-
-function CustomDrawerContent(props) {
-  const avatar = require('../assets/images/profileAvatar.jpg');
-  return (
-    <View>
-      <View style={{}}>
-        <FastImage resizeMode={'cover'} source={avatar} style={styles.avatar} />
-      </View>
-      <View>
-        <DrawerContentScrollView {...props}>
-          <DrawerItemList {...props} />
-          <DrawerItem
-            style={styles.DrawerItem}
-            activeTintColor={'red'}
-            inactiveTintColor={Theme.primaryColors.pink}
-            inactiveBackgroundColor={Theme.secondaryColors.pink}
-            styles={{paddingVertical: 40}}
-            label="Logout"
-            onPress={() => alert('Link to help')}
-          />
-        </DrawerContentScrollView>
-      </View>
-    </View>
-  );
-}
+const options = {
+  headerBackTitleVisible: false,
+  cardStyleInterpolator: ({current: {progress}}) => {
+    return {
+      cardStyle: {
+        opacity: progress,
+      },
+      headerShown: false,
+      tabBarVisible: false,
+    };
+  },
+};
 
 const Drawer = createDrawerNavigator();
 function ProfileDrawer() {
@@ -188,7 +99,8 @@ function ProfileDrawer() {
 
 const Tab = createBottomTabNavigator();
 
-export default (ButtonNavigation = () => {
+// export default (ButtonNavigation = () => {
+const ButtonNavigation = () => {
   return (
     <NavigationContainer>
       <Tab.Navigator
@@ -271,7 +183,7 @@ export default (ButtonNavigation = () => {
       </Tab.Navigator>
     </NavigationContainer>
   );
-});
+};
 
 const styles = StyleSheet.create({
   container: {
@@ -309,3 +221,5 @@ const styles = StyleSheet.create({
     // bottom: 0
   },
 });
+
+export default ButtonNavigation;

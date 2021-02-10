@@ -12,6 +12,8 @@ import {
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import * as Animatable from 'react-native-animatable';
+import {SharedElement} from 'react-navigation-shared-element';
+
 import Icon from 'react-native-vector-icons/Ionicons';
 import { connect } from 'react-redux';
 import {
@@ -62,26 +64,29 @@ class QuizIndex extends React.Component {
 			const arrayData = groupedData[category];
 			const name = this.state.username;
 			return (
-				<Animatable.View
-					delay={500}
-					easing={t => Math.pow(t, 1.7)}
-					style={styles.footer}
-					useNativeDriver={true}
-					key={category}>
-					<View >
-						<RowItem
-							image={obj.image}
-							key={category}
-							name={obj.category}
-							onPress={() =>
-								this.props.navigation.navigate('Quiz', {
-									arrayData, name,
-								})
-							}
-						/>
-					</View>
-				</Animatable.View>
-			);
+        <Animatable.View
+          key={category}
+          delay={500}
+          easing={t => Math.pow(t, 1.7)}
+          style={styles.footer}
+          useNativeDriver={true}>
+          <View>
+            <SharedElement id={`${obj.category}`}>
+              <RowItem
+                image={obj.image}
+                key={category}
+                name={obj.category}
+                onPress={() =>
+                  this.props.navigation.navigate('Quiz', {
+                    arrayData,
+                    name,
+                  })
+                }
+              />
+            </SharedElement>
+          </View>
+        </Animatable.View>
+      );
 		});
 		return quizInfo;
 	}
@@ -171,7 +176,7 @@ const styles = StyleSheet.create({
 		height: 100,
 	},
 	quizzesContainer: {
-		flex: 1
+		flex: 1,
 	},
 	buttonContainer: {
 		marginVertical: 10,

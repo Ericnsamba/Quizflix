@@ -109,14 +109,14 @@ class Score extends React.Component {
 			username,
 		} = this.props.parentState;
 		const { currentUser, totalPoints } = this.state;
-        console.log("Score -> handleScores -> currentUser", currentUser.isAnonymous)
+        // console.log("Score -> handleScores -> currentUser", currentUser.isAnonymous)
 
 		const updatedTotalPoints = totalPoints + correctCount;
 
 
 		if (!currentUser && currentUser.isAnonymous) {
 
-			console.log('anonymous user');
+			// console.log('anonymous user');
 		}
 		else if (correctCount + inCorrectCount === totalCount && modalVisible) {
 			const timeStamp = new Date();
