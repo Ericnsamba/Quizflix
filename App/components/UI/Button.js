@@ -23,15 +23,15 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     backgroundColor: Theme.primaryColors.orange,
     //ios
-    shadowColor: Theme.primaryColors.blue,
-    shadowOpacity: 0.6,
-    shadowRadius: 8,
-    shadowOffset: {
-      height: 5,
-      width: 0,
-    },
+    // shadowColor: Theme.primaryColors.blue,
+    // shadowOpacity: 0.6,
+    // shadowRadius: 8,
+    // shadowOffset: {
+    //   height: 5,
+    //   width: 0,
+    // },
     //android
-    elevation: 1,
+    // elevation: 1,
   },
   buttonStyle: {
     justifyContent: 'center',
@@ -43,6 +43,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     width: '100%',
     fontSize: 20,
+    textTransform: 'capitalize',
   },
 
   buttonContainer: {

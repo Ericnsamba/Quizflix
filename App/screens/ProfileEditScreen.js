@@ -21,13 +21,16 @@ import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import * as Theme from '../theme/Theme';
+import {Button} from '../components/UI/Button';
 import KeyboardShift from '../components/KeyboardShift';
+import Modal from 'react-native-modal';
 import {
   watchPersonData,
   watchPointsData,
   watchUsersData,
   watchLeaderBoardData,
 } from '../redux/AppRedux';
+import ConvertAnonymousToUsers from '../components/ConvertAnonymousTousers';
 
 const {width, height} = Dimensions.get('window');
 
@@ -85,6 +88,7 @@ export class ProfileEditScreen extends Component {
       password: '',
       errorMessage: null,
       phoneNumber: 0,
+      isModalVisible: true,
     };
     this.props.watchPointsData();
     this.props.watchPersonData();
@@ -278,220 +282,274 @@ export class ProfileEditScreen extends Component {
     });
   };
 
+  toggleModal = () => {
+    this.setState({isModalVisible: !this.state.isModalVisible});
+  };
+
   render() {
-    const {uploading, imgSource, progress, images} = this.state;
+    const {uploading, imgSource, progress, images, isModalVisible} = this.state;
     const {username, email, profileImage} = this.props.personData;
     const avatar = require('../assets/images/profileAvatar.jpg');
-    // console.log('TCL: render -> uploading', this.props.personData);
+    const cantAccessPage = require('../assets/images/cantAccessPage.png');
+    console.log('TCL: render -> uploading', this.state.isModalVisible);
 
     const disabledStyle = uploading ? styles.disabledBtn : {};
     const actionBtnStyles = [styles.btn, disabledStyle];
     let currentUser = firebase.auth().currentUser;
+    // console.log(
+    //   '🚀 ~ file: ProfileEditScreen.js ~ line 290 ~ ProfileEditScreen ~ render ~ currentUser',
+    //   currentUser,
+    // );
 
     return (
-      <KeyboardShift>
-        {() => (
+      <>
+        {currentUser.isAnonymous === true ? (
           <SafeAreaView style={styles.container}>
-            {/* <ScrollView
-              showsVerticalScrollIndicator={false}
-              refreshControl={
-                <RefreshControl
-                  refreshing={this.state.refreshing}
-                  onRefresh={this._onRefresh}
-                />
-              }> */}
-            <View style={styles.container}>
-              {/** Display image */}
-              <View style={styles.openDrawer}>
-                <TouchableOpacity
-                  onPress={() => this.props.navigation.openDrawer()}>
-                  <Ionicons
-                    name="ellipsis-vertical"
-                    size={24}
-                    color={Theme.primaryColors.black}
-                  />
-                </TouchableOpacity>
-              </View>
-
-              {imgSource !== '' && (
-                <View>
-                  <Image source={imgSource} style={styles.imagePicker} />
-                  {uploading && (
-                    <View
-                      style={[
-                        styles.progressBar,
-                        {
-                          width: `${progress}%`,
-                        },
-                      ]}
-                    />
-                  )}
-                  <TouchableOpacity
-                    style={actionBtnStyles}
-                    onPress={this.uploadImage}
-                    disabled={uploading}>
-                    <View>
-                      {uploading ? (
-                        <Text style={styles.btnTxt}>Uploading ...</Text>
-                      ) : (
-                        <Text style={styles.btnTxt}>Upload image</Text>
-                      )}
-                    </View>
-                  </TouchableOpacity>
-                  <TouchableOpacity
-                    style={{
-                      alignSelf: 'center',
-                    }}
-                    onPress={this.disabledUpload}
-                    disabled={uploading}>
-                    <View>
-                      <Text
-                        style={{
-                          fontSize: 12,
-                          padding: 10,
-                          textTransform: 'uppercase',
-                          color: Theme.primaryColors.black,
-                          fontWeight: '500',
-                        }}>
-                        close
-                      </Text>
-                    </View>
-                  </TouchableOpacity>
-                </View>
-              )}
-
-              <View
-                style={{
-                  alignSelf: 'center',
-                }}>
-                <View style={styles.profileImage}>
-                  {this.state.photoURL ? (
-                    <View>
-                      <FastImage
-                        source={
-                          profileImage
-                            ? {
-                                uri: profileImage,
-                                priority: FastImage.priority.high,
-                              }
-                            : avatar
-                        }
-                        style={[
-                          styles.image,
-                          {
-                            zIndex: 99,
-                          },
-                        ]}
-                      />
-                    </View>
-                  ) : (
-                    <Text
-                      style={{
-                        fontSize: 16,
-                        paddingTop: 0,
-                        textAlign: 'center',
-                        fontFamily: 'HelveticaNeue',
-                        fontWeight: '300',
-                      }}>
-                      Select an Image!
-                    </Text>
-                  )}
-                </View>
-                <View style={styles.add}>
-                  <TouchableOpacity
-                    style={styles.buttonPickImage}
-                    onPress={this.pickImage}>
-                    <Ionicons
-                      name="ios-add"
-                      size={48}
-                      color="#DFD8C8"
-                      style={{
-                        marginTop: 6,
-                        marginLeft: 2,
-                      }}
-                    />
-                  </TouchableOpacity>
-                </View>
-              </View>
-              <View style={styles.infoContainer}>
-                <Text style={[styles.text, {fontSize: 36}]}>
-                  {username}
-                </Text>
-                <Text style={[styles.text]}>
-                  {currentUser && currentUser.email}
-                </Text>
-                <View
-                  style={{
-                    marginVertical: 10,
-                  }}
-                />
-              </View>
-
-              <View style={styles.errorMessage}>
-                {this.state.errorMessage && (
-                  <Text style={styles.error}>
-                    {this.state.errorMessage}
-                  </Text>
-                )}
-              </View>
-              <View style={styles.form}>
-                <View
-                  style={{
-                    marginTop: 20,
-                  }}>
-                  <Text style={styles.inputTitle}>New Displayed Name</Text>
-                  <TextInput
-                    style={styles.input}
-                    autoCapitalize="none"
-                    onChangeText={displayName =>
-                      this.setState({
-                        displayName,
-                      })
-                    }
-                    value={this.state.displayName}
-                  />
-                </View>
-                <View
-                  style={{
-                    marginTop: 20,
-                  }}>
-                  <Text style={styles.inputTitle}>
-                    Update Email Address
-                  </Text>
-                  <TextInput
-                    style={styles.input}
-                    autoCapitalize="none"
-                    onChangeText={email =>
-                      this.setState({
-                        email,
-                      })
-                    }
-                    value={this.state.email}
-                  />
-                </View>
-              </View>
+            <View style={styles.openDrawer}>
               <TouchableOpacity
-                style={styles.button}
-                onPress={this.UpdateDetails}>
-                <Text
-                  style={{
-                    color: Theme.primaryColors.white,
-                    fontWeight: '500',
-                  }}>
-                  Update{' '}
-                </Text>
+                onPress={() => this.props.navigation.openDrawer()}>
+                <Ionicons
+                  name="ellipsis-vertical"
+                  size={24}
+                  color={Theme.primaryColors.black}
+                />
               </TouchableOpacity>
             </View>
-            <View style={styles.errorMessage}>
-              {this.state.errorMessage && (
-                <Text style={styles.error}>{this.state.errorMessage}</Text>
-              )}
+
+            <View style={styles.headerSection}>
+              <Text style={{fontSize: 32, fontWeight: 'bold'}}>
+                Hi Anonymous!
+              </Text>
+              <Text style={{fontSize: 16}}>
+                Create a Profile to access this page{' '}
+              </Text>
             </View>
-            <View style={{marginTop: 40}} />
-            {/* </ScrollView> */}
+
+            <View style={styles.innerContainer}>
+              <View style={styles.cantAccessPageImg}>
+                <Image
+                  source={cantAccessPage}
+                  style={{width: '100%', height: '100%'}}
+                />
+              </View>
+            </View>
+            <Modal isVisible={isModalVisible}>
+              <View style={{flex: 1}}>
+                <TouchableOpacity
+                  style={{zIndex: 10, marginVertical: 20}}
+                  title="Hide modal"
+                  onPress={this.toggleModal}>
+                  <Ionicons name="close" size={40} style={styles.buttonIcon} />
+                </TouchableOpacity>
+                <ConvertAnonymousToUsers />
+              </View>
+            </Modal>
+            <View style={styles.createProfileButton}>
+              <Button
+                onPress={this.toggleModal}
+                text="create profile"
+                style={styles.createProfileButton}
+              />
+            </View>
           </SafeAreaView>
+        ) : (
+          <KeyboardShift>
+            {() => (
+              <SafeAreaView style={styles.container}>
+                <View style={styles.container}>
+                  {/** Display image */}
+                  <View style={styles.openDrawer}>
+                    <TouchableOpacity
+                      onPress={() => this.props.navigation.openDrawer()}>
+                      <Ionicons
+                        name="ellipsis-vertical"
+                        size={24}
+                        color={Theme.primaryColors.black}
+                      />
+                    </TouchableOpacity>
+                  </View>
+
+                  {imgSource !== '' && (
+                    <View>
+                      <Image source={imgSource} style={styles.imagePicker} />
+                      {uploading && (
+                        <View
+                          style={[
+                            styles.progressBar,
+                            {
+                              width: `${progress}%`,
+                            },
+                          ]}
+                        />
+                      )}
+                      <TouchableOpacity
+                        style={actionBtnStyles}
+                        onPress={this.uploadImage}
+                        disabled={uploading}>
+                        <View>
+                          {uploading ? (
+                            <Text style={styles.btnTxt}>Uploading ...</Text>
+                          ) : (
+                            <Text style={styles.btnTxt}>Upload image</Text>
+                          )}
+                        </View>
+                      </TouchableOpacity>
+                      <TouchableOpacity
+                        style={{
+                          alignSelf: 'center',
+                        }}
+                        onPress={this.disabledUpload}
+                        disabled={uploading}>
+                        <View>
+                          <Text
+                            style={{
+                              fontSize: 12,
+                              padding: 10,
+                              textTransform: 'uppercase',
+                              color: Theme.primaryColors.black,
+                              fontWeight: '500',
+                            }}>
+                            close
+                          </Text>
+                        </View>
+                      </TouchableOpacity>
+                    </View>
+                  )}
+
+                  <View
+                    style={{
+                      alignSelf: 'center',
+                    }}>
+                    <View style={styles.profileImage}>
+                      {this.state.photoURL ? (
+                        <View>
+                          <FastImage
+                            source={
+                              profileImage
+                                ? {
+                                    uri: profileImage,
+                                    priority: FastImage.priority.high,
+                                  }
+                                : avatar
+                            }
+                            style={[
+                              styles.image,
+                              {
+                                zIndex: 99,
+                              },
+                            ]}
+                          />
+                        </View>
+                      ) : (
+                        <Text
+                          style={{
+                            fontSize: 16,
+                            paddingTop: 0,
+                            textAlign: 'center',
+                            fontFamily: 'HelveticaNeue',
+                            fontWeight: '300',
+                          }}>
+                          Select an Image!
+                        </Text>
+                      )}
+                    </View>
+                    <View style={styles.add}>
+                      <TouchableOpacity
+                        style={styles.buttonPickImage}
+                        onPress={this.pickImage}>
+                        <Ionicons
+                          name="ios-add"
+                          size={48}
+                          color="#DFD8C8"
+                          style={{
+                            marginTop: 6,
+                            marginLeft: 2,
+                          }}
+                        />
+                      </TouchableOpacity>
+                    </View>
+                  </View>
+                  <View style={styles.infoContainer}>
+                    <Text style={[styles.text, {fontSize: 36}]}>
+                      {username}
+                    </Text>
+                    <Text style={[styles.text]}>
+                      {currentUser && currentUser.email}
+                    </Text>
+                    <View
+                      style={{
+                        marginVertical: 10,
+                      }}
+                    />
+                  </View>
+
+                  <View style={styles.errorMessage}>
+                    {this.state.errorMessage && (
+                      <Text style={styles.error}>
+                        {this.state.errorMessage}
+                      </Text>
+                    )}
+                  </View>
+                  <View style={styles.form}>
+                    <View
+                      style={{
+                        marginTop: 20,
+                      }}>
+                      <Text style={styles.inputTitle}>New Displayed Name</Text>
+                      <TextInput
+                        style={styles.input}
+                        autoCapitalize="none"
+                        onChangeText={displayName =>
+                          this.setState({
+                            displayName,
+                          })
+                        }
+                        value={this.state.displayName}
+                      />
+                    </View>
+                    <View
+                      style={{
+                        marginTop: 20,
+                      }}>
+                      <Text style={styles.inputTitle}>
+                        Update Email Address
+                      </Text>
+                      <TextInput
+                        style={styles.input}
+                        autoCapitalize="none"
+                        onChangeText={email =>
+                          this.setState({
+                            email,
+                          })
+                        }
+                        value={this.state.email}
+                      />
+                    </View>
+                  </View>
+                  <TouchableOpacity
+                    style={styles.button}
+                    onPress={this.UpdateDetails}>
+                    <Text
+                      style={{
+                        color: Theme.primaryColors.white,
+                        fontWeight: '500',
+                      }}>
+                      Update{' '}
+                    </Text>
+                  </TouchableOpacity>
+                </View>
+                <View style={styles.errorMessage}>
+                  {this.state.errorMessage && (
+                    <Text style={styles.error}>{this.state.errorMessage}</Text>
+                  )}
+                </View>
+                <View style={{marginTop: 40}} />
+                {/* </ScrollView> */}
+              </SafeAreaView>
+            )}
+          </KeyboardShift>
         )}
-      </KeyboardShift>
+      </>
     );
   }
 }
@@ -505,8 +563,30 @@ const styles = StyleSheet.create({
     paddingLeft: 5,
     paddingRight: 5,
   },
+  headerSection: {
+    // width: width - 60,
+    paddingHorizontal: 30,
+    marginTop: 20,
+  },
+  innerContainer: {
+    flex: 1,
+    flexDirection: 'column',
+    backgroundColor: Theme.primaryColors.white,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  createProfileButton: {
+    position: 'absolute',
+    alignSelf: 'center',
+    bottom: 40,
+  },
   buttonPickImage: {
     alignItems: 'center',
+  },
+  cantAccessPageImg: {
+    top: -60,
+    width: 322,
+    height: 273.13,
   },
   add: {
     backgroundColor: Theme.primaryColors.black,
@@ -530,7 +610,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   disabledBtn: {
-    backgroundColor: 'rgba(3,155,229,0.5)',
+    backgroundColor: Theme.primaryColors.orange,
   },
   btnTxt: {
     color: Theme.primaryColors.white,

@@ -99,7 +99,7 @@ class ScoreHeader extends Component {
               style={styles.Image}
             />
             <View style={{marginLeft: 10}}>
-              <Text style={styles.userName}>Hello!</Text>
+              <Text style={styles.userName}>Hi!</Text>
               <Text style={[styles.userName, {fontWeight: '800'}]}>
                 {`${username ? username : 'anonymous'}`}
               </Text>
@@ -153,8 +153,8 @@ const styles = StyleSheet.create({
     borderRadius: 20,
   },
   Image: {
-    width: 50,
-    height: 50,
+    width: 60,
+    height: 60,
     borderRadius: 10,
     borderColor: Theme.primaryColors.blue,
     borderWidth: 1,

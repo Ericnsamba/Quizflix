@@ -1,3 +1,4 @@
+/* eslint-disable react-native/no-inline-styles */
 /* eslint-disable prettier/prettier */
 import React, {Component} from 'react';
 import LottieView from 'lottie-react-native';
@@ -63,7 +64,7 @@ class InfoScreen extends React.Component {
   }
 
   componentDidMount() {
-   this.getDevInfo()
+   this.getDevInfo();
   }
 
   getDevInfo = () => {
@@ -88,7 +89,7 @@ class InfoScreen extends React.Component {
     return (
       <SafeAreaView style={styles.container}>
         <StatusBar barStyle="dark-content" />
-        <View style={styles.logout}>
+        <View style={styles.drawerContent}>
           <TouchableOpacity onPress={() => this.props.navigation.openDrawer()}>
             <Ionicons
               name="ellipsis-vertical"
@@ -120,13 +121,11 @@ class InfoScreen extends React.Component {
         </View>
         <View style={styles.innerContainer}>
           <View style={styles.quizzesPlayed}>
-            <Text style={styles.quizzesPlayedTitle}>Hi {username ? username: 'There'}</Text>
+            <Text style={styles.quizzesPlayedTitle}>Hi {username ? username : 'There'}</Text>
             <Text style={[styles.paragrathText, {marginBottom: 20}]}>
               Thank you for downloading and playing QuizFlix.
             </Text>
-            <Text style={[styles.paragrathText, {marginBottom: 20}]}>
-             {bio}.
-			 </Text>
+            <Text style={[styles.paragrathText, {marginBottom: 20}]}>{bio}.</Text>
             <Text style={styles.paragrathText}>Connect with me via:</Text>
             <View>
               <View style={styles.socialHandles}>
@@ -148,7 +147,6 @@ class InfoScreen extends React.Component {
                   color={Theme.primaryColors.black}
                   style={styles.socialIcon}
                 />
-                {/* <Text style={styles.paragrathText}>ericAndTheWeb</Text> */}
               </View>
             </View>
           </View>
@@ -181,9 +179,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   avatarContainer: {
-    borderColor: Theme.primaryColors.blue,
+    borderColor: Theme.primaryColors.black,
     borderWidth: 2,
-    borderRadius: 30,
+    borderRadius: 15,
     overflow: 'hidden',
   },
   avatar: {
@@ -263,8 +261,7 @@ const styles = StyleSheet.create({
   socialIcon: {
     paddingRight: 10,
   },
-  logout: {
-    // backgroundColor: Theme.secondaryColors.blue,
+  drawerContent: {
     width: width,
     alignItems: 'flex-end',
     paddingHorizontal: 20,

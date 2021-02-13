@@ -7,20 +7,17 @@ import {
 	View,
 	StyleSheet,
 	TouchableOpacity,
-	TouchableHighlight,
 	StatusBar,
 	SafeAreaView,
 	Dimensions,
 	Image,
-	Platform,
-	ImageBackground,
 } from 'react-native';
 import Modal from 'react-native-modal';
-import Feather from 'react-native-vector-icons/Feather';
 import Icon from 'react-native-vector-icons/Ionicons';
-import * as Animatable from 'react-native-animatable';
 import LinearGradient from 'react-native-linear-gradient';
 import { connect } from 'react-redux';
+import * as RNLocalize from 'react-native-localize';
+
 import {
 	watchQuestionsData,
 	watchPersonData,
@@ -29,7 +26,6 @@ import {
 } from '../redux/AppRedux';
 import * as Theme from '../theme/Theme';
 import ScoreHeader from '../components/ScoreHeader';
-import InfoScreen from './InfoScreen';
 import AboutInfo from './aboutTheGame';
 const { width, height } = Dimensions.get('window');
 
@@ -77,6 +73,9 @@ class HomeScreen extends Component {
 		if (firebase.auth().currentUser.uid) {
 			// this.setState({ uid: firebase.auth().currentUser.uid });
 		}
+    // console.log(RNLocalize.getLocales());
+    console.log('======>', RNLocalize.getCountry());
+
 	}
 
 	setModalVisible(visible) {
@@ -149,7 +148,7 @@ class HomeScreen extends Component {
 
           <Modal
             isVisible={this.state.isModalVisible}
-            // animationIn={'slideInRight'}
+            //animationIn={'slideInRight'}
           >
             <View style={{flex: 1}}>
               <TouchableOpacity

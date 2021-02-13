@@ -4,22 +4,16 @@ import firebase from 'react-native-firebase';
 import {
   View,
   Text,
-  Button,
   TouchableOpacity,
   Dimensions,
   TextInput,
   Platform,
   StyleSheet,
-  ScrollView,
   StatusBar,
-  Alert,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import * as Animatable from 'react-native-animatable';
-import LinearGradient from 'react-native-linear-gradient';
-import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Feather from 'react-native-vector-icons/Feather';
-import {GoogleSignin, statusCodes} from 'react-native-google-signin';
 import * as Theme from '../theme/Theme';
 
 export default class SignUpScreen extends React.Component {
@@ -123,7 +117,7 @@ export default class SignUpScreen extends React.Component {
                 size={20}
               />
               <TextInput
-                placeholder="Your Password"
+                placeholder="Your Email"
                 placeholderTextColor={Theme.secondaryColors.black}
                 onChangeText={email => this.setState({email})}
                 value={this.state.email}
@@ -223,7 +217,7 @@ const styles = StyleSheet.create({
     fontSize: 30,
   },
   text_footer: {
-    color: Theme.primaryColors.white,
+    color: Theme.primaryColors.black,
     fontSize: 15,
   },
   action: {
@@ -241,7 +235,7 @@ const styles = StyleSheet.create({
     flex: 1,
     marginTop: Platform.OS === 'ios' ? 0 : -12,
     paddingLeft: 10,
-    color: Theme.primaryColors.white,
+    color: Theme.primaryColors.black,
     height: 40,
   },
   button: {

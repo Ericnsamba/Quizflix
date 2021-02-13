@@ -15,9 +15,7 @@ import {
   UIManager,
 } from 'react-native';
 import firebase from 'react-native-firebase';
-import * as Animatable from 'react-native-animatable';
 import * as Theme from '../theme/Theme';
-import Animated from 'react-native-reanimated';
 
 if (
   Platform.OS === 'android' &&
@@ -63,12 +61,27 @@ class WelcomeScreen extends Component {
     }
   };
 
+  handleQAnonnymousLogin = () => {
+    firebase
+      .auth()
+      .signInAnonymously()
+      .then(() => {
+        console.log('User signed in anonymously');
+      })
+      .catch(error => {
+        if (error.code === 'auth/operation-not-allowed') {
+          console.log('Enable anonymous in your firebase console.');
+        }
+        console.error(error);
+      });
+  };
+
   handleSelected = () => {
     const {isUser, isAnonymous} = this.state;
     if (isUser) {
       return this.props.navigation.navigate('LoginScreen');
     } else if (isAnonymous) {
-      // return this.handleQAnonnymousLogin;
+      this.handleQAnonnymousLogin();
     }
   };
 
@@ -148,24 +161,21 @@ class WelcomeScreen extends Component {
   }
 }
 const {height, width} = Dimensions.get('screen');
-const height_logo = height * 0.28;
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    // backgroundColor: '#e1e1e1',
-    // justifyContent: 'center'
+    backgroundColor: Theme.primaryColors.white,
   },
   heading: {
     textAlign: 'center',
     fontWeight: 'bold',
     fontSize: 15,
-    color: '#333333',
+    color: Theme.primaryColors.black,
   },
   header: {
     justifyContent: 'center',
     alignItems: 'center',
-    // backgroundColor: Theme.secondaryColors.pink,
     height: '20%',
   },
   subTitle: {

@@ -109,7 +109,6 @@ class Score extends React.Component {
 			username,
 		} = this.props.parentState;
 		const { currentUser, totalPoints } = this.state;
-        // console.log("Score -> handleScores -> currentUser", currentUser.isAnonymous)
 
 		const updatedTotalPoints = totalPoints + correctCount;
 
