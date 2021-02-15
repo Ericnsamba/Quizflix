@@ -17,6 +17,8 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import LinearGradient from 'react-native-linear-gradient';
 import { connect } from 'react-redux';
 import * as RNLocalize from 'react-native-localize';
+import ReactCountryFlag from 'react-country-flag';
+
 
 import {
 	watchQuestionsData,
@@ -71,10 +73,12 @@ class HomeScreen extends Component {
 
 	componentDidMount() {
 		if (firebase.auth().currentUser.uid) {
+    console.log("🚀 ~ file: HomeScreen.js ~ line 76 ~ HomeScreen ~ constructor ~ watchPersonData", watchPersonData)
 			// this.setState({ uid: firebase.auth().currentUser.uid });
 		}
     // console.log(RNLocalize.getLocales());
     console.log('======>', RNLocalize.getCountry());
+    console.log('======>', firebase.auth().currentUser.uid);
 
 	}
 
@@ -109,6 +113,7 @@ class HomeScreen extends Component {
             <Text style={styles.introText}>
               {`Go ahead! ${br}${'Start playing'}`}
             </Text>
+            {/* <ReactCountryFlag countryCode="US" /> */}
           </View>
 
           <View style={styles.buttonsView}>
@@ -146,18 +151,15 @@ class HomeScreen extends Component {
             </TouchableOpacity>
           </View>
 
-          <Modal
-            isVisible={this.state.isModalVisible}
-            //animationIn={'slideInRight'}
-          >
+          <Modal isVisible={this.state.isModalVisible}>
             <View style={{flex: 1}}>
               <TouchableOpacity
-              style={{ zIndex:10, marginVertical: 20}}
+                style={{zIndex: 10, marginVertical: 20}}
                 title="Hide modal"
                 onPress={this.toggleModal}>
                 <Icon name="close" size={40} style={styles.buttonIcon} />
               </TouchableOpacity>
-              <AboutInfo/>
+              <AboutInfo />
             </View>
           </Modal>
 

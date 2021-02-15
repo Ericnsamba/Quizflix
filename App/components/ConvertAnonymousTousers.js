@@ -3,7 +3,7 @@ import React, {useState, useEffect} from 'react';
 import {View, Text, StyleSheet, Platform} from 'react-native';
 import firebase from 'react-native-firebase';
 import Icon from 'react-native-vector-icons/Ionicons';
-import * as Animatable from 'react-native-animatable';
+import * as RNLocalize from 'react-native-localize';
 import Feather from 'react-native-vector-icons/Feather';
 import {TextInput, TouchableOpacity} from 'react-native-gesture-handler';
 import * as Theme from '../theme/Theme';
@@ -23,11 +23,13 @@ const ConvertAnonymousToUsers = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [scoresData, setScoresData] = useState('');
+  const [countryCode, setCountryCode] = useState('');
   //   const [totalPoints, setTotalPoints] = useState('');
   const [check_textInputChange, setCheck_textInputChange] = useState(false);
   const [secureTextEntry, setSecureTextEntry] = useState(false);
 
   useEffect(() => {
+    setCountryCode(RNLocalize.getCountry());
     const userID = firebase.auth().currentUser.uid;
     firebase
       .database()
@@ -74,6 +76,7 @@ const ConvertAnonymousToUsers = () => {
             email,
             password,
             username,
+            countryCode,
           });
 
           const totalPointsData = {
@@ -95,7 +98,7 @@ const ConvertAnonymousToUsers = () => {
   return (
     <View style={styles.container}>
       <View style={styles.footer}>
-        <Animatable.View animation="fadeInUpBig" style={{top: 0}}>
+        <View style={{top: 0}}>
           <Text style={styles.errorMessage}>{errorMessage}</Text>
           <View
             style={[
@@ -116,13 +119,13 @@ const ConvertAnonymousToUsers = () => {
               value={username}
             />
             {check_textInputChange ? (
-              <Animatable.View animation="bounceIn">
+              <View>
                 <Feather
                   name="check-circle"
                   color={Theme.primaryColors.blue}
                   size={20}
                 />
-              </Animatable.View>
+              </View>
             ) : null}
           </View>
 
@@ -198,7 +201,7 @@ const ConvertAnonymousToUsers = () => {
               />
             </TouchableOpacity>
           </View>
-        </Animatable.View>
+        </View>
       </View>
     </View>
   );

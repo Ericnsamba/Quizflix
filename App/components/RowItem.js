@@ -28,22 +28,24 @@ const Background = styled.View`
   border-radius: 20px;
   display: flex;
   align-items: center;
-  height: 34px;
-  width: auto;
+  width: 100%;
   justify-content: center;
   align-self: center;
   padding: 5px 15px;
+  height: 60px;
 `;
 
 export const RowItem = ({onPress = () => {}, name, color, image}) => (
-  <TouchableScale style={styles.card} onPress={onPress} activeScale={0.7}>
+  <TouchableScale style={styles.card} onPress={onPress} activeScale={0.9}>
     <View style={styles.container}>
       <SharedElement id={'question'}>
         <FastImage
           source={{uri: image, priority: FastImage.priority.high}}
           style={styles.image}>
           <View style={[styles.row, {backgroundColor: color, width: '100%'}]}>
-            <Background color={Theme.primaryColors.orange}>
+            <Background
+              color={Theme.secondaryColors.orange}
+              style={styles.Background}>
               <Title>{name}</Title>
             </Background>
           </View>
@@ -56,7 +58,7 @@ export const RowItem = ({onPress = () => {}, name, color, image}) => (
 const styles = StyleSheet.create({
   container: {
     backgroundColor: Theme.primaryColors.blue,
-    height: 130,
+    height: 230,
     width: 328,
     justifyContent: 'center',
   },
@@ -71,20 +73,22 @@ const styles = StyleSheet.create({
     paddingHorizontal: 15,
     paddingVertical: 20,
     marginBottom: 1,
-    height: 200,
-    width: width - 80,
-    justifyContent: 'center',
+    height: 230,
+    // width: width - 80,
+    justifyContent: 'flex-end',
     borderRadius: 12,
     marginVertical: 5,
+    width: '100%',
+
   },
   image: {
     width: '100%',
-    height: 130,
+    height: '100%',
     backgroundColor: Theme.primaryColors.blue,
   },
   text: {
     fontSize: 24,
-    color: '#fff',
+    color: Theme.primaryColors.white,
     fontWeight: '600',
     textAlign: 'center',
     position: 'relative',

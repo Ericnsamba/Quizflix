@@ -381,8 +381,8 @@ PODS:
     - OpenSSL-Universal (= 1.0.2.20)
   - Flipper-Glog (0.3.6)
   - Flipper-PeerTalk (0.0.4)
-  - Flipper-RSocket (1.1.0):
-    - Flipper-Folly (~> 2.2)
+  - Flipper-RSocket (1.1.1):
+    - Flipper-Folly (~> 2.3)
   - FlipperKit (0.54.0):
     - FlipperKit/Core (= 0.54.0)
   - FlipperKit/Core (0.54.0):
@@ -437,11 +437,11 @@ PODS:
     - AppAuth (~> 1.2)
     - GTMAppAuth (~> 1.0)
     - GTMSessionFetcher/Core (~> 1.1)
-  - GoogleToolboxForMac/Defines (2.3.0)
-  - GoogleToolboxForMac/Logger (2.3.0):
-    - GoogleToolboxForMac/Defines (= 2.3.0)
-  - "GoogleToolboxForMac/NSData+zlib (2.3.0)":
-    - GoogleToolboxForMac/Defines (= 2.3.0)
+  - GoogleToolboxForMac/Defines (2.3.1)
+  - GoogleToolboxForMac/Logger (2.3.1):
+    - GoogleToolboxForMac/Defines (= 2.3.1)
+  - "GoogleToolboxForMac/NSData+zlib (2.3.1)":
+    - GoogleToolboxForMac/Defines (= 2.3.1)
   - GoogleUtilities/AppDelegateSwizzler (6.7.2):
     - GoogleUtilities/Environment
     - GoogleUtilities/Logger
@@ -777,7 +777,7 @@ PODS:
   - RNFBApp (7.3.1):
     - Firebase/CoreOnly (~> 6.25.0)
     - React
-  - RNFBStorage (10.5.1):
+  - RNFBStorage (10.8.0):
     - Firebase/Storage (~> 6.25.0)
     - React-Core
     - RNFBApp
@@ -790,7 +790,7 @@ PODS:
     - Fabric
     - Firebase/Core
     - React
-  - RNGestureHandler (1.9.0):
+  - RNGestureHandler (1.10.1):
     - React-Core
   - RNGoogleSignin (4.0.3):
     - GoogleSignIn (~> 5.0.0)
@@ -808,11 +808,13 @@ PODS:
     - RNSound/Core (= 0.11.0)
   - RNSound/Core (0.11.0):
     - React
+  - RNSVG (12.1.0):
+    - React
   - RNVectorIcons (6.7.0):
     - React
-  - SDWebImage (5.10.3):
-    - SDWebImage/Core (= 5.10.3)
-  - SDWebImage/Core (5.10.3)
+  - SDWebImage (5.10.4):
+    - SDWebImage/Core (= 5.10.4)
+  - SDWebImage/Core (5.10.4)
   - SDWebImageWebPCoder (0.6.1):
     - libwebp (~> 1.0)
     - SDWebImage/Core (~> 5.7)
@@ -837,7 +839,7 @@ DEPENDENCIES:
   - Firebase/Storage
   - Flipper (~> 0.54.0)
   - Flipper-DoubleConversion (= 1.1.7)
-  - Flipper-Folly (~> 2.2)
+  - Flipper-Folly (= 2.3.0)
   - Flipper-Glog (= 0.3.6)
   - Flipper-PeerTalk (~> 0.0.4)
   - Flipper-RSocket (~> 1.1)
@@ -898,6 +900,7 @@ DEPENDENCIES:
   - RNScreens (from `../node_modules/react-native-screens`)
   - RNSharedElement (from `../node_modules/react-native-shared-element`)
   - RNSound (from `../node_modules/react-native-sound`)
+  - RNSVG (from `../node_modules/react-native-svg`)
   - RNVectorIcons (from `../node_modules/react-native-vector-icons`)
   - "toolbar-android (from `../node_modules/@react-native-community/toolbar-android`)"
   - Yoga (from `../node_modules/react-native/ReactCommon/yoga`)
@@ -1051,6 +1054,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-shared-element"
   RNSound:
     :path: "../node_modules/react-native-sound"
+  RNSVG:
+    :path: "../node_modules/react-native-svg"
   RNVectorIcons:
     :path: "../node_modules/react-native-vector-icons"
   toolbar-android:
@@ -1096,14 +1101,14 @@ SPEC CHECKSUMS:
   Flipper-Folly: e4493b013c02d9347d5e0cb4d128680239f6c78a
   Flipper-Glog: 1dfd6abf1e922806c52ceb8701a3599a79a200a6
   Flipper-PeerTalk: 116d8f857dc6ef55c7a5a75ea3ceaafe878aadc9
-  Flipper-RSocket: 64e7431a55835eb953b0bf984ef3b90ae9fdddd7
+  Flipper-RSocket: a3acb8812d6adf127deb0a5edae2793b97e6b641
   FlipperKit: ab353d41aea8aae2ea6daaf813e67496642f3d7d
   Folly: b73c3869541e86821df3c387eb0af5f65addfab4
   glog: 40a13f7840415b9a77023fbcae0f1e6f43192af3
   GoogleAppMeasurement: 137afe68bfa406c3f4221b9395253d9e5d4654cf
   GoogleDataTransport: 672fb0ce96fe7f7f31d43672fca62ad2c9c86f7b
   GoogleSignIn: 7137d297ddc022a7e0aa4619c86d72c909fa7213
-  GoogleToolboxForMac: 1350d40e86a76f7863928d63bcb0b89c84c521c5
+  GoogleToolboxForMac: 471e0c05d39506e50e6398f46fa9a12ae0efeff9
   GoogleUtilities: 7f2f5a07f888cdb145101d6042bc4422f57e70b3
   "gRPC-C++": 13d8ccef97d5c3c441b7e3c529ef28ebee86fad2
   gRPC-Core: 4afa11bfbedf7cdecd04de535a9e046893404ed5
@@ -1146,22 +1151,23 @@ SPEC CHECKSUMS:
   RNDeviceInfo: e841619c3dac5495a095c5455473579ff04908d4
   RNFastImage: d4870d58f5936111c56218dbd7fcfc18e65b58ff
   RNFBApp: cd70a6c061bc485994e28c7d58ab760538850f0e
-  RNFBStorage: be9bd85bfb94b48c532124ec87280659686f2f1f
+  RNFBStorage: fb8b8ed40bd41797e3ef7c2593b3971e426f064e
   RNFirebase: 37daa9a346d070f9f6ee1f3b4aaf4c8e3b1d5d1c
-  RNGestureHandler: 9b7e605a741412e20e13c512738a31bd1611759b
+  RNGestureHandler: 5e58135436aacc1c5d29b75547d3d2b9430d052c
   RNGoogleSignin: ccf71ee4b6cfd324fd788a41e457e2043838c0d9
   RNLocalize: dcf0fdb332b37b0d24178e876a7ce4dbbc9c838d
   RNReanimated: e03f7425cb7a38dcf1b644d680d1bfc91c3337ad
   RNScreens: b6c9607e6fe47c1b6e2f1910d2acd46dd7ecea3a
   RNSharedElement: 591b3be4f03678cee37697acc62702984ea43de4
   RNSound: c980916b596cc15c8dcd2f6ecd3b13c4881dbe20
+  RNSVG: ce9d996113475209013317e48b05c21ee988d42e
   RNVectorIcons: 368d6d8b8301224e5ffb6254191f4f8876c2be0d
-  SDWebImage: e378178472b735e84b007bfb55514c97948a0598
+  SDWebImage: c666b97e1fa9c64b4909816a903322018f0a9c84
   SDWebImageWebPCoder: d0dac55073088d24b2ac1b191a71a8f8d0adac21
   toolbar-android: 404f4450b203597e7b417f714ff417bed562a1be
   Yoga: 4bd86afe9883422a7c4028c00e34790f560923d6
   YogaKit: f782866e155069a2cca2517aafea43200b01fd5a
 
-PODFILE CHECKSUM: 630c0a69dc70f5cc2168258b362ca0962b9945a7
+PODFILE CHECKSUM: 501dcfde1f08f43543417aabbf1f8c9494ef03e1
 
 COCOAPODS: 1.10.0

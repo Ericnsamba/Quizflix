@@ -23,6 +23,7 @@ import {
   GraphRequestManager,
 } from 'react-native-fbsdk';
 import Icon from 'react-native-vector-icons/Ionicons';
+import * as RNLocalize from 'react-native-localize';
 // import * as Animatable from 'react-native-animatable';
 import LinearGradient from 'react-native-linear-gradient';
 import Feather from 'react-native-vector-icons/Feather';
@@ -39,6 +40,7 @@ export default class LoginScreen extends React.Component {
       errorMessage: '',
       isLoading: false,
       userInfo: {},
+      countryCode: RNLocalize.getCountry(),
     };
   }
 
@@ -52,7 +54,7 @@ export default class LoginScreen extends React.Component {
   createUser = async () => {
     const currentUser = await this.state.userInfo;
     if (currentUser) {
-      const {username, email, photo, profileImage} = this.state;
+      const {username, email, photo, profileImage, countryCode} = this.state;
       const password = this.state.userInfo.id;
       firebase
         .auth()
@@ -65,6 +67,7 @@ export default class LoginScreen extends React.Component {
             email,
             profileImage,
             username,
+            countryCode,
           });
         })
         .then(() => {
@@ -99,7 +102,7 @@ export default class LoginScreen extends React.Component {
       );
 
       if (userInfo) {
-        const {name, email, photo} = this.state.userInfo.user;
+        const {name, email, photo, countryCode} = this.state.userInfo.user;
         return firebase
           .auth()
           .signInWithCredential(credentials)
@@ -111,6 +114,7 @@ export default class LoginScreen extends React.Component {
               email: email,
               username: name,
               profileImage: photo.replace('s120', 's300', true),
+              countryCode,
             });
           });
       }
@@ -151,7 +155,7 @@ export default class LoginScreen extends React.Component {
           });
           console.log('LoginScreen ---> result', this.state.userInfo);
           if (result) {
-            const {name, email, picture} = this.state.userInfo;
+            const {name, email, picture, countryCode} = this.state.userInfo;
             return firebase
               .auth()
               .signInWithCredential(token)
@@ -163,6 +167,7 @@ export default class LoginScreen extends React.Component {
                   email: email,
                   username: name,
                   profileImage: picture.data.url,
+                  countryCode,
                 });
               });
           }

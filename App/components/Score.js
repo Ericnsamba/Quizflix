@@ -12,6 +12,7 @@ import {
 } from 'react-native';
 import firebase from 'react-native-firebase';
 import LottieView from 'lottie-react-native';
+import * as RNLocalize from 'react-native-localize';
 import LinearGradient from 'react-native-linear-gradient';
 import * as Theme from '../theme/Theme';
 import ShareButton from './Share';
@@ -70,25 +71,27 @@ class Score extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			name: '',
-			email: '',
-			photoURL: '',
-			totalPoints: 0,
-			currentUser: firebase.auth().currentUser,
-		};
+      name: '',
+      email: '',
+      photoURL: '',
+      totalPoints: 0,
+      currentUser: firebase.auth().currentUser,
+      countryCode: RNLocalize.getCountry(),
+    };
 		this.props.watchPointsData();
 		this.props.watchPersonData();
 	}
 	componentDidMount() {
-		const { currentUser } = firebase.auth();
-		this.setState({ currentUser });
+		// const { currentUser } = firebase.auth();
+		// this.setState({ currentUser });
+		// this.setState({ currentUser });
 		this.renderPoints();
 	}
 
 
 	renderPoints = () => {
 		let points = 0;
-		currentUser = firebase.auth().currentUser;
+		const {currentUser} = this.state;
 		const quizPlayed = this.props.pointsData;
 
 		if (currentUser && quizPlayed) {
@@ -108,7 +111,7 @@ class Score extends React.Component {
 			quizImage,
 			username,
 		} = this.props.parentState;
-		const { currentUser, totalPoints } = this.state;
+		const {currentUser, totalPoints, countryCode} = this.state;
 
 		const updatedTotalPoints = totalPoints + correctCount;
 
@@ -123,16 +126,17 @@ class Score extends React.Component {
 				timeStamp: `${timeStamp}`,
 				points: correctCount,
 				image: quizImage,
-				username: username
+				username: username,
 			};
 
 			const totalPointsData = {
-				totalPoints: updatedTotalPoints, // key and value are the same name(eg. totalPoints: totalPoints)
-				timeStamp: `${timeStamp}`,
-				username: username ? username : 'Anonymous',
-				uid: currentUser.uid,
-				photoURL: this.props.personData.profileImage,
-			};
+        totalPoints: updatedTotalPoints, // key and value are the same name(eg. totalPoints: totalPoints)
+        timeStamp: `${timeStamp}`,
+        username: username ? username : 'Anonymous',
+        uid: currentUser.uid,
+        photoURL: this.props.personData.profileImage,
+        countryCode,
+      };
 
 			const isAnonymous = currentUser.isAnonymous;
 
