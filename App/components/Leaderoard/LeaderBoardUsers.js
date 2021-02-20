@@ -15,7 +15,7 @@ export const LeaderBoardUsers = ({
   totalPoints,
   countryCodeId,
 }) => (
-  <Animated.View style={styles.container}>
+  <View style={styles.container}>
     <View style={styles.rankNumber}>
       <Text style={styles.rankNumberText}>{rankNumber}</Text>
     </View>
@@ -36,9 +36,9 @@ export const LeaderBoardUsers = ({
         }}
       />
     </View>
-    <Text style={styles.usernameText}>{username}</Text>
+    <Text style={[Theme.paragraph, styles.usernameText]}>{username}</Text>
     <Text style={styles.totalPoints}>{totalPoints ? totalPoints : 0} pts</Text>
-  </Animated.View>
+  </View>
 );
 
 const styles = StyleSheet.create({
@@ -60,9 +60,9 @@ const styles = StyleSheet.create({
   },
   rankNumberText: {
     fontSize: 24,
-    fontWeight: '800',
     textAlign: 'center',
     color: Theme.secondaryColors.white,
+    fontFamily: Theme.fontFamily.bold,
   },
   ReactCountryFlag: {
     width: 26,
@@ -90,11 +90,11 @@ const styles = StyleSheet.create({
   },
   totalPoints: {
     fontSize: 18,
-    fontWeight: '600',
     textAlign: 'left',
     color: Theme.secondaryColors.white,
     alignSelf: 'center',
     right: 20,
     position: 'absolute',
+    fontFamily: Theme.fontFamily.semiBold,
   },
 });

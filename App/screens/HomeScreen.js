@@ -16,8 +16,7 @@ import Modal from 'react-native-modal';
 import Icon from 'react-native-vector-icons/Ionicons';
 import LinearGradient from 'react-native-linear-gradient';
 import { connect } from 'react-redux';
-import * as RNLocalize from 'react-native-localize';
-import ReactCountryFlag from 'react-country-flag';
+
 
 
 import {
@@ -36,7 +35,6 @@ const mapStateToProps = state => {
 		questionsData: state.questionsData,
 		pointsData: state.pointsData,
 		leaderBoardData: state.leaderBoardData,
-		// personData: state.personData,
 	};
 };
 
@@ -73,12 +71,7 @@ class HomeScreen extends Component {
 
 	componentDidMount() {
 		if (firebase.auth().currentUser.uid) {
-    console.log("🚀 ~ file: HomeScreen.js ~ line 76 ~ HomeScreen ~ constructor ~ watchPersonData", watchPersonData)
-			// this.setState({ uid: firebase.auth().currentUser.uid });
 		}
-    // console.log(RNLocalize.getLocales());
-    console.log('======>', RNLocalize.getCountry());
-    console.log('======>', firebase.auth().currentUser.uid);
 
 	}
 
@@ -110,10 +103,9 @@ class HomeScreen extends Component {
               marginVertical: 30,
               marginTop: 60,
             }}>
-            <Text style={styles.introText}>
+            <Text style={[Theme.title, styles.introText]}>
               {`Go ahead! ${br}${'Start playing'}`}
             </Text>
-            {/* <ReactCountryFlag countryCode="US" /> */}
           </View>
 
           <View style={styles.buttonsView}>
@@ -141,7 +133,7 @@ class HomeScreen extends Component {
                   Theme.primaryColors.orange,
                 ]}
                 style={styles.button}>
-                <Text style={[styles.buttonTitle]}>information</Text>
+                <Text style={[styles.buttonTitle]}>Information</Text>
                 <Icon
                   name="information-circle-outline"
                   size={40}

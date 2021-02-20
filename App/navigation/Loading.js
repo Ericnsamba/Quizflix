@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, ActivityIndicator, StyleSheet } from 'react-native';
+import {View, Text, ActivityIndicator, StyleSheet} from 'react-native';
 import firebase from 'react-native-firebase';
 
 export default class Loading extends React.Component {
@@ -9,27 +9,27 @@ export default class Loading extends React.Component {
 
   checkIfLoggedIn = () => {
     firebase.auth().onAuthStateChanged(
-      function (user) {
-        console.log('AUTH STATE CHANGED CALLED , you are logged in')
+      function(user) {
         if (user) {
-          this.props.navigation.navigate('Root');
+          console.log(
+            'AUTH STATE CHANGED CALLED , user logged in',
+            firebase.auth().currentUser,
+          );
+          this.props.navigation.navigate('ButtonNavigation');
         } else {
           this.props.navigation.navigate('WelcomeScreen');
         }
-      }.bind(this)
+      }.bind(this),
     );
   };
 
   render() {
     return (
       <View style={styles.container}>
-        <ActivityIndicator size="large" />
+        <ActivityIndicator size="large" color="red" />
       </View>
     );
   }
-
-
-
 }
 
 const styles = StyleSheet.create({

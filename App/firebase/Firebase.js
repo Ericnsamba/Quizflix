@@ -1,13 +1,13 @@
 import Firebase from 'react-native-firebase';
 var firebaseConfig = {
-  apiKey: 'AIzaSyDRTdFHmnjnEN0tc9r1vUXATddWX1muS-s',
-  authDomain: 'quizandclock.firebaseapp.com',
-  databaseURL: 'https://quizandclock.firebaseio.com',
-  projectId: 'quizandclock',
-  storageBucket: 'quizandclock.appspot.com',
-  messagingSenderId: '289483445762',
-  appId: '1:289483445762:web:ae37f3cfb180ca5287391b',
-  measurementId: 'G-YB71X2KJFP',
+  apiKey: 'AIzaSyDd9jfxS7NpcsIdwvwicHnSn6D5oYHUKnk',
+  authDomain: 'quizflix-2021.firebaseapp.com',
+  databaseURL: 'https://quizflix-2021-default-rtdb.firebaseio.com',
+  projectId: 'quizflix-2021',
+  storageBucket: 'quizflix-2021.appspot.com',
+  messagingSenderId: '255436054103',
+  appId: '1:255436054103:web:9e79f56c49206061ad8d12',
+  measurementId: 'G-B828LPT9HX',
 };
 
 // Initialize Firebase

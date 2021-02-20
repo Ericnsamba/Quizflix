@@ -1,12 +1,5 @@
 import React from 'react';
-import {
-  View,
-  Text,
-  TouchableOpacity,
-  StyleSheet,
-  Dimensions,
-  ImageBackground,
-} from 'react-native';
+import {View, Text, StyleSheet, Dimensions} from 'react-native';
 import FastImage from 'react-native-fast-image';
 import {SharedElement} from 'react-navigation-shared-element';
 import TouchableScale from 'react-native-touchable-scale';
@@ -17,14 +10,14 @@ const {width, height} = Dimensions.get('window');
 const Title = styled.Text`
   font-size: 18px;
   font-weight: 600;
-  color: #fff;
+  color: ${Theme.primaryColors.blue};
   text-align: center;
   position: relative;
   bottom: 0;
   line-height: 24px;
 `;
 const Background = styled.View`
-  background: ${props => (props.color ? props.color : none)};
+  background: ${props => (props.color ? props.color : 'transparent')};
   border-radius: 20px;
   display: flex;
   align-items: center;
@@ -44,7 +37,7 @@ export const RowItem = ({onPress = () => {}, name, color, image}) => (
           style={styles.image}>
           <View style={[styles.row, {backgroundColor: color, width: '100%'}]}>
             <Background
-              color={Theme.secondaryColors.orange}
+              color={Theme.secondaryColors.blue}
               style={styles.Background}>
               <Title>{name}</Title>
             </Background>
@@ -74,12 +67,10 @@ const styles = StyleSheet.create({
     paddingVertical: 20,
     marginBottom: 1,
     height: 230,
-    // width: width - 80,
     justifyContent: 'flex-end',
     borderRadius: 12,
     marginVertical: 5,
     width: '100%',
-
   },
   image: {
     width: '100%',

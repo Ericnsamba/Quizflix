@@ -3,23 +3,21 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>289483445762-eag76u6ct342lbfjlcgqmb1klcjftcj9.apps.googleusercontent.com</string>
+	<string>255436054103-6hureoe96msafjlllvqk5vf0osf0p165.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.289483445762-eag76u6ct342lbfjlcgqmb1klcjftcj9</string>
-	<key>ANDROID_CLIENT_ID</key>
-	<string>289483445762-tl3v7pb01m6idj2pjptvnjndafmgnqha.apps.googleusercontent.com</string>
+	<string>com.googleusercontent.apps.255436054103-6hureoe96msafjlllvqk5vf0osf0p165</string>
 	<key>API_KEY</key>
-	<string>AIzaSyDcgcCAt9V3LH2nArh_Nw2knoMa_nbDcqY</string>
+	<string>AIzaSyAyXmGJ53ZQU3k9WdFABAKjd6WcdCCyP7w</string>
 	<key>GCM_SENDER_ID</key>
-	<string>289483445762</string>
+	<string>255436054103</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>com.quizandclock</string>
+	<string>com.quizzflix.app</string>
 	<key>PROJECT_ID</key>
-	<string>quizandclock</string>
+	<string>quizflix-2021</string>
 	<key>STORAGE_BUCKET</key>
-	<string>quizandclock.appspot.com</string>
+	<string>quizflix-2021.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
 	<false></false>
 	<key>IS_ANALYTICS_ENABLED</key>
@@ -31,8 +29,8 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:289483445762:ios:d69ebadfb3f9f35287391b</string>
+	<string>1:255436054103:ios:faf172a47f59ca84ad8d12</string>
 	<key>DATABASE_URL</key>
-	<string>https://quizandclock.firebaseio.com</string>
+	<string>https://quizflix-2021-default-rtdb.firebaseio.com</string>
 </dict>
 </plist>

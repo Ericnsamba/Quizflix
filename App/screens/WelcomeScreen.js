@@ -87,8 +87,8 @@ class WelcomeScreen extends Component {
 
   render() {
     const {isUser, isAnonymous} = this.state;
-    console.log('🚀 ~  isUser', isUser);
-    console.log('🚀 ~ isAnonymous', isAnonymous);
+    // console.log('🚀 ~  isUser', isUser);
+    // console.log('🚀 ~ isAnonymous', isAnonymous);
     const dynamicButtonText = this.state.selectedOption;
     const avatarAnonymous = require('../assets/images/avatars/avatarAnonymous.png');
     const avatarLogin = require('../assets/images/avatars/avatarLogin.png');
@@ -106,7 +106,9 @@ class WelcomeScreen extends Component {
 
         <View style={{alignItems: 'center'}}>
           <View>
-            <Text style={styles.subTitle}>Please select your login option</Text>
+            <Text style={[styles.subTitle, Theme.title]}>
+              Please select your login option
+            </Text>
           </View>
           <View style={styles.pickContainer}>
             <TouchableWithoutFeedback
@@ -140,7 +142,7 @@ class WelcomeScreen extends Component {
                 alignItems: 'center',
                 alignSelf: 'center',
               }}>
-              <Text style={styles.noticeBoard}>
+              <Text style={[styles.noticeBoard, Theme.paragraph]}>
                 Please note: to avoid multi anonymous name on the leaderboard,
                 we have decided to not add the user on the leaderboard.
               </Text>
@@ -152,7 +154,9 @@ class WelcomeScreen extends Component {
             <TouchableOpacity
               style={styles.cardButton}
               onPress={this.handleSelected}>
-              <Text style={styles.dynamicButtonText}>{dynamicButtonText}</Text>
+              <Text style={[styles.dynamicButtonText, Theme.title]}>
+                {dynamicButtonText}
+              </Text>
             </TouchableOpacity>
           </View>
         ) : null}
@@ -180,17 +184,16 @@ const styles = StyleSheet.create({
   },
   subTitle: {
     alignItems: 'center',
-    fontSize: 24,
-    width: 200,
+    width: 300,
     textAlign: 'center',
   },
   noticeBoard: {
     alignItems: 'center',
-    fontSize: 16,
-    lineHeight: 20,
-    width: width - 80,
+    width: width - 40,
     textAlign: 'center',
-    color: Theme.primaryColors.gray,
+    color: Theme.primaryColors.black,
+    opacity: 0.3,
+    fontSize: 14,
   },
   pickContainer: {
     alignSelf: 'center',
@@ -212,7 +215,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     paddingTop: 20,
     borderRadius: 10,
-    width: 160,
+    width: 140,
     height: 218,
     shadowColor: Theme.primaryColors.black,
     shadowOffset: {
@@ -223,34 +226,23 @@ const styles = StyleSheet.create({
     shadowRadius: 10,
   },
   selectedBox: {
-    // backgroundColor: 'red',
     borderColor: Theme.primaryColors.black,
     borderWidth: 1,
-    // shadowColor: Theme.primaryColors.black,
-    // shadowOffset: {
-    //   width: 1,
-    //   height: 10,
-    // },
-    // shadowOpacity: 0.2,
-    // shadowRadius: 10,
   },
   image: {
     width: '100%',
     height: '100%',
   },
   cardButton: {
-    // bottom: 20,
-    // top: 40,
-    // alignSelf: 'center',
     borderColor: Theme.primaryColors.black,
     borderWidth: 1,
     borderRadius: 20,
-    paddingVertical: 34,
-    paddingHorizontal: 58,
+    paddingVertical: 28,
+    paddingHorizontal: 42,
   },
   buttonContainer: {
     position: 'absolute',
-    bottom: 80,
+    bottom: 40,
     width: width,
     justifyContent: 'center',
     alignItems: 'center',

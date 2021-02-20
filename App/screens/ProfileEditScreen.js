@@ -88,7 +88,7 @@ export class ProfileEditScreen extends Component {
       password: '',
       errorMessage: null,
       phoneNumber: 0,
-      isModalVisible: true,
+      isModalVisible: false,
     };
     this.props.watchPointsData();
     this.props.watchPersonData();
@@ -291,15 +291,11 @@ export class ProfileEditScreen extends Component {
     const {username, email, profileImage} = this.props.personData;
     const avatar = require('../assets/images/profileAvatar.jpg');
     const cantAccessPage = require('../assets/images/cantAccessPage.png');
-    console.log('TCL: render -> uploading', this.state.isModalVisible);
+    // console.log('TCL: render -> uploading', this.state.isModalVisible);
 
     const disabledStyle = uploading ? styles.disabledBtn : {};
     const actionBtnStyles = [styles.btn, disabledStyle];
     let currentUser = firebase.auth().currentUser;
-    // console.log(
-    //   '🚀 ~ file: ProfileEditScreen.js ~ line 290 ~ ProfileEditScreen ~ render ~ currentUser',
-    //   currentUser,
-    // );
 
     return (
       <>
@@ -317,11 +313,9 @@ export class ProfileEditScreen extends Component {
             </View>
 
             <View style={styles.headerSection}>
-              <Text style={{fontSize: 32, fontWeight: 'bold'}}>
-                Hi Anonymous!
-              </Text>
-              <Text style={{fontSize: 16}}>
-                Create a Profile to access this page{' '}
+              <Text style={[Theme.title, {fontSize: 32}]}>Hi Anonymous!</Text>
+              <Text style={[Theme.paragraph]}>
+                Create a Profile to access this page
               </Text>
             </View>
 

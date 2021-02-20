@@ -66,7 +66,15 @@ class ScoreHeader extends Component {
       !firebase.auth().currentUser.isAnonymous
     ) {
       const rank = data.find(userScore => userScore.uid === userID);
-      points = rank.totalPoints;
+      if (rank === undefined) {
+        points =  0;
+      } else {
+        points = rank.totalPoints;
+        console.log(
+          '=======>',
+          data.find(userScore => userScore.uid === userID),
+        );
+      }
       // console.log("points ====>", points);
     } else if (
       firebase.auth().currentUser.isAnonymous &&
@@ -80,7 +88,7 @@ class ScoreHeader extends Component {
   componentDidMount = () => {};
 
   render() {
-    const br = `\n`;
+    const br = '\n';
     const {username, profileImage} = this.props.personData;
     const avatar = require('../assets/images/profileAvatar.jpg');
     return (
@@ -99,22 +107,27 @@ class ScoreHeader extends Component {
               style={styles.Image}
             />
             <View style={{marginLeft: 10}}>
-              <Text style={styles.userName}>Hi!</Text>
-              <Text style={[styles.userName, {fontWeight: '800'}]}>
+              <Text style={[styles.userName, Theme.paragraph]}>Hi!</Text>
+              <Text
+                style={[
+                  Theme.paragraph,
+                  styles.userName,
+                  {fontWeight: Theme.fontWeight.bold},
+                ]}>
                 {`${username ? username : 'anonymous'}`}
               </Text>
             </View>
           </View>
           <View style={styles.rewardsAndIcon}>
-              <Icon
-                name="trophy"
-                color={Theme.primaryColors.blue}
-                size={32}
-                style={styles.Icon}
-              />
-              <Text style={styles.reward}>
-                {this.renderPoints(this.props.leaderBoardData)}
-              </Text>
+            <Icon
+              name="trophy"
+              color={Theme.primaryColors.blue}
+              size={32}
+              style={styles.Icon}
+            />
+            <Text style={[Theme.title, styles.reward]}>
+              {this.renderPoints(this.props.leaderBoardData)}
+            </Text>
           </View>
         </View>
       </View>
@@ -147,8 +160,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'flex-end',
-    // backgroundColor: Theme.secondaryColors.blue,
-    // paddingHorizontal: 15,
     paddingVertical: 30,
     borderRadius: 20,
   },
@@ -161,7 +172,7 @@ const styles = StyleSheet.create({
     resizeMode: 'cover',
   },
   userName: {
-    fontSize: 18,
+    // fontSize: 18,
     fontWeight: '500',
     textAlign: 'left',
     color: Theme.primaryColors.black,

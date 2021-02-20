@@ -90,7 +90,8 @@ class InfoScreen extends React.Component {
       <SafeAreaView style={styles.container}>
         <StatusBar barStyle="dark-content" />
         <View style={styles.drawerContent}>
-          <TouchableOpacity onPress={() => this.props.navigation.openDrawer()}>
+          <TouchableOpacity
+            onPress={() => this.props.navigation.openDrawer()}>
             <Ionicons
               name="ellipsis-vertical"
               size={24}
@@ -100,20 +101,24 @@ class InfoScreen extends React.Component {
         </View>
         <View style={styles.headerSection}>
           <View style={styles.userNameView}>
-            <Text style={styles.userName}>{name} {'\n'}{lastname}</Text>
-            <Text style={styles._email}>Developer | Designer</Text>
+            <Text style={styles.userName}>
+              {name} {'\n'}
+              {lastname}
+            </Text>
+            <Text style={[styles._email, Theme.caption]}>
+              Developer | Designer
+            </Text>
           </View>
           <View style={styles.avatarContainer}>
             <FastImage
               resizeMode={'cover'}
               source={
-                   profileImage
-                     ? {
-                         uri: profileImage,
-                         priority:
-                           FastImage.priority.high,
-                       }
-                     : avatar
+                profileImage
+                  ? {
+                      uri: profileImage,
+                      priority: FastImage.priority.high,
+                    }
+                  : avatar
               }
               style={styles.avatar}
             />
@@ -121,12 +126,23 @@ class InfoScreen extends React.Component {
         </View>
         <View style={styles.innerContainer}>
           <View style={styles.quizzesPlayed}>
-            <Text style={styles.quizzesPlayedTitle}>Hi {username ? username : 'There'}</Text>
-            <Text style={[styles.paragrathText, {marginBottom: 20}]}>
+            <Text style={[styles.quizzesPlayedTitle, Theme.title]}>
+              Hi {username ? username : 'There'}
+            </Text>
+            <Text
+              style={[Theme.paragraph, {marginBottom: 20, fontSize: 16}]}>
               Thank you for downloading and playing QuizFlix.
             </Text>
-            <Text style={[styles.paragrathText, {marginBottom: 20}]}>{bio}.</Text>
-            <Text style={styles.paragrathText}>Connect with me via:</Text>
+            <Text
+              style={[
+                Theme.paragraph,
+                {marginBottom: 20, fontSize: 16, lineHeight: 24},
+              ]}>
+              {bio}.
+            </Text>
+            <Text style={(Theme.paragraph, {fontSize: 16})}>
+              Connect with me via: <Text style={{fontFamily: Theme.fontFamily.semiBold}}>EricAndTheWeb</Text>
+            </Text>
             <View>
               <View style={styles.socialHandles}>
                 <Ionicons
@@ -206,6 +222,7 @@ const styles = StyleSheet.create({
     marginBottom: 5,
     color: Theme.primaryColors.black,
     textTransform: 'capitalize',
+    fontFamily: Theme.fontFamily.bold,
   },
   _email: {
     fontSize: 14,

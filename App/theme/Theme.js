@@ -62,7 +62,42 @@ const fontWeight = {
   medium: '500',
   bold: '800',
 };
+const fontFamily = {
+  normal: 'WorkSans-Regular',
+  medium: 'WorkSans-Medium',
+  semiBold: 'WorkSans-SemiBold',
+  bold: 'WorkSans-Bold',
+};
+
+const caption = {
+  fontFamily: 'WorkSans-Regular',
+  fontSize: 14,
+};
+const paragraph = {
+  fontFamily: 'WorkSans-Regular',
+  fontSize: 18,
+};
+const title = {
+  fontFamily: 'WorkSans-bold',
+  fontSize: 24,
+};
+const titleExtraLarge = {
+  fontFamily: 'WorkSans-ExtraBold',
+  fontSize: 36,
+};
 
 const logoColor = require('../assets/images/logo.png');
 
-export {primaryColors, secondaryColors, sizes, fontWeight, boxSadow, logoColor};
+export {
+  primaryColors,
+  secondaryColors,
+  sizes,
+  fontWeight,
+  boxSadow,
+  logoColor,
+  caption,
+  paragraph,
+  title,
+  titleExtraLarge,
+  fontFamily,
+};

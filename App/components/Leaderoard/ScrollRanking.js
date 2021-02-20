@@ -1,3 +1,4 @@
+/* eslint-disable react-native/no-inline-styles */
 /**
  * Sample React Native App
  * https://github.com/facebook/react-native
@@ -16,35 +17,47 @@ import {
   View,
   Dimensions,
   StyleSheet,
-  TouchableOpacity,
-  Easing,
-  SafeAreaViewBase,
-  SafeAreaView,
-  StatusBarIOS,
 } from 'react-native';
 const {width, height} = Dimensions.get('screen');
 import {LeaderBoardUsers} from './LeaderBoardUsers';
+import * as Theme from '../../theme/Theme';
+import LinearGradient from 'react-native-linear-gradient';
 
 const SPACING = 20;
 const AVATAR_SIZE = 70;
 const ITEM_SIZE = AVATAR_SIZE + SPACING * 3;
 
 const ScrollRanking = ({DATA}) => {
-  console.log('🚀 ~ file: ScrollRanking.js =======> DATA', DATA);
+  // console.log('🚀 ~ file: ScrollRanking.js =======> DATA', DATA);
   const scrollY = React.useRef(new Animated.Value(0)).current;
-  // console.log('======>', DATA);
+  const fadeAnim = React.useRef(new Animated.Value(0)).current;
+
+  const onScrollFade = () => {
+    Animated.timing(fadeAnim, {
+      toValue: 1,
+      duration: 10000,
+    }).start();
+  };
+
   return (
-    <View style={{flex: 1}}>
+    <View style={styles.container}>
+      <LinearGradient
+        style={styles.gradient}
+        colors={['rgba(255, 255, 255, 0.9)', 'rgba(255, 255, 255, 0)']}
+        pointerEvents={'none'}
+      />
       <Animated.FlatList
         data={DATA}
-        onScroll={Animated.event(
-          [{nativeEvent: {contentOffset: {y: scrollY}}}],
-          {useNativeDriver: true},
-        )}
-        keyExtractor={item => item.key}
+        onScroll={
+          (onScrollFade,
+          Animated.event([{nativeEvent: {contentOffset: {y: scrollY}}}], {
+            useNativeDriver: true,
+          }))
+        }
+        keyExtractor={item => item.uid}
         contentContainerStyle={{
-          padding: SPACING,
-          paddingTop: StatusBar.currentHeight || 42,
+          paddingHorizontal: SPACING,
+          paddingTop: 42,
         }}
         renderItem={({item, index}) => {
           const inputRange = [
@@ -60,14 +73,15 @@ const ScrollRanking = ({DATA}) => {
           });
 
           return (
-            <Animated.View style={[{transform: [{scale}]}, styles.container]}>
+            <Animated.View
+              style={[{transform: [{scale}]}, styles.animatedContainer]}>
               <LeaderBoardUsers
                 image={item.image}
                 rankNumber={index + 4}
                 username={item.username}
                 totalPoints={item.totalPoints}
                 time={item.timeStamp}
-                countryCodeId={item.countryCode}
+                countryCodeId={item.countryCode ? item.countryCode : ''}
               />
             </Animated.View>
           );
@@ -78,13 +92,15 @@ const ScrollRanking = ({DATA}) => {
 };
 
 const styles = StyleSheet.create({
-  container: {},
-  img: {
-    width: AVATAR_SIZE,
-    height: AVATAR_SIZE,
-    borderRadius: AVATAR_SIZE,
-    backgroundColor: 'pink',
-    marginRight: SPACING,
+  container: {
+    backgroundColor: Theme.primaryColors.white,
+    flex: 1,
+  },
+  gradient: {
+    position: 'absolute',
+    width: width,
+    height: 60,
+    zIndex: 4,
   },
 });
 

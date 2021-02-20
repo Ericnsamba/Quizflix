@@ -260,12 +260,12 @@ const styles = StyleSheet.create({
   statAmount: {
     color: Theme.primaryColors.blue,
     fontSize: 18,
-    fontWeight: '300',
+    fontFamily: Theme.fontFamily.medium,
   },
   statTitle: {
+    fontFamily: Theme.fontFamily.medium,
     color: Theme.primaryColors.black,
-    fontSize: 12,
-    fontWeight: Theme.fontWeight.medium,
+    fontSize: 14,
     marginTop: 4,
   },
   ScoresInCategory: {

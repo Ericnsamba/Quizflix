@@ -14,13 +14,8 @@ export const SocialLoginButton = ({
 }) => (
   <TouchableOpacity onPress={onPress} style={[styles.button, buttonColor]}>
     <View style={styles.buttonStyle}>
-      <Icon
-        name={iconName}
-        size={26}
-        // color={Theme.primaryColors.blue}
-        style={styles.icon}
-      />
-      <Text style={styles.text}>{title}</Text>
+      <Icon name={iconName} size={26} style={styles.icon} />
+      <Text style={[styles.text, Theme.caption]}>{title}</Text>
     </View>
   </TouchableOpacity>
 );
@@ -31,12 +26,10 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     borderWidth: 1,
     borderColor: Theme.secondaryColors.black,
-    // backgroundColor: Theme.primaryColors.white,
     marginTop: 15,
   },
   buttonStyle: {
     height: 50,
-    // justifyContent: 'center',
     alignItems: 'center',
     flexDirection: 'row',
     paddingHorizontal: 20,

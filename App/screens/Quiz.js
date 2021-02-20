@@ -239,10 +239,9 @@ class Quiz extends React.Component {
             </ScrollView>
 
             <View style={styles.quizFooter}>
-              <TouchableScale
+              <TouchableOpacity
                 style={styles.card}
-                onPress={() => this.props.navigation.goBack()}
-                activeScale={0.7}>
+                onPress={() => this.props.navigation.goBack()}>
                 <LinearGradient
                   colors={['#4569e1', Theme.primaryColors.blue]}
                   style={[styles.closeButton]}>
@@ -263,7 +262,7 @@ class Quiz extends React.Component {
                     Quit
                   </Text>
                 </LinearGradient>
-              </TouchableScale>
+              </TouchableOpacity>
 
               {this.renderCountTracker()}
             </View>

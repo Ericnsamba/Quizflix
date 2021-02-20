@@ -15,17 +15,22 @@ import {
 import firebase from 'react-native-firebase';
 import * as Theme from '../theme/Theme';
 import {GoogleSignin, statusCodes} from 'react-native-google-signin';
-import {appleAuth} from '@invertase/react-native-apple-authentication';
+import appleAuth, {
+  // appleAuthRequestResponse,
+  requestedScopes,
+  requestedOperation,
+} from '@invertase/react-native-apple-authentication';
 import {
   AccessToken,
   LoginManager,
   GraphRequest,
   GraphRequestManager,
 } from 'react-native-fbsdk';
+// import {appleAuth} from '@invertase/react-native-apple-authentication';
+
 import Icon from 'react-native-vector-icons/Ionicons';
 import * as RNLocalize from 'react-native-localize';
-// import * as Animatable from 'react-native-animatable';
-import LinearGradient from 'react-native-linear-gradient';
+// import LinearGradient from 'react-native-linear-gradient';
 import Feather from 'react-native-vector-icons/Feather';
 import {SocialLoginButton} from '../components/UI/SocialLoginButton';
 
@@ -253,15 +258,97 @@ export default class LoginScreen extends React.Component {
       );
   };
 
-  onAppleButtonPress = () => {
+  onAppleButtonPress = async () => {
+    // return appleAuth
+    //   .performRequest({
+    //     requestedOperation: appleAuth.Operation.LOGIN,
+    //     requestedScopes: [appleAuth.Scope.EMAIL, appleAuth.Scope.FULL_NAME],
+    //   })
+    //   .then(appleAuthRequestResponse => {
+    //     let {
+    //       email,
+    //       fullName,
+    //       identityToken,
+    //       nonce,
+    //       realUserStatus,
+    //     } = appleAuthRequestResponse;
+
+    //     const credentialState = appleAuth.getCredentialStateForUser(
+    //       appleAuthRequestResponse.user,
+    //     );
+
+    //     if (realUserStatus === 1) {
+    //       // Sign the user in with the credential
+    //       console.log('🚀 ~ credentialState =======>', credentialState);
+    //       // return firebase.auth().signInWithCredential(credentialState);
+    //     }
+    //   });
+
+    // Start the sign-in request
+    const appleAuthRequestResponse = await appleAuth.performRequest({
+      requestedOperation: appleAuth.Operation.LOGIN,
+      requestedScopes: [appleAuth.Scope.EMAIL, appleAuth.Scope.FULL_NAME],
+    });
+
+    // Ensure Apple returned a user identityToken
+    if (!appleAuthRequestResponse.identityToken) {
+      throw 'Apple Sign-In failed - no identify token returned';
+    }
+
+    // Create a Firebase credential from the response
+    const {identityToken, nonce} = appleAuthRequestResponse;
+    // const appleCredential = firebase
+    //   .auth()
+    //   .AppleAuthProvider.credential(identityToken, nonce);
+    const credentialState = appleAuth.getCredentialStateForUser(
+      appleAuthRequestResponse.user,
+      appleAuthRequestResponse.identityToken,
+      appleAuthRequestResponse.nonce,
+    );
+
+    // Sign the user in with the credential
+    // return firebase.auth().signInWithCredential(credentialState);
+  };
+
+  onAppleButtonPress2 = async () => {
     return appleAuth
       .performRequest({
         requestedOperation: appleAuth.Operation.LOGIN,
         requestedScopes: [appleAuth.Scope.EMAIL, appleAuth.Scope.FULL_NAME],
       })
       .then(appleAuthRequestResponse => {
-        let {email} = appleAuthRequestResponse;
-        console.log('🚀 ~ onAppleButtonPress= ~ email', email);
+        let {
+          email,
+          fullName,
+          identityToken,
+          nonce,
+          realUserStatus,
+        } = appleAuthRequestResponse;
+        console.log(
+          '🚀 ~ appleAuthRequestResponse =======>',
+          appleAuthRequestResponse,
+        );
+
+        const credentialState = appleAuth.getCredentialStateForUser(
+          appleAuthRequestResponse.user,
+        );
+
+        if (realUserStatus) {
+          // const {name, email, photo} = this.state.userInfo.user;
+          // return firebase
+          //   .auth()
+          //   .signInWithCredential(credentialState)
+          //   .then(user => {
+          //     const fbRootRef = firebase.firestore();
+          //     const userID = firebase.auth().currentUser.uid;
+          //     const userRef = fbRootRef.collection('users').doc(userID);
+          //     userRef.set({
+          //       email: email,
+          //       username: fullName.givenName,
+          //       // profileImage: photo.replace('s120', 's300', true),
+          //     });
+          //   });
+        }
       });
   };
 
@@ -309,7 +396,7 @@ export default class LoginScreen extends React.Component {
                 })
               }
               value={this.state.email}
-              style={styles.textInput}
+              style={[styles.textInput, Theme.caption]}
               autoCapitalize="none"
             />
           </View>
@@ -338,7 +425,7 @@ export default class LoginScreen extends React.Component {
               }
               value={this.state.password}
               secureTextEntry={this.state.secureTextEntry ? true : false}
-              style={styles.textInput}
+              style={[styles.textInput, Theme.caption]}
               autoCapitalize="none"
             />
             <TouchableOpacity onPress={this.updateSecureTextEntry}>
@@ -360,7 +447,9 @@ export default class LoginScreen extends React.Component {
 
           <View style={[styles.SignInButtonSection]}>
             <View style={styles.termsConditions}>
-              <Text style={styles.signInButtonText}>Sign In</Text>
+              <Text style={[styles.signInButtonText, Theme.title]}>
+                Sign In
+              </Text>
             </View>
 
             <TouchableOpacity
@@ -467,7 +556,6 @@ const styles = StyleSheet.create({
     flex: 1,
     marginTop: Platform.OS === 'ios' ? 0 : -12,
     paddingLeft: 10,
-    fontSize: 15,
   },
 
   SignInButtonSection: {
@@ -488,8 +576,9 @@ const styles = StyleSheet.create({
     fontWeight: Theme.fontWeight.bold,
   },
   errorMessage: {
-    color: Theme.primaryColors.blue,
+    color: Theme.primaryColors.pink,
     marginBottom: 10,
+    fontFamily: Theme.fontFamily.normal,
   },
   signInButton: {
     width: 60,

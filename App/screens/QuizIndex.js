@@ -1,3 +1,4 @@
+/* eslint-disable react-native/no-inline-styles */
 /* eslint-disable prettier/prettier */
 import React from 'react';
 import {
@@ -95,41 +96,36 @@ class QuizIndex extends React.Component {
 		const groupedData = groupBy(this.props.questionsData, 'category');
 
 		return (
-			<SafeAreaView
-				style={{ flex: 1, backgroundColor: Theme.primaryColors.white }}>
-				<StatusBar barStyle="dark-content" />
-				<View style={styles.container}>
-					<View style={styles.headerContainer}>
-						<Text style={styles.headerTitle}>Quiz Results</Text>
-					</View>
-					<ScrollView
-						showsVerticalScrollIndicator={false}
-						style={styles.quizzesContainer}>
-						{this.renderQuizzes(groupedData)}
-						<View style={{ height: 40 }} />
-					</ScrollView>
+      <SafeAreaView
+        style={{flex: 1, backgroundColor: Theme.primaryColors.white}}>
+        <StatusBar barStyle="dark-content" />
+        <View style={styles.container}>
+          <View style={styles.headerContainer}>
+            <Text style={[styles.headerTitle, Theme.title]}>
+              Quiz Results
+            </Text>
+          </View>
+          <ScrollView
+            showsVerticalScrollIndicator={false}
+            style={styles.quizzesContainer}>
+            {this.renderQuizzes(groupedData)}
+            <View style={{height: 40}} />
+          </ScrollView>
 
-					<View style={styles.startQuizButton}>
-						<TouchableOpacity
-							onPress={() => this.props.navigation.navigate('HomeScreen')}
-							style={styles.buttonContainer}>
-							<LinearGradient
-								colors={[
-									'#4569e1',
-									Theme.primaryColors.blue,
-								]}
-								style={styles.button}>
-								<Icon
-									name="ios-home"
-									size={40}
-									style={styles.buttonIcon}
-								/>
-							</LinearGradient>
-						</TouchableOpacity>
-					</View>
-				</View>
-			</SafeAreaView>
-		);
+          <View style={styles.startQuizButton}>
+            <TouchableOpacity
+              onPress={() => this.props.navigation.navigate('HomeScreen')}
+              style={styles.buttonContainer}>
+              <LinearGradient
+                colors={['#4569e1', Theme.primaryColors.blue]}
+                style={styles.button}>
+                <Icon name="ios-home" size={40} style={styles.buttonIcon} />
+              </LinearGradient>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </SafeAreaView>
+    );
 	}
 }
 
@@ -149,8 +145,6 @@ const styles = StyleSheet.create({
 	},
 	headerTitle: {
 		textAlign: 'center',
-		fontSize: 24,
-		fontWeight: 'bold',
 		color: Theme.primaryColors.blue,
 	},
 	button: {

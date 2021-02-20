@@ -12,6 +12,7 @@ import {
 } from 'react-native';
 import UserAvatar from 'react-native-user-avatar';
 import * as firebase from 'react-native-firebase';
+import {Flag} from 'react-native-svg-flagkit';
 import * as Theme from '../theme/Theme';
 import {LeaderBoardUsers} from '../components/Leaderoard/LeaderBoardUsers';
 
@@ -26,7 +27,6 @@ import {
 } from '../redux/AppRedux';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import ScrollRanking from '../components/Leaderoard/ScrollRanking';
-
 const {width, height} = Dimensions.get('window');
 
 const mapStateToProps = state => {
@@ -66,36 +66,8 @@ class TopScoresScreen extends Component {
   }
 
   componentDidMount() {
-    let rankUsers;
-    let currentUser = firebase.auth().currentUser;
     this.top3function();
   }
-
-  renderLeaderBoardUsers = () => {
-    const RankingData = this.state.remainingUsers;
-    if (RankingData && RankingData.length) {
-      return RankingData.map((rank, index) => {
-        return (
-          <View
-            key={rank.uid}
-            style={{
-              justifyContent: 'center',
-              flex: 1,
-              alignItems: 'center',
-            }}>
-            <LeaderBoardUsers
-              image={rank.image}
-              rankNumber={index + 4}
-              username={rank.username}
-              totalPoints={rank.totalPoints}
-              time={rank.timeStamp}
-              countryCodeId={rank.countryCode}
-            />
-          </View>
-        );
-      });
-    }
-  };
 
   getData = () => {
     const {data} = this.state;
@@ -140,21 +112,26 @@ class TopScoresScreen extends Component {
         }}>
         <View style={styles.topUserInfoView}>
           <Text style={styles.rankingNumber}>2</Text>
-          <UserAvatar
-            size={65}
-            name={top3[1].username ? top3[1].username : 'name'}
-            src={top3[1].photoURL ? top3[1].photoURL : null}
-            bgColors={[
-              Theme.primaryColors.blue,
-              // '#ccaabb',
-              // Theme.primaryColors.orange,
-            ]}
-            borderRadius={40}
-            style={{
-              width: 70,
-              height: 70,
-            }}
-          />
+          <View style={{}}>
+            <View style={styles.ReactCountryFlag}>
+              <Flag
+                id={top3[1].countryCode ? top3[1].countryCode : ''}
+                width={28}
+                height={28}
+              />
+            </View>
+            <UserAvatar
+              size={65}
+              name={top3[1].username ? top3[1].username : 'name'}
+              src={top3[1].photoURL ? top3[1].photoURL : null}
+              bgColors={[Theme.primaryColors.blue]}
+              borderRadius={40}
+              style={{
+                width: 70,
+                height: 70,
+              }}
+            />
+          </View>
           <View>
             <Text style={styles.top3UsersName}>
               {top3[1].username ? top3[1].username : 'User'}
@@ -165,22 +142,29 @@ class TopScoresScreen extends Component {
             </Text>
           </View>
         </View>
+
         <View style={styles.topUserInfoView}>
           <Text style={styles.rankingNumber}>1</Text>
-          <UserAvatar
-            size={95}
-            name={top3[0].username}
-            src={top3[0].photoURL ? top3[0].photoURL : null}
-            bgColors={[
-              Theme.primaryColors.blue,
-              // Theme.primaryColors.pink,s
-            ]}
-            borderRadius={50}
-            style={{
-              width: 100,
-              height: 100,
-            }}
-          />
+          <View>
+            <View style={[styles.ReactCountryFlag, {width: 30, height: 30}]}>
+              <Flag
+                id={top3[0].countryCode ? top3[0].countryCode : ''}
+                width={34}
+                height={34}
+              />
+            </View>
+            <UserAvatar
+              size={95}
+              name={top3[0].username}
+              src={top3[0].photoURL ? top3[0].photoURL : null}
+              bgColors={[Theme.primaryColors.blue]}
+              borderRadius={50}
+              style={{
+                width: 100,
+                height: 100,
+              }}
+            />
+          </View>
           <View>
             <Text style={styles.top3UsersName}>{top3[0].username}</Text>
             <Text style={styles.top3UsersPoint}>{top3[0].totalPoints} pts</Text>
@@ -189,20 +173,26 @@ class TopScoresScreen extends Component {
 
         <View style={styles.topUserInfoView}>
           <Text style={styles.rankingNumber}>3</Text>
-          <UserAvatar
-            size={65}
-            name={top3[2].username}
-            src={top3[2].photoURL ? top3[2].photoURL : null}
-            bgColors={[
-              Theme.primaryColors.blue,
-              // Theme.primaryColors.pink,
-            ]}
-            borderRadius={50}
-            style={{
-              width: 70,
-              height: 70,
-            }}
-          />
+          <View>
+            <View style={styles.ReactCountryFlag}>
+              <Flag
+                id={top3[2].countryCode ? top3[2].countryCode : ''}
+                width={28}
+                height={28}
+              />
+            </View>
+            <UserAvatar
+              size={65}
+              name={top3[2].username}
+              src={top3[2].photoURL ? top3[2].photoURL : null}
+              bgColors={[Theme.primaryColors.blue]}
+              borderRadius={50}
+              style={{
+                width: 70,
+                height: 70,
+              }}
+            />
+          </View>
           <View>
             <Text style={styles.top3UsersName}>{top3[2].username}</Text>
             <Text style={styles.top3UsersPoint}>{top3[2].totalPoints} pts</Text>
@@ -221,22 +211,15 @@ class TopScoresScreen extends Component {
         }}>
         <StatusBar isVisible barStyle="dark-content" />
         <View style={styles.container}>
-          <View
-            style={{
-              justifyContent: 'center',
-              width: width,
-              height: 200,
-            }}>
+          <View style={styles.renderTop3Container}>
             {this.state.top3Users.length === 3 && this.renderTop3()}
           </View>
-
           <View style={styles.scrollView}>
-            <ScrollRanking DATA={this.state.remainingUsers} />
+            <ScrollRanking DATA={this.state.remainingUsers} style={{}} />
           </View>
         </View>
       </SafeAreaView>
     );
-    // }
   }
 }
 
@@ -244,7 +227,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: Theme.secondaryColors.blue,
-    // height: height,
   },
   header: {
     backgroundColor: Theme.primaryColors.white,
@@ -252,6 +234,11 @@ const styles = StyleSheet.create({
     paddingTop: 30,
     borderTopLeftRadius: 60,
     borderTopRightRadius: 60,
+  },
+  renderTop3Container: {
+    justifyContent: 'center',
+    width: width,
+    height: 200,
   },
   rankingNumber: {
     fontSize: 24,
@@ -285,11 +272,25 @@ const styles = StyleSheet.create({
     backgroundColor: Theme.primaryColors.white,
     height: height,
     zIndex: 2,
-    paddingTop: 10,
     bottom: -40,
     borderTopLeftRadius: 30,
     borderTopRightRadius: 30,
-    // position:'absolute',
+    overflow: 'hidden',
+  },
+  ReactCountryFlag: {
+    width: 26,
+    height: 26,
+    backgroundColor: Theme.primaryColors.green,
+    borderRadius: 20,
+    justifyContent: 'center',
+    alignSelf: 'flex-end',
+    position: 'absolute',
+    alignItems: 'center',
+    zIndex: 2,
+    top: -5,
+    overflow: 'hidden',
+    borderColor: Theme.primaryColors.blue2,
+    borderWidth: 3,
   },
 });
 

@@ -11,7 +11,7 @@ import * as Theme from '../theme/Theme';
 // Screens
 import ProfileScreen from '../screens/ProfileScreen';
 import TopScoresScreen from '../screens/TopScoresScreen';
-import InfoScreen from '../screens/InfoScreen';
+import InfoScreen from '../screens/Developer';
 import ProfileEditScreen from '../screens/ProfileEditScreen';
 import {DrawerContent} from './DrawerContents';
 import QuizHomeStack from './cardstack';
@@ -92,7 +92,7 @@ function ProfileDrawer() {
       drawerContent={props => <DrawerContent {...props} />}>
       <Drawer.Screen name="Profile" component={ProfileScreen} />
       <Drawer.Screen name="Edit Profile" component={ProfileEditScreen} />
-      <Drawer.Screen name="Information" component={InfoScreen} />
+      {/* <Drawer.Screen name="Information" component={InfoScreen} /> */}
     </Drawer.Navigator>
   );
 }

@@ -9,7 +9,12 @@ const Anonymous = () => {
   if (isAnonymous) {
     return (
       <View style={styles.isAnonymous}>
-        <Text style={[styles.bodyText, {lineHeight: 22, marginBottom: 10}]}>
+        <Text
+          style={[
+            Theme.paragraph,
+            styles.bodyText,
+            {lineHeight: 20, marginBottom: 10},
+          ]}>
           Please note, as an Anonymous user your score will not be added to the
           leaderboard. This means you will not be ranked.
         </Text>
@@ -29,7 +34,9 @@ const AboutInfo = ({params}) => {
           style={{width: 200, marginBottom: 40}}
         />
       </View>
-      <Text style={styles.headerText}>Thank you for playing Quizflix!</Text>
+      <Text style={[Theme.title, styles.headerText]}>
+        Thank you for playing Quizflix!
+      </Text>
       <Text style={styles.bodyText}>
         Quizflix tests your knowledge on some of the most popular TV series.
         Ideal for family fun and trivia nights with friends. Compete with others
@@ -43,16 +50,17 @@ const AboutInfo = ({params}) => {
 const styles = StyleSheet.create({
   container: {
     width: Theme.sizes.container,
-    flex: 1,
     backgroundColor: Theme.primaryColors.white,
     borderRadius: 30,
     paddingHorizontal: 20,
+    minHeight: 300,
   },
   isAnonymous: {
     backgroundColor: '#d8dae4',
     borderRadius: 10,
     padding: 10,
     paddingTop: 15,
+    marginBottom: 22,
   },
   bodyText: {
     fontSize: Theme.sizes.body + 2,

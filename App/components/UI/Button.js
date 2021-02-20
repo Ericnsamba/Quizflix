@@ -5,14 +5,10 @@ import * as Theme from '../../theme/Theme';
 export const Button = ({text, buttonColor, onPress = () => {}}) => (
   <TouchableOpacity onPress={onPress} style={[styles.button, buttonColor]}>
     <View style={styles.buttonStyle}>
-      <Text style={styles.text}>{text}</Text>
+      <Text style={[styles.text]}>{text}</Text>
     </View>
   </TouchableOpacity>
 );
-
-// export const ButtonContainer = ({ children }) => (
-//     <View style={styles.buttonContainer}>{children}</View>
-// );
 
 const styles = StyleSheet.create({
   button: {
@@ -22,16 +18,6 @@ const styles = StyleSheet.create({
     borderRadius: 12,
     justifyContent: 'center',
     backgroundColor: Theme.primaryColors.orange,
-    //ios
-    // shadowColor: Theme.primaryColors.blue,
-    // shadowOpacity: 0.6,
-    // shadowRadius: 8,
-    // shadowOffset: {
-    //   height: 5,
-    //   width: 0,
-    // },
-    //android
-    // elevation: 1,
   },
   buttonStyle: {
     justifyContent: 'center',
@@ -42,8 +28,9 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     alignItems: 'center',
     width: '100%',
-    fontSize: 20,
+    fontSize: 16,
     textTransform: 'capitalize',
+    fontFamily: Theme.fontFamily.semiBold,
   },
 
   buttonContainer: {
