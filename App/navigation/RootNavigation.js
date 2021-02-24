@@ -51,7 +51,7 @@ function ProfileDrawer() {
             iconName = focused ? 'create' : 'create-outline';
             size = focused ? 24 : 24;
             iconAnimation = focused ? 'pulse' : 'rubberBand';
-          } else if (route.name === 'Information') {
+          } else if (route.name === 'Developer') {
             iconName = focused
               ? 'ios-information-circle'
               : 'ios-information-circle-outline';
@@ -92,14 +92,12 @@ function ProfileDrawer() {
       drawerContent={props => <DrawerContent {...props} />}>
       <Drawer.Screen name="Profile" component={ProfileScreen} />
       <Drawer.Screen name="Edit Profile" component={ProfileEditScreen} />
-      {/* <Drawer.Screen name="Information" component={InfoScreen} /> */}
+      <Drawer.Screen name="Developer" component={InfoScreen} />
     </Drawer.Navigator>
   );
 }
 
 const Tab = createBottomTabNavigator();
-
-// export default (ButtonNavigation = () => {
 const ButtonNavigation = () => {
   return (
     <NavigationContainer>
