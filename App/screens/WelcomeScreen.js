@@ -110,13 +110,13 @@ class WelcomeScreen extends Component {
               Please select your login option
             </Text>
           </View>
-          <View style={styles.pickContainer}>
+          <View style={[styles.pickContainer]}>
             <TouchableWithoutFeedback
               onPress={() => {
                 this.activateButton('isUser');
               }}
               style={{}}>
-              <View style={styles.pickWrapper}>
+              <View style={[styles.pickWrapper, {marginBottom: 20}]}>
                 <View style={[styles.pickBox, isUser && styles.selectedBox]}>
                   <Image source={avatarLogin} style={styles.image} />
                 </View>
@@ -126,8 +126,7 @@ class WelcomeScreen extends Component {
             <TouchableWithoutFeedback
               onPress={() => {
                 this.activateButton('isAnonymous');
-              }}
-              style={{}}>
+              }}>
               <View style={styles.pickWrapper}>
                 <View
                   style={[styles.pickBox, isAnonymous && styles.selectedBox]}>
@@ -136,7 +135,7 @@ class WelcomeScreen extends Component {
               </View>
             </TouchableWithoutFeedback>
           </View>
-          {this.state.selectedOption === 'Login Anonymously' ? (
+          {/* {this.state.selectedOption === 'Login Anonymously' ? (
             <View
               style={{
                 alignItems: 'center',
@@ -147,7 +146,7 @@ class WelcomeScreen extends Component {
                 we have decided to not add the user on the leaderboard.
               </Text>
             </View>
-          ) : null}
+          ) : null} */}
         </View>
         {this.state.selectedOption !== '' ? (
           <View style={styles.buttonContainer}>
@@ -197,15 +196,12 @@ const styles = StyleSheet.create({
   },
   pickContainer: {
     alignSelf: 'center',
-    flexDirection: 'row',
     justifyContent: 'space-between',
     width: width - 60,
-    marginVertical: 40,
-    // backgroundColor: Theme.secondaryColors.pink,
+    marginBottom: 40,
+    marginTop: 10,
   },
   pickWrapper: {
-    // flex: 1,
-    flexDirection: 'row',
     justifyContent: 'space-around',
     alignItems: 'center',
     marginTop: 10,
@@ -213,10 +209,10 @@ const styles = StyleSheet.create({
   pickBox: {
     backgroundColor: Theme.primaryColors.white,
     paddingHorizontal: 10,
-    paddingTop: 20,
+    paddingTop: 10,
     borderRadius: 10,
-    width: 140,
-    height: 218,
+    width: '80%',
+    height: 200,
     shadowColor: Theme.primaryColors.black,
     shadowOffset: {
       width: 1,
@@ -230,14 +226,18 @@ const styles = StyleSheet.create({
     borderWidth: 1,
   },
   image: {
+    resizeMode: 'contain',
     width: '100%',
     height: '100%',
+    alignSelf: 'center',
+    bottom: 0,
+    position: 'absolute',
   },
   cardButton: {
     borderColor: Theme.primaryColors.black,
     borderWidth: 1,
     borderRadius: 20,
-    paddingVertical: 28,
+    paddingVertical: 24,
     paddingHorizontal: 42,
   },
   buttonContainer: {

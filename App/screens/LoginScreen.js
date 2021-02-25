@@ -19,6 +19,7 @@ import appleAuth, {
   // appleAuthRequestResponse,
   requestedScopes,
   requestedOperation,
+  performRequest,
 } from '@invertase/react-native-apple-authentication';
 import {
   AccessToken,
@@ -258,96 +259,86 @@ export default class LoginScreen extends React.Component {
       );
   };
 
-  onAppleButtonPress = async () => {
+  onAppleButtonPress2 = async () => {
     // return appleAuth
-    //   .performRequest({
-    //     requestedOperation: appleAuth.Operation.LOGIN,
-    //     requestedScopes: [appleAuth.Scope.EMAIL, appleAuth.Scope.FULL_NAME],
-    //   })
-    //   .then(appleAuthRequestResponse => {
-    //     let {
-    //       email,
-    //       fullName,
-    //       identityToken,
-    //       nonce,
-    //       realUserStatus,
-    //     } = appleAuthRequestResponse;
-
-    //     const credentialState = appleAuth.getCredentialStateForUser(
-    //       appleAuthRequestResponse.user,
-    //     );
-
-    //     if (realUserStatus === 1) {
-    //       // Sign the user in with the credential
-    //       console.log('🚀 ~ credentialState =======>', credentialState);
-    //       // return firebase.auth().signInWithCredential(credentialState);
-    //     }
-    //   });
-
-    // Start the sign-in request
-    const appleAuthRequestResponse = await appleAuth.performRequest({
+    performRequest({
       requestedOperation: appleAuth.Operation.LOGIN,
       requestedScopes: [appleAuth.Scope.EMAIL, appleAuth.Scope.FULL_NAME],
+    }).then(appleAuthRequestResponse => {
+      let {
+        email,
+        fullName,
+        identityToken,
+        nonce,
+        realUserStatus,
+      } = appleAuthRequestResponse;
+
+      const credentialState = appleAuth.getCredentialStateForUser(
+        appleAuthRequestResponse.user,
+      );
+
+      if (realUserStatus === 1) {
+        // Sign the user in with the credential
+        console.log('🚀 ~ credentialState =======>', credentialState);
+        // return firebase.auth().signInWithCredential(credentialState);
+      }
     });
 
-    // Ensure Apple returned a user identityToken
-    if (!appleAuthRequestResponse.identityToken) {
-      throw 'Apple Sign-In failed - no identify token returned';
-    }
+    // // Start the sign-in request
+    // const appleAuthRequestResponse = await appleAuth.performRequest({
+    //   requestedOperation: appleAuth.Operation.LOGIN,
+    //   requestedScopes: [appleAuth.Scope.EMAIL, appleAuth.Scope.FULL_NAME],
+    // });
 
-    // Create a Firebase credential from the response
-    const {identityToken, nonce} = appleAuthRequestResponse;
-    // const appleCredential = firebase
-    //   .auth()
-    //   .AppleAuthProvider.credential(identityToken, nonce);
-    const credentialState = appleAuth.getCredentialStateForUser(
-      appleAuthRequestResponse.user,
-      appleAuthRequestResponse.identityToken,
-      appleAuthRequestResponse.nonce,
-    );
+    // // Ensure Apple returned a user identityToken
+    // if (!appleAuthRequestResponse.identityToken) {
+    //   throw 'Apple Sign-In failed - no identify token returned';
+    // }
+
+    // // Create a Firebase credential from the response
+    // const {identityToken, nonce} = appleAuthRequestResponse;
+    // // const appleCredential = firebase
+    // //   .auth()
+    // //   .AppleAuthProvider.credential(identityToken, nonce);
+    // const credentialState = appleAuth.getCredentialStateForUser(
+    //   appleAuthRequestResponse.user,
+    //   appleAuthRequestResponse.identityToken,
+    //   appleAuthRequestResponse.nonce,
+    // );
 
     // Sign the user in with the credential
     // return firebase.auth().signInWithCredential(credentialState);
   };
 
-  onAppleButtonPress2 = async () => {
+  onAppleButtonPress = async () => {
     return appleAuth
       .performRequest({
         requestedOperation: appleAuth.Operation.LOGIN,
         requestedScopes: [appleAuth.Scope.EMAIL, appleAuth.Scope.FULL_NAME],
       })
       .then(appleAuthRequestResponse => {
-        let {
-          email,
-          fullName,
+        let {email, fullName, identityToken, nonce} = appleAuthRequestResponse;
+
+        const appleCredential = firebase.auth.AppleAuthProvider.credential(
           identityToken,
           nonce,
-          realUserStatus,
-        } = appleAuthRequestResponse;
-        console.log(
-          '🚀 ~ appleAuthRequestResponse =======>',
-          appleAuthRequestResponse,
         );
 
-        const credentialState = appleAuth.getCredentialStateForUser(
-          appleAuthRequestResponse.user,
-        );
-
-        if (realUserStatus) {
-          // const {name, email, photo} = this.state.userInfo.user;
-          // return firebase
-          //   .auth()
-          //   .signInWithCredential(credentialState)
-          //   .then(user => {
-          //     const fbRootRef = firebase.firestore();
-          //     const userID = firebase.auth().currentUser.uid;
-          //     const userRef = fbRootRef.collection('users').doc(userID);
-          //     userRef.set({
-          //       email: email,
-          //       username: fullName.givenName,
-          //       // profileImage: photo.replace('s120', 's300', true),
-          //     });
-          //   });
+        if (identityToken) {
+          return firebase
+            .auth()
+            .signInWithCredential(appleCredential)
+            .then(user => {
+              const fbRootRef = firebase.firestore();
+              const userID = firebase.auth().currentUser.uid;
+              const userRef = fbRootRef.collection('users').doc(userID);
+              userRef.set({
+                email: email,
+                username: fullName.givenName,
+              });
+            });
+        } else {
+          console.log('loginWithApple no token - failed sign-in');
         }
       });
   };

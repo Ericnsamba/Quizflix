@@ -41,8 +41,8 @@ export function DrawerContent(props) {
         </View>
       </DrawerContentScrollView>
       <DrawerItem
-        label="Versio 1.0.0"
-        inactiveTintColor={Theme.primaryColors.blue}
+        label="Versio 0.1.0"
+        inactiveTintColor={Theme.primaryColors.black}
       />
       <View style={styles.bottomDrawerSection}>
         <DrawerItem

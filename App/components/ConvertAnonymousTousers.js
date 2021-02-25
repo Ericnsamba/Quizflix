@@ -24,7 +24,6 @@ const ConvertAnonymousToUsers = () => {
   const [password, setPassword] = useState('');
   const [scoresData, setScoresData] = useState('');
   const [countryCode, setCountryCode] = useState('');
-  //   const [totalPoints, setTotalPoints] = useState('');
   const [check_textInputChange, setCheck_textInputChange] = useState(false);
   const [secureTextEntry, setSecureTextEntry] = useState(false);
 
@@ -54,15 +53,13 @@ const ConvertAnonymousToUsers = () => {
     console.log(' ~ password', currentUser.uid);
     //   my uid y1LruFNV8JXJf23gF7Avfh6RIeQ2
 
-    // 1. Create the email and password credential, to upgrade the
-    // anonymous user.
+    // 1. Create the email and password credential, to upgrade the anonymous user.
     var credential = firebase.auth.EmailAuthProvider.credential(
       email,
       password,
     );
 
-    // 2. Links the credential to the currently signed in user
-    // (the anonymous user).
+    // 2. Links the credential to the currently signed in user (the anonymous user).
     firebase
       .auth()
       .currentUser.linkWithCredential(credential)
