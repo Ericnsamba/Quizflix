@@ -3,8 +3,11 @@ import React from 'react';
 import {View, Text, StyleSheet, Dimensions, Animated} from 'react-native';
 import {Flag} from 'react-native-svg-flagkit';
 import UserAvatar from 'react-native-user-avatar';
+import FastImage from 'react-native-fast-image';
 import * as Theme from '../../theme/Theme';
 const {width, height} = Dimensions.get('window');
+
+const avatar = require('../../assets/images/avatars/avatarAnonymous.png');
 
 export const LeaderBoardUsers = ({
   onPress = () => {},
@@ -24,15 +27,21 @@ export const LeaderBoardUsers = ({
       <View style={styles.ReactCountryFlag}>
         <Flag id={countryCodeId} width={28} height={28} />
       </View>
-      <UserAvatar
-        size={50}
-        name={username}
-        src={image ? image : null}
-        bgColors={[Theme.primaryColors.pink, Theme.primaryColors.blue]}
-        borderRadius={40}
+      <FastImage
+        resizeMode={'cover'}
+        source={
+          image
+            ? {
+                uri: image,
+                priority: FastImage.priority.high,
+              }
+            : avatar
+        }
         style={{
           width: 50,
           height: 50,
+          backgroundColor: Theme.secondaryColors.blue,
+          borderRadius: 50 / 2,
         }}
       />
     </View>

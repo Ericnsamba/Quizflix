@@ -713,7 +713,7 @@ PODS:
     - React-jsi (= 0.63.4)
   - RNAppleAuthentication (2.1.0):
     - React-Core
-  - RNCAsyncStorage (1.14.1):
+  - RNCAsyncStorage (1.13.4):
     - React-Core
   - RNCMaskedView (0.1.10):
     - React
@@ -726,7 +726,7 @@ PODS:
   - RNFBApp (7.3.1):
     - Firebase/CoreOnly (~> 6.25.0)
     - React
-  - RNFBStorage (10.8.1):
+  - RNFBStorage (10.8.0):
     - Firebase/Storage (~> 6.25.0)
     - React-Core
     - RNFBApp
@@ -739,7 +739,7 @@ PODS:
     - Fabric
     - Firebase/Core
     - React
-  - RNGestureHandler (1.10.2):
+  - RNGestureHandler (1.10.1):
     - React-Core
   - RNGoogleSignin (4.0.3):
     - GoogleSignIn (~> 5.0.0)
@@ -1053,14 +1053,14 @@ SPEC CHECKSUMS:
   React-RCTVibration: ae4f914cfe8de7d4de95ae1ea6cc8f6315d73d9d
   ReactCommon: 73d79c7039f473b76db6ff7c6b159c478acbbb3b
   RNAppleAuthentication: 46cbc67739bae83ca229497f9b0038f3f5431443
-  RNCAsyncStorage: 1ab3f6ec0bc2c676dad4a00471d4c9d1a2cf68a2
+  RNCAsyncStorage: 0701cb7395f06d744184641241888a0eec0e2f2a
   RNCMaskedView: f5c7d14d6847b7b44853f7acb6284c1da30a3459
   RNDeviceInfo: e841619c3dac5495a095c5455473579ff04908d4
   RNFastImage: d4870d58f5936111c56218dbd7fcfc18e65b58ff
   RNFBApp: cd70a6c061bc485994e28c7d58ab760538850f0e
-  RNFBStorage: b616fd2998b55051c56d6ec612885394a3f68265
+  RNFBStorage: fb8b8ed40bd41797e3ef7c2593b3971e426f064e
   RNFirebase: 37daa9a346d070f9f6ee1f3b4aaf4c8e3b1d5d1c
-  RNGestureHandler: e66feb0fda7da74ea6a3094656b3c1efe05f5c07
+  RNGestureHandler: 5e58135436aacc1c5d29b75547d3d2b9430d052c
   RNGoogleSignin: ccf71ee4b6cfd324fd788a41e457e2043838c0d9
   RNLocalize: 47e22ef8c36df1d572e42a87c8ae22e3fcf551dd
   RNReanimated: e03f7425cb7a38dcf1b644d680d1bfc91c3337ad
@@ -1076,4 +1076,4 @@ SPEC CHECKSUMS:
 
 PODFILE CHECKSUM: e83d7a4e78d7ad4dd64b12bc3ce0fa0140a37cf0
 
-COCOAPODS: 1.10.0.beta.2
+COCOAPODS: 1.10.1

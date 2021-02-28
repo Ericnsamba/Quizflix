@@ -1,13 +1,11 @@
 /* eslint-disable react-native/no-inline-styles */
 /**
- * Sample React Native App
- * https://github.com/facebook/react-native
  *
  * @format
  * @flow strict-local
  */
 
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   StatusBar,
   FlatList,
@@ -18,17 +16,21 @@ import {
   Dimensions,
   StyleSheet,
 } from 'react-native';
-const {width, height} = Dimensions.get('screen');
+import * as firebase from 'react-native-firebase';
 import {LeaderBoardUsers} from './LeaderBoardUsers';
 import * as Theme from '../../theme/Theme';
+const {width, height} = Dimensions.get('screen');
 import LinearGradient from 'react-native-linear-gradient';
+
 
 const SPACING = 20;
 const AVATAR_SIZE = 70;
 const ITEM_SIZE = AVATAR_SIZE + SPACING * 3;
 
 const ScrollRanking = ({DATA}) => {
-  // console.log('🚀 ~ file: ScrollRanking.js =======> DATA', DATA);
+  const {firestoreUserInfo, setFirestoreUserInfo} = useState({});
+  const {userID, setUserID} = useState({});
+  // console.log('🚀 ~ file: ScrollRanking.jss =======> DATA', DATA);
   const scrollY = React.useRef(new Animated.Value(0)).current;
   const fadeAnim = React.useRef(new Animated.Value(0)).current;
 
@@ -39,6 +41,18 @@ const ScrollRanking = ({DATA}) => {
     }).start();
   };
 
+
+  const getFirestoreUsers = () => {
+    const db = firebase.firestore();
+    db.collection('users')
+      .get()
+      .then(querySnapshot => {
+        const documents = querySnapshot.docs.map(doc => doc.data());
+        const documentIDs = querySnapshot.docs.map(doc => doc.id);
+        setUserID(documentIDs);
+      });
+  };
+
   return (
     <View style={styles.container}>
       <LinearGradient
@@ -47,7 +61,7 @@ const ScrollRanking = ({DATA}) => {
         pointerEvents={'none'}
       />
       <Animated.FlatList
-        data={DATA}
+        data={DATA[0]}
         onScroll={
           (onScrollFade,
           Animated.event([{nativeEvent: {contentOffset: {y: scrollY}}}], {
@@ -74,9 +88,18 @@ const ScrollRanking = ({DATA}) => {
 
           return (
             <Animated.View
-              style={[{transform: [{scale}]}, styles.animatedContainer]}>
+              style={[
+                {
+                  transform: [
+                    {
+                      scale,
+                    },
+                  ],
+                },
+                styles.animatedContainer,
+              ]}>
               <LeaderBoardUsers
-                image={item.image}
+                image={item.photoURL}
                 rankNumber={index + 4}
                 username={item.username}
                 totalPoints={item.totalPoints}

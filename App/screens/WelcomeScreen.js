@@ -50,7 +50,7 @@ class WelcomeScreen extends Component {
 
     if (newState.isUser) {
       this.setState({
-        selectedOption: 'Create Account',
+        selectedOption: 'Account Login',
       });
       LayoutAnimation.configureNext(LayoutAnimation.Presets.linear);
     } else if (newState.isAnonymous) {
@@ -87,8 +87,6 @@ class WelcomeScreen extends Component {
 
   render() {
     const {isUser, isAnonymous} = this.state;
-    // console.log('🚀 ~  isUser', isUser);
-    // console.log('🚀 ~ isAnonymous', isAnonymous);
     const dynamicButtonText = this.state.selectedOption;
     const avatarAnonymous = require('../assets/images/avatars/avatarAnonymous.png');
     const avatarLogin = require('../assets/images/avatars/avatarLogin.png');
@@ -135,18 +133,6 @@ class WelcomeScreen extends Component {
               </View>
             </TouchableWithoutFeedback>
           </View>
-          {/* {this.state.selectedOption === 'Login Anonymously' ? (
-            <View
-              style={{
-                alignItems: 'center',
-                alignSelf: 'center',
-              }}>
-              <Text style={[styles.noticeBoard, Theme.paragraph]}>
-                Please note: to avoid multi anonymous name on the leaderboard,
-                we have decided to not add the user on the leaderboard.
-              </Text>
-            </View>
-          ) : null} */}
         </View>
         {this.state.selectedOption !== '' ? (
           <View style={styles.buttonContainer}>
@@ -212,7 +198,7 @@ const styles = StyleSheet.create({
     paddingTop: 10,
     borderRadius: 10,
     width: '80%',
-    height: 200,
+    height: 170,
     shadowColor: Theme.primaryColors.black,
     shadowOffset: {
       width: 1,

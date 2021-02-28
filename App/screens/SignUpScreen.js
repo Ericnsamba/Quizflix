@@ -45,7 +45,6 @@ export default class SignUpScreen extends React.Component {
         const userRef = fbRootRef.collection('users').doc(userID);
         userRef.set({
           email,
-          password,
           username,
         });
       })

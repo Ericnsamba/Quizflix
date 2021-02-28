@@ -31,6 +31,7 @@ import {
   watchLeaderBoardData,
 } from '../redux/AppRedux';
 import ConvertAnonymousToUsers from '../components/ConvertAnonymousTousers';
+import LinearGradient from 'react-native-linear-gradient';
 
 const {width, height} = Dimensions.get('window');
 
@@ -347,7 +348,7 @@ export class ProfileEditScreen extends Component {
             </View>
           </SafeAreaView>
         ) : (
-          <KeyboardShift>
+          <KeyboardShift style={{marginBottom: 20}}>
             {() => (
               <SafeAreaView style={styles.container}>
                 <View style={styles.container}>
@@ -521,15 +522,15 @@ export class ProfileEditScreen extends Component {
                     </View>
                   </View>
                   <TouchableOpacity
-                    style={styles.button}
-                    onPress={this.UpdateDetails}>
-                    <Text
-                      style={{
-                        color: Theme.primaryColors.white,
-                        fontWeight: '500',
-                      }}>
-                      Update{' '}
-                    </Text>
+                    onPress={this.UpdateDetails}
+                    style={styles.buttonContainer}>
+                    <LinearGradient
+                      colors={['#4569e1', Theme.primaryColors.blue]}
+                      style={styles.updateDetailButton}>
+                      <Text style={[Theme.title, styles.buttonTitle]}>
+                        Update Details
+                      </Text>
+                    </LinearGradient>
                   </TouchableOpacity>
                 </View>
                 <View style={styles.errorMessage}>
@@ -538,7 +539,6 @@ export class ProfileEditScreen extends Component {
                   )}
                 </View>
                 <View style={{marginTop: 40}} />
-                {/* </ScrollView> */}
               </SafeAreaView>
             )}
           </KeyboardShift>
@@ -558,7 +558,6 @@ const styles = StyleSheet.create({
     paddingRight: 5,
   },
   headerSection: {
-    // width: width - 60,
     paddingHorizontal: 30,
     marginTop: 20,
   },
@@ -581,6 +580,25 @@ const styles = StyleSheet.create({
     top: -60,
     width: 322,
     height: 273.13,
+  },
+  updateDetailButton: {
+    width: width - 60,
+    height: 80,
+    alignSelf: 'center',
+    borderRadius: 12,
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingHorizontal: 20,
+    borderWidth: 4,
+    borderColor: Theme.primaryColors.blue2,
+  },
+  buttonContainer: {
+    marginVertical: 10,
+  },
+  buttonTitle: {
+    color: Theme.primaryColors.white,
+    fontSize: 22,
+    textAlign: 'center',
   },
   add: {
     backgroundColor: Theme.primaryColors.black,

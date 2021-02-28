@@ -21,7 +21,7 @@ const avatar = require('../assets/images/profileAvatar.jpg');
 //Redux
 import {connect} from 'react-redux';
 import {
-  // watchUsersData
+  watchPersonData,
   watchPointsData,
   watchLeaderBoardData,
 } from '../redux/AppRedux';
@@ -43,6 +43,9 @@ const mapDispatchToProps = dispatch => {
       console.log('watchLeaderBoardData', watchLeaderBoardData);
       dispatch(watchLeaderBoardData());
     },
+    watchPersonData: () => {
+      dispatch(watchPersonData());
+    },
     watchPointsData: () => {
       dispatch(watchPointsData());
     },
@@ -59,14 +62,19 @@ class TopScoresScreen extends Component {
       remainingUsers: [],
     };
     this.props.watchLeaderBoardData();
-  }
-
-  componentWillReceiveProps() {
-    this.top3function();
+    this.props.watchPersonData();
   }
 
   componentDidMount() {
     this.top3function();
+    // const db = firebase.firestore();
+    // retrieve a collection
+    // db.collection('users')
+    //   .get()
+    //   .then(querySnapshot => {
+    //     const documents = querySnapshot.docs.map(doc => doc.data());
+    //     this.setState({FirestoreUserInfo: documents});
+    //   });
   }
 
   getData = () => {
@@ -116,7 +124,7 @@ class TopScoresScreen extends Component {
             <View style={styles.ReactCountryFlag}>
               <Flag
                 id={top3[1].countryCode ? top3[1].countryCode : ''}
-                width={28}
+                width={30}
                 height={28}
               />
             </View>
@@ -177,7 +185,7 @@ class TopScoresScreen extends Component {
             <View style={styles.ReactCountryFlag}>
               <Flag
                 id={top3[2].countryCode ? top3[2].countryCode : ''}
-                width={28}
+                width={30}
                 height={28}
               />
             </View>
@@ -215,7 +223,10 @@ class TopScoresScreen extends Component {
             {this.state.top3Users.length === 3 && this.renderTop3()}
           </View>
           <View style={styles.scrollView}>
-            <ScrollRanking DATA={this.state.remainingUsers} style={{}} />
+            <ScrollRanking
+              DATA={[this.state.remainingUsers, this.props.personData]}
+              style={{}}
+            />
           </View>
         </View>
       </SafeAreaView>
@@ -289,8 +300,8 @@ const styles = StyleSheet.create({
     zIndex: 2,
     top: -5,
     overflow: 'hidden',
-    borderColor: Theme.primaryColors.blue2,
-    borderWidth: 3,
+    borderColor: Theme.secondaryColors.blue,
+    borderWidth: 2,
   },
 });
 

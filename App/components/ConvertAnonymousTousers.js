@@ -45,12 +45,6 @@ const ConvertAnonymousToUsers = () => {
 
   const handleCreateUser = () => {
     let currentUser = firebase.auth().currentUser;
-    console.log(' ~ setTotalPoints', scoresData);
-    console.log(' ~ username', username);
-    console.log(' ~ email', email);
-    console.log(' ~ password', password);
-    console.log(' ~ password', currentUser.uid);
-    console.log(' ~ password', currentUser.uid);
     //   my uid y1LruFNV8JXJf23gF7Avfh6RIeQ2
 
     // 1. Create the email and password credential, to upgrade the anonymous user.

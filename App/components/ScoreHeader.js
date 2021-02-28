@@ -70,12 +70,7 @@ class ScoreHeader extends Component {
         points =  0;
       } else {
         points = rank.totalPoints;
-        console.log(
-          '=======>',
-          data.find(userScore => userScore.uid === userID),
-        );
       }
-      // console.log("points ====>", points);
     } else if (
       firebase.auth().currentUser.isAnonymous &&
       Object.keys(quizPlayed).length > 0
