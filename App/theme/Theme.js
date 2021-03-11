@@ -10,8 +10,6 @@ const primaryColors = {
   lightBlue: '#39C2F5',
   orange: '#F95C3B',
   orange2: '#FF9F88',
-  // orange: '#EF6D56',
-  // pink: '#E4417A',
   pink: '#FF2F62',
   white: '#FFFFFF',
 };

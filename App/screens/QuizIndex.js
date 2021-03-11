@@ -7,15 +7,12 @@ import {
 	StatusBar,
 	SafeAreaView,
 	Dimensions,
-	TouchableOpacity,
 	Text,
 	View,
 } from 'react-native';
-import LinearGradient from 'react-native-linear-gradient';
 import * as Animatable from 'react-native-animatable';
 import {SharedElement} from 'react-navigation-shared-element';
 
-import Icon from 'react-native-vector-icons/Ionicons';
 import { connect } from 'react-redux';
 import {
 	watchQuestionsData,
@@ -26,7 +23,6 @@ import quizData from '../data/Data.js';
 import { RowItem } from '../components/RowItem';
 import * as Theme from '../theme/Theme';
 import { groupBy } from '../utils/Common.js';
-import { Button } from '../components/UI/Button';
 
 const { width } = Dimensions.get('window');
 
@@ -94,7 +90,6 @@ class QuizIndex extends React.Component {
 
 	render() {
 		const groupedData = groupBy(this.props.questionsData, 'category');
-
 		return (
       <SafeAreaView
         style={{flex: 1, backgroundColor: Theme.primaryColors.white}}>
@@ -102,27 +97,14 @@ class QuizIndex extends React.Component {
         <View style={styles.container}>
           <View style={styles.headerContainer}>
             <Text style={[styles.headerTitle, Theme.title]}>
-              Quiz Results
+              Select Quiz
             </Text>
           </View>
           <ScrollView
             showsVerticalScrollIndicator={false}
             style={styles.quizzesContainer}>
             {this.renderQuizzes(groupedData)}
-            <View style={{height: 40}} />
           </ScrollView>
-
-          <View style={styles.startQuizButton}>
-            <TouchableOpacity
-              onPress={() => this.props.navigation.navigate('HomeScreen')}
-              style={styles.buttonContainer}>
-              <LinearGradient
-                colors={['#4569e1', Theme.primaryColors.blue]}
-                style={styles.button}>
-                <Icon name="ios-home" size={40} style={styles.buttonIcon} />
-              </LinearGradient>
-            </TouchableOpacity>
-          </View>
         </View>
       </SafeAreaView>
     );
@@ -138,7 +120,7 @@ const styles = StyleSheet.create({
 	},
 	headerContainer: {
 		width: width,
-		height: 80,
+		height: 60,
 		justifyContent: 'center',
 		borderBottomColor: Theme.primaryColors.blue,
 		borderBottomWidth: StyleSheet.hairlineWidth,

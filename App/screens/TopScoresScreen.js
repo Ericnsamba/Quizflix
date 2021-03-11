@@ -225,7 +225,7 @@ class TopScoresScreen extends Component {
           <View style={styles.scrollView}>
             <ScrollRanking
               DATA={[this.state.remainingUsers, this.props.personData]}
-              style={{}}
+              style={{marginBottom: 60,}}
             />
           </View>
         </View>
@@ -279,7 +279,7 @@ const styles = StyleSheet.create({
     fontWeight: '700',
   },
   scrollView: {
-    flex: Platform.OS === 'ios' ? 3 : 5,
+    flex: 1,
     backgroundColor: Theme.primaryColors.white,
     height: height,
     zIndex: 2,
@@ -287,6 +287,7 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 30,
     borderTopRightRadius: 30,
     overflow: 'hidden',
+    position: 'relative',
   },
   ReactCountryFlag: {
     width: 26,

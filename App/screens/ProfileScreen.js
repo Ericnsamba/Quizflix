@@ -185,7 +185,7 @@ class ProfileScreen extends React.Component {
           style={styles.innerContainer}>
           <View>
             <View style={styles.quizzesPlayed}>
-              <Text style={styles.quizzesPlayedTitle}>Quizzes Played</Text>
+              <Text style={[Theme.title, styles.quizzesPlayedTitle]}>Quizzes Played</Text>
             </View>
 
             <ScrollView
@@ -217,7 +217,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   scrollView: {
-    marginLeft: 1,
+    marginHorizontal: 1,
   },
   avatarContainer: {
     borderColor: Theme.primaryColors.blue,
@@ -278,7 +278,7 @@ const styles = StyleSheet.create({
     width: width - 60,
     justifyContent: 'center',
     alignSelf: 'center',
-    marginTop: 40,
+    marginTop: 20,
   },
   quizzesPlayedTitle: {
     textAlign: 'left',

@@ -5,16 +5,19 @@ import {SharedElement} from 'react-navigation-shared-element';
 import TouchableScale from 'react-native-touchable-scale';
 import styled from 'styled-components/native';
 import * as Theme from '../theme/Theme';
+import LinearGradient from 'react-native-linear-gradient';
 const {width, height} = Dimensions.get('window');
 
 const Title = styled.Text`
   font-size: 18px;
   font-weight: 600;
-  color: ${Theme.primaryColors.blue};
+  color: ${Theme.primaryColors.white};
   text-align: center;
   position: relative;
   bottom: 0;
   line-height: 24px;
+  text-transform: capitalize;
+  font-family: ${Theme.fontFamily.semiBold};
 `;
 const Background = styled.View`
   background: ${props => (props.color ? props.color : 'transparent')};
@@ -35,13 +38,18 @@ export const RowItem = ({onPress = () => {}, name, color, image}) => (
         <FastImage
           source={{uri: image, priority: FastImage.priority.high}}
           style={styles.image}>
-          <View style={[styles.row, {backgroundColor: color, width: '100%'}]}>
-            <Background
-              color={Theme.secondaryColors.blue}
-              style={styles.Background}>
-              <Title>{name}</Title>
-            </Background>
-          </View>
+          <View style={[styles.row, {backgroundColor: color, width: '100%'}]} />
+          <LinearGradient
+            style={styles.cardFooter}
+            colors={[
+              'rgba(19, 55, 175, 0)',
+              'rgba(19, 55, 175, 0.7)',
+              'rgba(19, 55, 175, 0.9)',
+              Theme.primaryColors.blue,
+            ]}
+            pointerEvents={'none'}>
+            <Title>{name}</Title>
+          </LinearGradient>
         </FastImage>
       </SharedElement>
     </View>
@@ -52,7 +60,7 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: Theme.primaryColors.blue,
     height: 230,
-    width: 328,
+    width: width - 60,
     justifyContent: 'center',
   },
   card: {
@@ -61,6 +69,15 @@ const styles = StyleSheet.create({
     marginVertical: 10,
     borderRadius: 20,
     overflow: 'hidden',
+  },
+  cardFooter: {
+    justifyContent: 'center',
+    alignSelf: 'center',
+    height: 60,
+    width: '100%',
+    position: 'absolute',
+    bottom: 0,
+    paddingTop: 20,
   },
   row: {
     paddingHorizontal: 15,

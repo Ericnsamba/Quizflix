@@ -12,6 +12,7 @@ import {
   TextInput,
   RefreshControl,
 } from 'react-native';
+import {TouchableOpacity} from 'react-native-gesture-handler';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import FastImage from 'react-native-fast-image';
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -19,7 +20,6 @@ import ImagePicker from 'react-native-image-picker';
 import firebase from 'react-native-firebase';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
-import {TouchableOpacity} from 'react-native-gesture-handler';
 import * as Theme from '../theme/Theme';
 import {Button} from '../components/UI/Button';
 import KeyboardShift from '../components/KeyboardShift';
@@ -222,7 +222,8 @@ export class ProfileEditScreen extends Component {
         })
         .then(function() {
           // Update successful.
-          alert(`Update successful\n \nYour new DisplayName: \n${displayName}`);
+          this.setState({username: ''});
+          alert(`Well done \n \nYour new DisplayName: \n${displayName}`);
         })
         .catch(function(error) {
           // An error happened
@@ -239,6 +240,7 @@ export class ProfileEditScreen extends Component {
       .updateEmail(newEmail)
       .then(function() {
         // Update successful.
+        this.setState({newEmail: ''});
       })
       .catch(function(error) {
         // "An error happened".
@@ -292,7 +294,6 @@ export class ProfileEditScreen extends Component {
     const {username, email, profileImage} = this.props.personData;
     const avatar = require('../assets/images/profileAvatar.jpg');
     const cantAccessPage = require('../assets/images/cantAccessPage.png');
-    // console.log('TCL: render -> uploading', this.state.isModalVisible);
 
     const disabledStyle = uploading ? styles.disabledBtn : {};
     const actionBtnStyles = [styles.btn, disabledStyle];
@@ -314,7 +315,9 @@ export class ProfileEditScreen extends Component {
             </View>
 
             <View style={styles.headerSection}>
-              <Text style={[Theme.title, {fontSize: 32}]}>Hi Anonymous!</Text>
+              <Text style={[Theme.title, {fontSize: 32}]}>
+                Hi Anonymous!
+              </Text>
               <Text style={[Theme.paragraph]}>
                 Create a Profile to access this page
               </Text>
@@ -334,7 +337,11 @@ export class ProfileEditScreen extends Component {
                   style={{zIndex: 10, marginVertical: 20}}
                   title="Hide modal"
                   onPress={this.toggleModal}>
-                  <Ionicons name="close" size={40} style={styles.buttonIcon} />
+                  <Ionicons
+                    name="close"
+                    size={40}
+                    style={styles.buttonIcon}
+                  />
                 </TouchableOpacity>
                 <ConvertAnonymousToUsers />
               </View>
@@ -366,48 +373,71 @@ export class ProfileEditScreen extends Component {
 
                   {imgSource !== '' && (
                     <View>
-                      <Image source={imgSource} style={styles.imagePicker} />
-                      {uploading && (
-                        <View
-                          style={[
-                            styles.progressBar,
-                            {
-                              width: `${progress}%`,
-                            },
-                          ]}
-                        />
-                      )}
-                      <TouchableOpacity
-                        style={actionBtnStyles}
-                        onPress={this.uploadImage}
-                        disabled={uploading}>
-                        <View>
-                          {uploading ? (
-                            <Text style={styles.btnTxt}>Uploading ...</Text>
-                          ) : (
-                            <Text style={styles.btnTxt}>Upload image</Text>
-                          )}
-                        </View>
-                      </TouchableOpacity>
                       <TouchableOpacity
                         style={{
-                          alignSelf: 'center',
+                          borderRadius: 12,
+                          marginBottom: 5,
+                          marginLeft: 5,
+                          width: 160,
+                          paddingVertical: 15,
+                          paddingHorizontal: 20,
+                          backgroundColor: Theme.secondaryColors.pink,
                         }}
                         onPress={this.disabledUpload}
                         disabled={uploading}>
-                        <View>
-                          <Text
-                            style={{
-                              fontSize: 12,
-                              padding: 10,
-                              textTransform: 'uppercase',
-                              color: Theme.primaryColors.black,
-                              fontWeight: '500',
-                            }}>
-                            close
-                          </Text>
-                        </View>
+                        <Text
+                          style={{
+                            fontSize: 14,
+                            color: Theme.primaryColors.pink,
+                            fontFamily: Theme.fontFamily.medium,
+                            textAlign: 'center',
+                          }}>
+                          Cancel Upload
+                        </Text>
                       </TouchableOpacity>
+                      <Image
+                        source={imgSource}
+                        style={styles.imagePicker}
+                      />
+
+                      {uploading && (
+                        <View style={styles.progressBarContainer}>
+                          <View
+                            style={[
+                              styles.progressBar,
+                              {
+                                width: `${progress}%`,
+                                zIndex: 5,
+                                marginRight: 300,
+                              },
+                            ]}
+                          />
+                          <View
+                            style={[
+                              styles.progressBar,
+                              {
+                                width: width - 20,
+                                backgroundColor: Theme.secondaryColors.blue,
+                                position: 'absolute',
+                                top: 8,
+                                alignSelf: 'center',
+                              },
+                            ]}
+                          />
+                        </View>
+                      )}
+                      <View style={{marginBottom: 200}}>
+                        <TouchableOpacity
+                          style={actionBtnStyles}
+                          onPress={this.uploadImage}
+                          disabled={uploading}>
+                          {uploading ? (
+                            <Text style={styles.btnTxt}>Uploading...</Text>
+                          ) : (
+                            <Text style={styles.btnTxt}>Upload image</Text>
+                          )}
+                        </TouchableOpacity>
+                      </View>
                     </View>
                   )}
 
@@ -478,22 +508,23 @@ export class ProfileEditScreen extends Component {
                     />
                   </View>
 
-                  <View style={styles.errorMessage}>
-                    {this.state.errorMessage && (
-                      <Text style={styles.error}>
-                        {this.state.errorMessage}
-                      </Text>
-                    )}
-                  </View>
                   <View style={styles.form}>
+                    <View style={styles.errorMessage}>
+                      {this.state.errorMessage && (
+                        <Text style={styles.error}>
+                          {this.state.errorMessage}
+                        </Text>
+                      )}
+                    </View>
                     <View
                       style={{
                         marginTop: 20,
                       }}>
-                      <Text style={styles.inputTitle}>New Displayed Name</Text>
                       <TextInput
                         style={styles.input}
                         autoCapitalize="none"
+                        placeholder="Update Username"
+                        placeholderTextColor="rgb(51 48 48 / 60%)"
                         onChangeText={displayName =>
                           this.setState({
                             displayName,
@@ -506,12 +537,11 @@ export class ProfileEditScreen extends Component {
                       style={{
                         marginTop: 20,
                       }}>
-                      <Text style={styles.inputTitle}>
-                        Update Email Address
-                      </Text>
                       <TextInput
                         style={styles.input}
                         autoCapitalize="none"
+                        placeholder="Update Email Address"
+                        placeholderTextColor="rgb(51 48 48 / 60%)"
                         onChangeText={email =>
                           this.setState({
                             email,
@@ -526,7 +556,7 @@ export class ProfileEditScreen extends Component {
                     style={styles.buttonContainer}>
                     <LinearGradient
                       colors={['#4569e1', Theme.primaryColors.blue]}
-                      style={styles.updateDetailButton}>
+                      style={styles.LinearGradientButton}>
                       <Text style={[Theme.title, styles.buttonTitle]}>
                         Update Details
                       </Text>
@@ -535,10 +565,12 @@ export class ProfileEditScreen extends Component {
                 </View>
                 <View style={styles.errorMessage}>
                   {this.state.errorMessage && (
-                    <Text style={styles.error}>{this.state.errorMessage}</Text>
+                    <Text style={styles.error}>
+                      {this.state.errorMessage}
+                    </Text>
                   )}
                 </View>
-                <View style={{marginTop: 40}} />
+                {/* <View style={{marginTop: 40}} /> */}
               </SafeAreaView>
             )}
           </KeyboardShift>
@@ -551,11 +583,8 @@ export class ProfileEditScreen extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    flexDirection: 'column',
     backgroundColor: Theme.primaryColors.white,
     marginTop: 20,
-    paddingLeft: 5,
-    paddingRight: 5,
   },
   headerSection: {
     paddingHorizontal: 30,
@@ -581,24 +610,30 @@ const styles = StyleSheet.create({
     width: 322,
     height: 273.13,
   },
-  updateDetailButton: {
+  buttonContainer: {
+    borderRadius: 12,
     width: width - 60,
-    height: 80,
+    height: 60,
     alignSelf: 'center',
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: Theme.secondaryColors.pink,
+  },
+  LinearGradientButton: {
     borderRadius: 12,
     justifyContent: 'center',
     alignItems: 'center',
-    paddingHorizontal: 20,
-    borderWidth: 4,
+    borderWidth: 3,
     borderColor: Theme.primaryColors.blue2,
-  },
-  buttonContainer: {
-    marginVertical: 10,
+    width: '100%',
+    height: '100%',
   },
   buttonTitle: {
     color: Theme.primaryColors.white,
-    fontSize: 22,
+    fontSize: 18,
     textAlign: 'center',
+    lineHeight: 22,
+    textAlignVertical: 'auto',
   },
   add: {
     backgroundColor: Theme.primaryColors.black,
@@ -612,29 +647,28 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   btn: {
-    paddingLeft: 20,
-    paddingRight: 20,
-    paddingTop: 10,
-    paddingBottom: 10,
-    borderRadius: 20,
-    backgroundColor: Theme.primaryColors.blue,
+    marginHorizontal: 30,
+    paddingVertical: 15,
+    borderRadius: 12,
+    backgroundColor: Theme.secondaryColors.blue,
     marginTop: 20,
     alignItems: 'center',
   },
   disabledBtn: {
-    backgroundColor: Theme.primaryColors.orange,
+    backgroundColor: Theme.primaryColors.gray,
   },
   btnTxt: {
-    color: Theme.primaryColors.white,
+    color: Theme.primaryColors.blue,
+    fontFamily: Theme.fontFamily.medium,
   },
   imagePicker: {
+    resizeMode: 'cover',
     position: 'relative',
     width: width - 10,
-    height: 400,
-    resizeMode: 'cover',
+    height: 380,
     zIndex: 10,
-    flex: 0,
     backgroundColor: Theme.secondaryColors.blue,
+    alignSelf: 'center',
   },
   image: {
     width: 180,
@@ -643,29 +677,32 @@ const styles = StyleSheet.create({
     backgroundColor: Theme.primaryColors.lightBlue,
   },
   profileImage: {
-    width: 180,
-    height: 180,
+    width: 150,
+    height: 150,
     borderRadius: 100,
     backgroundColor: Theme.primaryColors.lightBlue,
     overflow: 'hidden',
     justifyContent: 'center',
   },
-  timeBox: {
-    backgroundColor: Theme.primaryColors.white,
-    width: width - 60,
-    alignSelf: 'center',
-    padding: 20,
-    marginTop: 40,
-    justifyContent: 'space-between',
-    flexDirection: 'row',
-    borderRadius: 20,
+  progressBarContainer: {
+    backgroundColor: Theme.secondaryColors.gray,
+    // height: 15,
+    left: 5,
+    right: 5,
+    overflow: 'hidden',
+    width: width - 10,
+    paddingVertical: 8,
+    bottom: 30,
+    zIndex: 99,
+    // top: ,
   },
   progressBar: {
     backgroundColor: Theme.primaryColors.blue,
-    height: 10,
-    left: 0,
-    right: 0,
-    zIndex: 99,
+    height: 15,
+    // left: 5,
+    // right: 25,
+    borderRadius: 10,
+    marginHorizontal: 10,
   },
   progressBar2: {
     height: 20,
@@ -683,6 +720,7 @@ const styles = StyleSheet.create({
   form: {
     marginBottom: 30,
     marginHorizontal: 30,
+    // top: -80,
   },
   inputTitle: {
     color: Theme.primaryColors.blue,
@@ -695,6 +733,9 @@ const styles = StyleSheet.create({
     height: 40,
     fontSize: 15,
     color: Theme.primaryColors.black,
+    backgroundColor: Theme.secondaryColors.blue,
+    borderRadius: 5,
+    paddingHorizontal: 10,
   },
   button: {
     marginHorizontal: 30,
@@ -706,7 +747,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   errorMessage: {
-    height: 72,
+    height: 42,
     alignItems: 'center',
     justifyContent: 'center',
     marginHorizontal: 30,
@@ -718,7 +759,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   disabledBtn: {
-    backgroundColor: 'rgba(3,155,229,0.5)',
+    backgroundColor: Theme.secondaryColors.orange,
   },
   shadow: {
     shadowColor: Theme.primaryColors.black,

@@ -259,57 +259,6 @@ export default class LoginScreen extends React.Component {
       );
   };
 
-  onAppleButtonPress2 = async () => {
-    // return appleAuth
-    performRequest({
-      requestedOperation: appleAuth.Operation.LOGIN,
-      requestedScopes: [appleAuth.Scope.EMAIL, appleAuth.Scope.FULL_NAME],
-    }).then(appleAuthRequestResponse => {
-      let {
-        email,
-        fullName,
-        identityToken,
-        nonce,
-        realUserStatus,
-      } = appleAuthRequestResponse;
-
-      const credentialState = appleAuth.getCredentialStateForUser(
-        appleAuthRequestResponse.user,
-      );
-
-      if (realUserStatus === 1) {
-        // Sign the user in with the credential
-        console.log('🚀 ~ credentialState =======>', credentialState);
-        // return firebase.auth().signInWithCredential(credentialState);
-      }
-    });
-
-    // // Start the sign-in request
-    // const appleAuthRequestResponse = await appleAuth.performRequest({
-    //   requestedOperation: appleAuth.Operation.LOGIN,
-    //   requestedScopes: [appleAuth.Scope.EMAIL, appleAuth.Scope.FULL_NAME],
-    // });
-
-    // // Ensure Apple returned a user identityToken
-    // if (!appleAuthRequestResponse.identityToken) {
-    //   throw 'Apple Sign-In failed - no identify token returned';
-    // }
-
-    // // Create a Firebase credential from the response
-    // const {identityToken, nonce} = appleAuthRequestResponse;
-    // // const appleCredential = firebase
-    // //   .auth()
-    // //   .AppleAuthProvider.credential(identityToken, nonce);
-    // const credentialState = appleAuth.getCredentialStateForUser(
-    //   appleAuthRequestResponse.user,
-    //   appleAuthRequestResponse.identityToken,
-    //   appleAuthRequestResponse.nonce,
-    // );
-
-    // Sign the user in with the credential
-    // return firebase.auth().signInWithCredential(credentialState);
-  };
-
   onAppleButtonPress = async () => {
     return appleAuth
       .performRequest({
@@ -364,144 +313,147 @@ export default class LoginScreen extends React.Component {
             <Text style={styles.text_header}>Back</Text>
           </TouchableOpacity>
         </View>
-
         <View style={styles.footer}>
-          <Text style={styles.errorMessage}>{this.state.errorMessage}</Text>
+          <ScrollView showsVerticalScrollIndicator={false}>
+            <Text style={styles.errorMessage}>{this.state.errorMessage}</Text>
 
-          <View
-            style={[
-              styles.action,
-              {borderBottomLeftRadius: 0, borderBottomRightRadius: 0},
-            ]}>
-            <Icon
-              name="mail-outline"
-              color={Theme.primaryColors.black}
-              size={20}
-            />
-            <TextInput
-              placeholder="Your Password"
-              placeholderTextColor={Theme.secondaryColors.black}
-              onChangeText={email =>
-                this.setState({
-                  email,
-                })
-              }
-              value={this.state.email}
-              style={[styles.textInput, Theme.caption]}
-              autoCapitalize="none"
-            />
-          </View>
-
-          <View
-            style={[
-              styles.action,
-              {
-                borderTopLeftRadius: 0,
-                borderTopRightRadius: 0,
-                borderTopWidth: 0,
-              },
-            ]}>
-            <Icon
-              name="lock-closed-outline"
-              color={Theme.primaryColors.black}
-              size={20}
-            />
-            <TextInput
-              placeholder="Password"
-              placeholderTextColor={Theme.secondaryColors.black}
-              onChangeText={password =>
-                this.setState({
-                  password,
-                })
-              }
-              value={this.state.password}
-              secureTextEntry={this.state.secureTextEntry ? true : false}
-              style={[styles.textInput, Theme.caption]}
-              autoCapitalize="none"
-            />
-            <TouchableOpacity onPress={this.updateSecureTextEntry}>
-              {this.state.secureTextEntry ? (
-                <Feather
-                  name="eye-off"
-                  color={Theme.secondaryColors.black}
-                  size={20}
-                />
-              ) : (
-                <Feather
-                  name="eye"
-                  color={Theme.secondaryColors.black}
-                  size={20}
-                />
-              )}
-            </TouchableOpacity>
-          </View>
-
-          <View style={[styles.SignInButtonSection]}>
-            <View style={styles.termsConditions}>
-              <Text style={[styles.signInButtonText, Theme.title]}>
-                Sign In
-              </Text>
-            </View>
-
-            <TouchableOpacity
-              style={[styles.signInButton]}
-              onPress={this.handleLogin}>
+            <View
+              style={[
+                styles.action,
+                {borderBottomLeftRadius: 0, borderBottomRightRadius: 0},
+              ]}>
               <Icon
-                name="ios-arrow-forward"
-                size={26}
-                color={Theme.primaryColors.blue}
+                name="mail-outline"
+                color={Theme.primaryColors.black}
+                size={20}
               />
-            </TouchableOpacity>
-          </View>
-
-          <View style={styles.buttonsContainer}>
-            <View
-              style={{
-                justifyContent: 'space-between',
-                flexDirection: 'row',
-                marginVertical: 20,
-              }}>
-              <View style={styles.viewBorder} />
-              <Text style={styles.orText}> or </Text>
-              <View style={styles.viewBorder} />
+              <TextInput
+                placeholder="Your Password"
+                placeholderTextColor={Theme.secondaryColors.black}
+                onChangeText={email =>
+                  this.setState({
+                    email,
+                  })
+                }
+                value={this.state.email}
+                style={[styles.textInput, Theme.caption]}
+                autoCapitalize="none"
+              />
             </View>
-            <SocialLoginButton
-              onPress={() => this.props.navigation.navigate('SignUpScreen')}
-              title="Create Account With Email"
-              iconName="mail-outline"
-            />
-            <SocialLoginButton
-              onPress={this.signInWithGoogleAsync}
-              title="Login With Google"
-              iconName="logo-google"
-            />
-            <SocialLoginButton
-              title={dynamicButtonText}
-              iconName="logo-facebook"
-              onPress={onPressButton}
-            />
-            <SocialLoginButton
-              title={'Login With Apple'}
-              iconName="logo-apple"
-              onPress={this.onAppleButtonPress}
-            />
 
             <View
-              style={{
-                alignSelf: 'center',
-                marginVertical: 30,
-              }}>
-              <TouchableOpacity
-                onPress={() => this.props.navigation.navigate('ResetPassword')}>
-                <Text style={styles.resetPassword}>reset password</Text>
+              style={[
+                styles.action,
+                {
+                  borderTopLeftRadius: 0,
+                  borderTopRightRadius: 0,
+                  borderTopWidth: 0,
+                },
+              ]}>
+              <Icon
+                name="lock-closed-outline"
+                color={Theme.primaryColors.black}
+                size={20}
+              />
+              <TextInput
+                placeholder="Password"
+                placeholderTextColor={Theme.secondaryColors.black}
+                onChangeText={password =>
+                  this.setState({
+                    password,
+                  })
+                }
+                value={this.state.password}
+                secureTextEntry={this.state.secureTextEntry ? true : false}
+                style={[styles.textInput, Theme.caption]}
+                autoCapitalize="none"
+              />
+              <TouchableOpacity onPress={this.updateSecureTextEntry}>
+                {this.state.secureTextEntry ? (
+                  <Feather
+                    name="eye-off"
+                    color={Theme.secondaryColors.black}
+                    size={20}
+                  />
+                ) : (
+                  <Feather
+                    name="eye"
+                    color={Theme.secondaryColors.black}
+                    size={20}
+                  />
+                )}
               </TouchableOpacity>
+            </View>
+
+            <View style={[styles.SignInButtonSection]}>
+              <View style={styles.termsConditions}>
+                <Text style={[styles.signInButtonText, Theme.title]}>
+                  Sign In
+                </Text>
+              </View>
+
+              <TouchableOpacity
+                style={[styles.signInButton]}
+                onPress={this.handleLogin}>
+                <Icon
+                  name="ios-arrow-forward"
+                  size={26}
+                  color={Theme.primaryColors.blue}
+                />
+              </TouchableOpacity>
+            </View>
+
+            <View style={styles.buttonsContainer}>
               <View
                 style={{
-                  marginTop: 10,
-                }}
+                  justifyContent: 'space-between',
+                  flexDirection: 'row',
+                  marginVertical: 20,
+                }}>
+                <View style={styles.viewBorder} />
+                <Text style={styles.orText}> or </Text>
+                <View style={styles.viewBorder} />
+              </View>
+              <SocialLoginButton
+                onPress={() => this.props.navigation.navigate('SignUpScreen')}
+                title="Create Account With Email"
+                iconName="mail-outline"
               />
+              <SocialLoginButton
+                onPress={this.signInWithGoogleAsync}
+                title="Login With Google"
+                iconName="logo-google"
+              />
+              <SocialLoginButton
+                title={dynamicButtonText}
+                iconName="logo-facebook"
+                onPress={onPressButton}
+              />
+              <SocialLoginButton
+                title={'Login With Apple'}
+                iconName="logo-apple"
+                onPress={this.onAppleButtonPress}
+              />
+
+              <View
+                style={{
+                  alignSelf: 'center',
+                  marginVertical: 30,
+                }}>
+                <TouchableOpacity
+                  onPress={() =>
+                    this.props.navigation.navigate('ResetPassword')
+                  }>
+                  <Text style={styles.resetPassword}>reset password</Text>
+                </TouchableOpacity>
+                <View
+                  style={{
+                    marginTop: 10,
+                  }}
+                />
+              </View>
             </View>
-          </View>
+          </ScrollView>
         </View>
       </View>
     );

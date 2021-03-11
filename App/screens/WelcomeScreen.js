@@ -105,7 +105,7 @@ class WelcomeScreen extends Component {
         <View style={{alignItems: 'center'}}>
           <View>
             <Text style={[styles.subTitle, Theme.title]}>
-              Please select your login option
+              select login option
             </Text>
           </View>
           <View style={[styles.pickContainer]}>
@@ -171,6 +171,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     width: 300,
     textAlign: 'center',
+    textTransform: 'capitalize',
   },
   noticeBoard: {
     alignItems: 'center',
@@ -198,7 +199,8 @@ const styles = StyleSheet.create({
     paddingTop: 10,
     borderRadius: 10,
     width: '80%',
-    height: 170,
+    maxHeight: 170,
+    minHeight: 150,
     shadowColor: Theme.primaryColors.black,
     shadowOffset: {
       width: 1,
@@ -232,6 +234,7 @@ const styles = StyleSheet.create({
     width: width,
     justifyContent: 'center',
     alignItems: 'center',
+    alignSelf: 'center',
   },
   dynamicButtonText: {
     fontSize: 18,

@@ -100,8 +100,7 @@ class HomeScreen extends Component {
           <View
             style={{
               width: Theme.sizes.container,
-              marginVertical: 30,
-              marginTop: 60,
+              marginBottom: 20,
             }}>
             <Text style={[Theme.title, styles.introText]}>
               {`Go ahead! ${br}${'Start playing'}`}
@@ -246,6 +245,8 @@ const styles = StyleSheet.create({
     height: 100,
     justifyContent: 'center',
     alignSelf: 'center',
+    position: 'absolute',
+    bottom: -10,
   },
 });
 

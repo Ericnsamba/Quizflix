@@ -156,11 +156,7 @@ const ButtonNavigation = () => {
                     name={iconName}
                     size={size}
                     color={color}
-                    style={{
-                      justifyContent: 'center',
-                      alignSelf: 'center',
-                      bottom: -10,
-                    }}
+                    style={styles.iconItem}
                   />
                 </Animatable.View>
               </View>
@@ -187,8 +183,8 @@ const styles = StyleSheet.create({
   container: {
     // paddingTop: 50,
   },
-  icons: {
-    // top: 8,
+  iconStyle: {
+    justifyContent: 'center',
     alignSelf: 'center',
   },
   logo: {
@@ -215,8 +211,6 @@ const styles = StyleSheet.create({
   },
   DrawerItem: {
     marginTop: '50%',
-    // position: 'absolute',
-    // bottom: 0
   },
 });
 

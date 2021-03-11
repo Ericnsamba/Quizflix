@@ -130,17 +130,17 @@ class InfoScreen extends React.Component {
               Hi {username ? username : 'There'}
             </Text>
             <Text
-              style={[Theme.paragraph, {marginBottom: 20, fontSize: 16}]}>
+              style={[Theme.paragraph, {marginBottom: 10, fontSize: 16}]}>
               Thank you for downloading and playing QuizFlix.
             </Text>
             <Text
               style={[
                 Theme.paragraph,
-                {marginBottom: 20, fontSize: 16, lineHeight: 24},
+                {marginBottom: 20, fontSize: 14, lineHeight: 20},
               ]}>
               {bio}.
             </Text>
-            <Text style={(Theme.paragraph, {fontSize: 16})}>
+            <Text style={(Theme.paragraph, {fontSize: 14})}>
               Connect with me via: <Text style={{fontFamily: Theme.fontFamily.semiBold}}>EricAndTheWeb</Text>
             </Text>
             <View>
@@ -201,8 +201,8 @@ const styles = StyleSheet.create({
     overflow: 'hidden',
   },
   avatar: {
-    width: 98,
-    height: 98,
+    width: 80,
+    height: 80,
   },
   name: {
     marginTop: 24,
@@ -210,14 +210,10 @@ const styles = StyleSheet.create({
     fontWeight: '600',
   },
   userNameView: {
-    // marginVertical: 20,
-    // alignSelf: 'center',
-    // justifyContent: 'center',
-    // alignItems: 'center',
-    // width: width - 60,
+
   },
   userName: {
-    fontSize: 52,
+    fontSize: 48,
     fontWeight: '800',
     marginBottom: 5,
     color: Theme.primaryColors.black,

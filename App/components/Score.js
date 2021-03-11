@@ -162,62 +162,80 @@ class Score extends React.Component {
 	};
 
 	render() {
-		const { modalVisible, correctCount, inCorrectCount, username } = this.props.parentState;
+		const {
+      modalVisible,
+      correctCount,
+      inCorrectCount,
+      username,
+    } = this.props.parentState;
+		// let usernameSliced  = this.props.parentState.username;
 		return (
-			<View style={[styles.container]}>
-				<StatusBar
-					barStyle="dark-content"
-					hidden={false}
-					backgroundColor="#00BCD4"
-					translucent={true}
-				/>
-				<Modal
-					animationType="fade"
-					transparent={false}
-					visible={modalVisible}
-					onRequestClose={() => { }}>
-					<View style={styles.centeredView}>
-						<View style={styles.headerContainer}>
-							<Text style={styles.headerTitle}>Quiz Results</Text>
-							<ShareButton parentState={this.props.parentState} />
-						</View>
+      <View style={[styles.container]}>
+        <StatusBar
+          barStyle="dark-content"
+          hidden={false}
+          backgroundColor="#00BCD4"
+          translucent={true}
+        />
+        <Modal
+          animationType="fade"
+          transparent={false}
+          visible={modalVisible}
+          onRequestClose={() => {}}>
+          <View style={styles.centeredView}>
+            <View style={styles.headerContainer}>
+              <Text style={styles.headerTitle}>Quiz Results</Text>
+              <ShareButton parentState={this.props.parentState} />
+            </View>
 
-						<View style={{ top: -40 }}>
-							<Text
-								style={{ color: Theme.primaryColors.blue, fontSize: 26, textAlign: 'center' }}
-							>Nice try <Text style={{ fontWeight: 'bold' }} >{username}!</Text>
-							</Text>
+            <View style={{top: -40, width: width - 60}}>
+              <Text style={[Theme.title, {color: Theme.primaryColors.blue, fontFamily: Theme.fontFamily.normal}]}>
+                Nice try!{' '}
+                {username ? (
+					<Text style={{fontWeight: 'bold'}}>{username.slice(0, 10)}...</Text>
+				) : (
+					null
+				)}
+              </Text>
+            </View>
+            <View style={styles.resultsContainer}>
+              <View style={styles.results}>
+                <Text style={styles.resultText}>
+                  {correctCount} / {correctCount + inCorrectCount}{' '}
+                </Text>
+              </View>
+              <Text
+                style={{
+                  color: Theme.primaryColors.blue,
+                  textTransform: 'uppercase',
+                  fontSize: 14,
+                }}>
+                correct answers
+              </Text>
+            </View>
+            <View>
+              <LottieView
+                source={require('../assets/Animated/trophy-animation.json')}
+                autoPlay
+                loop
+                style={{
+                  width: 300,
+                }}
+              />
+            </View>
 
-						</View>
-						<View style={styles.resultsContainer}>
-							<View style={styles.results}>
-								<Text style={styles.resultText}>
-									{correctCount} / {correctCount + inCorrectCount} </Text>
-							</View>
-							<Text style={{ color: Theme.primaryColors.blue, textTransform: 'uppercase', fontSize: 14, }} >correct answers</Text>
-						</View>
-						<View>
-							<LottieView source={require('../assets/Animated/trophy-animation.json')}
-								autoPlay loop
-								style={{
-									width: 300,
-								}} />
-						</View>
-
-						<LinearGradient
-							colors={['#4569e1', Theme.primaryColors.blue]}
-							style={styles.playAgainButton}>
-							<TouchableOpacity
-
-								onPress={() => this.props.hideModal()}>
-								<Text style={styles.closeButtonText}>Play Again</Text>
-							</TouchableOpacity>
-						</LinearGradient>
-					</View>
-					{this.handleScores()}
-				</Modal>
-			</View>
-		);
+            <LinearGradient
+              colors={['#4569e1', Theme.primaryColors.blue]}
+              style={styles.playAgainButton}>
+              <TouchableOpacity onPress={() => this.props.hideModal()}>
+                <Text style={styles.closeButtonText}>Play Again</Text>
+              </TouchableOpacity>
+            </LinearGradient>
+          </View>
+          {this.handleScores()}
+        </Modal>
+      </View>
+    );
 	}
 }
 

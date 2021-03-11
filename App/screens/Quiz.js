@@ -179,101 +179,103 @@ class Quiz extends React.Component {
 		let { timer } = this.state;
 
 		return (
-      <View style={[styles.container]}>
-        <StatusBar barStyle="dark-content" />
         <ImageBackground
           source={require('../assets/images/app-bg.jpg')}
           style={{flex: 1, width: '100%', height: '100%'}}>
-          <View style={styles.headerContainer}>
-            <Text style={styles.headerTitle}>
-              Question{' '}
-              {`${this.state.activeQuestionIndex + 1}/${
-                this.state.totalCount
-              }`}
-            </Text>
-            <View style={styles.timer}>
-              <Text
-                style={[
-                  styles.headerTitle,
-                  {
-                    color: Theme.secondaryColors.blue,
-                  },
-                ]}>
-                {timer === 0 ? (
-                  this.renderTimer()
-                ) : (
-                  <Text>{this.state.timer}</Text>
-                )}
+        <StatusBar barStyle="light-content" />
+          <SafeAreaView style={[styles.container]}>
+            <View style={styles.headerContainer}>
+              <Text style={styles.headerTitle}>
+                Question{' '}
+                {`${this.state.activeQuestionIndex + 1}/${
+                  this.state.totalCount
+                }`}
               </Text>
-            </View>
-          </View>
-          <View style={styles.footer}>
-            <View style={styles.questionView}>
-              <SharedElement id={`${currentQuestion.category}`}>
-                <Text style={styles.question}>
-                  {currentQuestion.question}
+              <View style={styles.timer}>
+                <Text
+                  style={[
+                    styles.headerTitle,
+                    {
+                      color: Theme.secondaryColors.blue,
+                    },
+                  ]}>
+                  {timer === 0 ? (
+                    this.renderTimer()
+                  ) : (
+                    <Text>{this.state.timer}</Text>
+                  )}
                 </Text>
-              </SharedElement>
-            </View>
-
-            <ScrollView>
-              <View
-                style={{
-                  width: width - 60,
-                  justifyContent: 'center',
-                  alignSelf: 'center',
-                }}>
-                <ButtonContainer>
-                  {currentQuestion.answers.map((answer, index) => (
-                    <Button
-                      key={index}
-                      answerNum={index + 1}
-                      text={answer.text}
-                      onPress={() => this.answer(answer.correct)}
-                      correct={this.state.answerCorrect}
-                      visible={this.state.answered}
-                    />
-                  ))}
-                </ButtonContainer>
               </View>
-            </ScrollView>
-
-            <View style={styles.quizFooter}>
-              <TouchableOpacity
-                style={styles.card}
-                onPress={() => this.props.navigation.goBack()}>
-                <LinearGradient
-                  colors={['#4569e1', Theme.primaryColors.blue]}
-                  style={[styles.closeButton]}>
-                  <Icon
-                    name="ios-close"
-                    size={30}
-                    color={Theme.primaryColors.white}
-                    style={styles.closeIcon}
-                  />
-                  <Text
-                    style={{
-                      textAlign: 'center',
-                      color: Theme.primaryColors.white,
-                      fontSize: 18,
-                      paddingBottom: 3,
-                      fontWeight: Theme.fontWeight.medium,
-                    }}>
-                    Quit
-                  </Text>
-                </LinearGradient>
-              </TouchableOpacity>
-
-              {this.renderCountTracker()}
             </View>
-            <Score parentState={this.state} hideModal={this.hideModal} />
-          </View>
+            <View style={styles.footer}>
+              <View style={styles.questionView}>
+                <SharedElement id={`${currentQuestion.category}`}>
+                  <Text style={styles.question}>
+                    {currentQuestion.question}
+                  </Text>
+                </SharedElement>
+              </View>
+
+              <ScrollView
+                showsVerticalScrollIndicator={false}
+                style={{minHeight: 220}}>
+                <View
+                  style={{
+                    width: width - 60,
+                    justifyContent: 'center',
+                    alignSelf: 'center',
+                  }}>
+                  <ButtonContainer>
+                    {currentQuestion.answers.map((answer, index) => (
+                      <Button
+                        key={index}
+                        answerNum={index + 1}
+                        text={answer.text}
+                        onPress={() => this.answer(answer.correct)}
+                        correct={this.state.answerCorrect}
+                        visible={this.state.answered}
+                      />
+                    ))}
+                  </ButtonContainer>
+                </View>
+              </ScrollView>
+
+              <View style={styles.quizFooter}>
+                <TouchableOpacity
+                  style={styles.card}
+                  onPress={() => this.props.navigation.goBack()}>
+                  <LinearGradient
+                    colors={['#4569e1', Theme.primaryColors.blue]}
+                    style={[styles.closeButton]}>
+                    <Icon
+                      name="ios-close"
+                      size={30}
+                      color={Theme.primaryColors.white}
+                      style={styles.closeIcon}
+                    />
+                    <Text
+                      style={{
+                        textAlign: 'center',
+                        color: Theme.primaryColors.white,
+                        fontSize: 18,
+                        paddingBottom: 3,
+                        fontWeight: Theme.fontWeight.medium,
+                      }}>
+                      Quit
+                    </Text>
+                  </LinearGradient>
+                </TouchableOpacity>
+
+                {this.renderCountTracker()}
+              </View>
+              <Score parentState={this.state} hideModal={this.hideModal} />
+            </View>
+          </SafeAreaView>
+          <Alert
+            correct={this.state.answerCorrect}
+            visible={this.state.answered}
+          />
         </ImageBackground>
-        <Alert
-          correct={this.state.answerCorrect}
-          visible={this.state.answered}
-        />
-      </View>
     );
 	}
 }
@@ -281,28 +283,12 @@ class Quiz extends React.Component {
 
 Quiz.sharedElements = route => {
   const {item} = route.params;
-  console.log("🚀 ~ file: Quiz.js ~ line 290 ~ item", item);
   return [
     {
       id: `item.${item.id}.photo`,
       animation: 'move',
       resize: 'clip',
     },
-    // {
-    //   id: `item.${item.id}.title`,
-    //   animation: 'fade',
-    //   resize: 'clip',
-    // },
-    // {
-    //   id: `item.${item.id}.description`,
-    //   animation: 'fade',
-    //   resize: 'clip',
-    // },
-    // {
-    //   id: `item.${item.id}.iconName`,
-    //   animation: 'move',
-    //   resize: 'clip',
-    // },
   ];
 };
 
@@ -312,14 +298,13 @@ const styles = StyleSheet.create({
     height: height,
   },
   headerContainer: {
-    top: 30,
     width: width,
-    height: 124,
-    marginBottom: 24,
+    minHeight: 70,
     paddingHorizontal: 30,
     justifyContent: 'space-between',
     flexDirection: 'row',
     alignSelf: 'center',
+    // backgroundColor: Theme.secondaryColors.pink,
   },
   headerTitle: {
     textAlign: 'center',
@@ -371,7 +356,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     bottom: 40,
-    // position: 'relative',
     alignSelf: 'center',
     flex: 1,
     position: 'absolute',
@@ -394,7 +378,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     flexDirection: 'row',
     alignItems: 'center',
-    // paddingHorizontal: 6,
     zIndex: 9,
     borderColor: Theme.secondaryColors.blue,
     borderWidth: 2,
@@ -407,7 +390,7 @@ const styles = StyleSheet.create({
     width: width - 60,
     flexDirection: 'row',
     justifyContent: 'space-between',
-    bottom: 0,
+    bottom: -5,
     position: 'relative',
     alignSelf: 'center',
   },

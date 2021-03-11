@@ -61,6 +61,7 @@ const ScrollRanking = ({DATA}) => {
         pointerEvents={'none'}
       />
       <Animated.FlatList
+        showsVerticalScrollIndicator={false}
         data={DATA[0]}
         onScroll={
           (onScrollFade,
@@ -72,6 +73,7 @@ const ScrollRanking = ({DATA}) => {
         contentContainerStyle={{
           paddingHorizontal: SPACING,
           paddingTop: 42,
+          paddingBottom: 42,
         }}
         renderItem={({item, index}) => {
           const inputRange = [
@@ -122,8 +124,15 @@ const styles = StyleSheet.create({
   gradient: {
     position: 'absolute',
     width: width,
-    height: 60,
+    height: 40,
     zIndex: 4,
+  },
+  gradientBottom: {
+    position: 'absolute',
+    width: width,
+    height: 30,
+    zIndex: 4,
+    bottom: 0,
   },
 });
 
