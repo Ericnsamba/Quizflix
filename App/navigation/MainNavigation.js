@@ -6,6 +6,7 @@ import SignUpScreen from '../screens/SignUpScreen';
 import WelcomeScreen from '../screens/WelcomeScreen';
 import ResetPassword from '../screens/ResetPassword';
 import ButtonNavigation from './RootNavigation';
+import ScoreHeader from '../components/ScoreHeader';
 import Loading from './Loading';
 
 const RootStack = createSwitchNavigator(

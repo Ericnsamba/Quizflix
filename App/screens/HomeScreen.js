@@ -16,44 +16,11 @@ import Modal from 'react-native-modal';
 import Icon from 'react-native-vector-icons/Ionicons';
 import LinearGradient from 'react-native-linear-gradient';
 import { connect } from 'react-redux';
-
-
-
-import {
-	watchQuestionsData,
-	watchPersonData,
-	watchPointsData,
-	watchLeaderBoardData,
-} from '../redux/AppRedux';
+import {mapStateToProps, mapDispatchToProps} from '../redux/dispatch';
 import * as Theme from '../theme/Theme';
 import ScoreHeader from '../components/ScoreHeader';
 import AboutInfo from './aboutTheGame';
 const { width, height } = Dimensions.get('window');
-
-const mapStateToProps = state => {
-	return {
-		questionsData: state.questionsData,
-		pointsData: state.pointsData,
-		leaderBoardData: state.leaderBoardData,
-	};
-};
-
-const mapDispatchToProps = dispatch => {
-	return {
-		watchQuestionsData: () => {
-			dispatch(watchQuestionsData());
-		},
-		watchPersonData: () => {
-			dispatch(watchPersonData());
-		},
-		watchPointsData: () => {
-			dispatch(watchPointsData());
-		},
-		watchLeaderBoardData: () => {
-			dispatch(watchLeaderBoardData());
-		},
-	};
-};
 
 class HomeScreen extends Component {
 	constructor(props) {
@@ -70,9 +37,6 @@ class HomeScreen extends Component {
 	}
 
 	componentDidMount() {
-		if (firebase.auth().currentUser.uid) {
-		}
-
 	}
 
 	setModalVisible(visible) {
@@ -94,7 +58,7 @@ class HomeScreen extends Component {
         <StatusBar isVisible barStyle="dark-content" />
         <View style={styles.container}>
           <View style={styles.headerContainer}>
-            <ScoreHeader />
+            <ScoreHeader navProps={this.props} />
           </View>
 
           <View

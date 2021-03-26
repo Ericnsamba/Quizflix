@@ -2,43 +2,21 @@
 /* eslint-disable prettier/prettier */
 import React, {Component} from 'react';
 import firebase from 'react-native-firebase';
-import {View, Text, StyleSheet, Dimensions, Image} from 'react-native';
-import LinearGradient from 'react-native-linear-gradient';
-
-import Feather from 'react-native-vector-icons/Feather';
+import {
+  View,
+  Text,
+  StyleSheet,
+  Dimensions,
+  Image,
+  TouchableOpacity,
+} from 'react-native';
 import * as Theme from '../theme/Theme';
 import {connect} from 'react-redux';
-import {
-  watchPersonData,
-  watchPointsData,
-  watchLeaderBoardData,
-} from '../redux/AppRedux';
+import {mapStateToProps, mapDispatchToProps} from '../redux/dispatch';
 import Icon from 'react-native-vector-icons/Ionicons';
 import FastImage from 'react-native-fast-image';
 
 const {width, height} = Dimensions.get('window');
-
-const mapStateToProps = state => {
-  return {
-    pointsData: state.pointsData,
-    personData: state.personData,
-    leaderBoardData: state.leaderBoardData,
-  };
-};
-
-const mapDispatchToProps = dispatch => {
-  return {
-    watchPersonData: () => {
-      dispatch(watchPersonData());
-    },
-    watchPointsData: () => {
-      dispatch(watchPointsData());
-    },
-    watchLeaderBoardData: () => {
-      dispatch(watchLeaderBoardData());
-    },
-  };
-};
 
 class ScoreHeader extends Component {
   constructor(props) {
@@ -67,7 +45,7 @@ class ScoreHeader extends Component {
     ) {
       const rank = data.find(userScore => userScore.uid === userID);
       if (rank === undefined) {
-        points =  0;
+        points = 0;
       } else {
         points = rank.totalPoints;
       }
@@ -80,9 +58,16 @@ class ScoreHeader extends Component {
     return points;
   };
 
+  navigate = () => {
+    const navigation = this.props.navProps.navigation;
+    console.log('🚀 ~ navigation.navigate', this.props.navProps);
+    // return navigation.navigate('ProfileScreen');
+  }
+
   componentDidMount = () => {};
 
   render() {
+    
     const br = '\n';
     const {username, profileImage} = this.props.personData;
     const avatar = require('../assets/images/profileAvatar.jpg');
@@ -90,17 +75,19 @@ class ScoreHeader extends Component {
       <View style={styles.container}>
         <View style={styles.innerContainer}>
           <View style={{width: 160, flexDirection: 'row'}}>
-            <FastImage
-              source={
-                profileImage
-                  ? {
-                      uri: profileImage,
-                      priority: FastImage.priority.high,
-                    }
-                  : avatar
-              }
-              style={styles.Image}
-            />
+            <TouchableOpacity onPress={this.navigate()}>
+              <FastImage
+                source={
+                  profileImage
+                    ? {
+                        uri: profileImage,
+                        priority: FastImage.priority.high,
+                      }
+                    : avatar
+                }
+                style={styles.Image}
+              />
+            </TouchableOpacity>
             <View style={{marginLeft: 10}}>
               <Text style={[styles.userName, Theme.paragraph]}>Hi!</Text>
               <Text
@@ -178,12 +165,12 @@ const styles = StyleSheet.create({
     backgroundColor: Theme.secondaryColors.blue,
     padding: 10,
     borderRadius: 10,
-	justifyContent: 'center',
+    justifyContent: 'center',
   },
   reward: {
     textAlign: 'center',
     color: Theme.primaryColors.black,
-    fontSize: Theme.sizes.title ,
+    fontSize: Theme.sizes.title,
     marginLeft: 10,
   },
   Icon: {

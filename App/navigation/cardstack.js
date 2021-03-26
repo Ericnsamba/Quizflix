@@ -7,6 +7,8 @@ import HomeScreen from '../screens/HomeScreen';
 import QuizIndex from '../screens/QuizIndex';
 import Score from '../components/Score';
 import Quiz from '../screens/Quiz';
+import ScoreHeader from '../components/ScoreHeader';
+import ProfileScreen from '../screens/ProfileScreen';
 
 const options = {
   headerBackTitleVisible: false,
@@ -26,6 +28,7 @@ const QuizHomeStack = ({navigation, route}) => {
       <Stack.Screen name="QuizIndex" component={QuizIndex} />
       <Stack.Screen name="Quiz" component={Quiz} options={() => options} />
       <Stack.Screen name="Score" component={Score} />
+      <Stack.Screen name="ProfileScreen" component={ProfileScreen} />
     </Stack.Navigator>
   );
 };

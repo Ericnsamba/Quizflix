@@ -13,44 +13,13 @@ import {
 import FastImage from 'react-native-fast-image';
 import {connect} from 'react-redux';
 import LinearGradient from 'react-native-linear-gradient';
-import {
-  watchPersonData,
-  watchPointsData,
-  watchUsersData,
-  watchLeaderBoardData,
-} from '../redux/AppRedux';
+import {mapStateToProps, mapDispatchToProps} from '../redux/dispatch';
 import * as Theme from '../theme/Theme';
 import {ScoresInCategory} from '../components/ScoresInCategory.js';
 import {ScrollView} from 'react-native-gesture-handler';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
 const {width, height} = Dimensions.get('window');
-
-const mapStateToProps = state => {
-  return {
-    pointsData: state.pointsData,
-    personData: state.personData,
-    usersData: state.usersData,
-    leaderBoardData: state.leaderBoardData,
-  };
-};
-
-const mapDispatchToProps = dispatch => {
-  return {
-    watchPersonData: () => {
-      dispatch(watchPersonData());
-    },
-    watchPointsData: () => {
-      dispatch(watchPointsData());
-    },
-    watchUsersData: () => {
-      dispatch(watchUsersData());
-    },
-    watchLeaderBoardData: () => {
-      dispatch(watchLeaderBoardData());
-    },
-  };
-};
 
 class ProfileScreen extends React.Component {
   constructor(props) {

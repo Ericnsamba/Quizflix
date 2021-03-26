@@ -524,7 +524,7 @@ export class ProfileEditScreen extends Component {
                         style={styles.input}
                         autoCapitalize="none"
                         placeholder="Update Username"
-                        placeholderTextColor="rgb(51 48 48 / 60%)"
+                        placeholderTextColor={Theme.secondaryColors.black}
                         onChangeText={displayName =>
                           this.setState({
                             displayName,
@@ -541,7 +541,7 @@ export class ProfileEditScreen extends Component {
                         style={styles.input}
                         autoCapitalize="none"
                         placeholder="Update Email Address"
-                        placeholderTextColor="rgb(51 48 48 / 60%)"
+                        placeholderTextColor={Theme.secondaryColors.black}
                         onChangeText={email =>
                           this.setState({
                             email,
@@ -570,7 +570,6 @@ export class ProfileEditScreen extends Component {
                     </Text>
                   )}
                 </View>
-                {/* <View style={{marginTop: 40}} /> */}
               </SafeAreaView>
             )}
           </KeyboardShift>

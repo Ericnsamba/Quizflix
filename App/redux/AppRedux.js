@@ -2,40 +2,13 @@
 import {createStore, applyMiddleware} from 'redux';
 import thunkMiddleware from 'redux-thunk';
 import * as firebase from 'react-native-firebase';
+import reducer from './reducers/reducer';
+import { watchTop3Users, setTop3Users} from './Actions/top3users';
+import {
+  watchScrollableRanking,
+  setScrollableRanking,
+} from './Actions/rankingData';
 
-//
-// Initial State...
-//
-
-const initialState = {
-  leaderBoardData: {},
-  questionsData: {},
-  personData: {},
-  pointsData: {},
-};
-
-//
-// Reducer...
-//
-
-const reducer = (state = initialState, action) => {
-  switch (action.type) {
-    case 'setQuestionsData':
-      return {...state, questionsData: action.value};
-
-    case 'setPersonData':
-      return {...state, personData: action.value};
-
-    case 'setPointsData':
-      return {...state, pointsData: action.value};
-
-    case 'setLeaderBoardData':
-      return {...state, leaderBoardData: action.value};
-
-    default:
-      return state;
-  }
-};
 
 //
 // Store...
@@ -95,11 +68,24 @@ const watchLeaderBoardData = () => {
         'value',
         function(snapshot) {
           var leaderBoardData = snapshot.val();
+          // console.log("🚀 ~ file: AppRedux.js ~ line 98 ~ returnfunction ~ leaderBoardData", leaderBoardData)
           if (leaderBoardData !== null) {
             const sortedLeaderBoardData = Object.values(leaderBoardData).sort(
               (a, b) => b.totalPoints - a.totalPoints,
             );
+             const top3 = [];
+             const RankingData = [...sortedLeaderBoardData];
+             for (let i = 0; i < 3; i++) {
+               //immutable - you can't mutate the data
+               top3.push(RankingData.shift());
+              }
+              if (top3.length > 0) {
+                dispatch(setTop3Users(top3));
+                dispatch(setScrollableRanking(RankingData));
+                // console.log("🚀 ~ file: AppRedux.js ~ line 85 ~ returnfunction ~ RankingData", RankingData)
+             }
             dispatch(setLeaderBoardData(sortedLeaderBoardData));
+            // dispatch(setLeaderBoardData(sortedLeaderBoardData));
             // console.log("watchLeaderBoardData -> sortedLeaderBoardData", sortedLeaderBoardData)
           }
         },
@@ -190,4 +176,10 @@ export {
   // Points data
   setPointsData,
   watchPointsData,
+  //top3Users
+  setTop3Users,
+  watchTop3Users,
+  // users
+  watchScrollableRanking,
+  setScrollableRanking,
 };

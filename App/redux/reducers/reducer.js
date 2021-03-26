@@ -1,36 +1,43 @@
-var {
-    QUESTIONS_DATA,
-    PERSON_DATA,
-    USER_POINTS,
-} = require('../Actions/types');
-
-
 //
 // Initial State...
 //
 
 const initialState = {
-    questionsData: {},
-    personData: {},
-    pointsData: {},
+  leaderBoardData: {},
+  questionsData: {},
+  personData: {},
+  pointsData: {},
+  top3Users: {},
+  scrollableRanking: {},
 };
 
-module.exports = {
+//
+// Reducer...
+//
 
-    reducer = (state = initialState, action) => {
-        switch (action.type) {
-            case 'setQuestionsData':
-                return { ...state, questionsData: action.value };
+const reducer = (state = initialState, action) => {
+  switch (action.type) {
+    case 'setQuestionsData':
+      return {...state, questionsData: action.value};
 
-            case 'setPersonData':
-                return { ...state, personData: action.value };
+    case 'setPersonData':
+      return {...state, personData: action.value};
 
-            case 'setPointsData':
-                return { ...state, pointsData: action.value };
+    case 'setPointsData':
+      return {...state, pointsData: action.value};
 
-            default:
-                return state;
-        }
-    }
+    case 'setLeaderBoardData':
+      return {...state, leaderBoardData: action.value};
 
+    case 'setTop3Users':
+      return {...state, top3Users: action.value};
+
+    case 'setScrollableRanking':
+      return {...state, scrollableRanking: action.value};
+
+    default:
+      return state;
+  }
 };
+
+export default reducer;

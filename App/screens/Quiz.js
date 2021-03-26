@@ -15,7 +15,6 @@ import {
 import { Button, ButtonContainer } from '../components/QuizButton';
 import { Alert } from '../components/Alert';
 import { ScrollView } from 'react-native-gesture-handler';
-import TouchableScale from 'react-native-touchable-scale';
 import Score from '../components/Score';
 import * as Theme from '../theme/Theme';
 import Icon from 'react-native-vector-icons/Ionicons';
@@ -49,7 +48,6 @@ class Quiz extends React.Component {
 	componentDidMount() {
 		if (this.state.timer > 1) {
 			this.interval = setInterval(() => {
-				// console.log({ timer: this.state.timer });
 				return this.setState(prevState => ({
 					timer: prevState.timer - 1,
 				}));

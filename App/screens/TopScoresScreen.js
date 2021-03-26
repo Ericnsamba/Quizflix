@@ -20,37 +20,13 @@ const avatar = require('../assets/images/profileAvatar.jpg');
 
 //Redux
 import {connect} from 'react-redux';
-import {
-  watchPersonData,
-  watchPointsData,
-  watchLeaderBoardData,
-} from '../redux/AppRedux';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import ScrollRanking from '../components/Leaderoard/ScrollRanking';
 const {width, height} = Dimensions.get('window');
+import {mapStateToProps, mapDispatchToProps} from '../redux/dispatch';
 
-const mapStateToProps = state => {
-  return {
-    pointsData: state.pointsData,
-    personData: state.personData,
-    leaderBoardData: state.leaderBoardData,
-  };
-};
 
-const mapDispatchToProps = dispatch => {
-  return {
-    watchLeaderBoardData: () => {
-      console.log('watchLeaderBoardData', watchLeaderBoardData);
-      dispatch(watchLeaderBoardData());
-    },
-    watchPersonData: () => {
-      dispatch(watchPersonData());
-    },
-    watchPointsData: () => {
-      dispatch(watchPointsData());
-    },
-  };
-};
+
 class TopScoresScreen extends Component {
   constructor(props) {
     super(props);
@@ -59,56 +35,15 @@ class TopScoresScreen extends Component {
       visible: false,
       userData: [],
       top3Users: [],
-      remainingUsers: [],
+      remainingUsers: this.props.scrollableRanking,
     };
     this.props.watchLeaderBoardData();
     this.props.watchPersonData();
+    this.props.watchScrollableRanking();
   }
-
-  componentDidMount() {
-    this.top3function();
-    // const db = firebase.firestore();
-    // retrieve a collection
-    // db.collection('users')
-    //   .get()
-    //   .then(querySnapshot => {
-    //     const documents = querySnapshot.docs.map(doc => doc.data());
-    //     this.setState({FirestoreUserInfo: documents});
-    //   });
-  }
-
-  getData = () => {
-    const {data} = this.state;
-    let userRankings;
-    firebase
-      .database()
-      .ref('/scores')
-      .on('value', snapshot => {
-        const firebaseData = snapshot.val();
-        userRankings = firebaseData;
-        this.setState({data: firebaseData});
-      });
-
-    console.log(' -> getData -> userRankings', userRankings);
-    return userRankings;
-  };
-
-  top3function = () => {
-    const {leaderBoardData} = this.props;
-    const top3 = [];
-    const RankingData = [...leaderBoardData];
-    for (let i = 0; i < 3; i++) {
-      //immutable - you can't mutate the data
-      top3.push(RankingData.shift());
-    }
-    this.setState({
-      top3Users: top3,
-      remainingUsers: RankingData,
-    });
-  };
 
   renderTop3 = () => {
-    const top3 = this.state.top3Users;
+    const top3 = this.props.top3Users;
     return (
       <View
         style={{
@@ -220,12 +155,12 @@ class TopScoresScreen extends Component {
         <StatusBar isVisible barStyle="dark-content" />
         <View style={styles.container}>
           <View style={styles.renderTop3Container}>
-            {this.state.top3Users.length === 3 && this.renderTop3()}
+            {this.props.top3Users.length === 3 && this.renderTop3()}
           </View>
           <View style={styles.scrollView}>
             <ScrollRanking
-              DATA={[this.state.remainingUsers, this.props.personData]}
-              style={{marginBottom: 60,}}
+              DATA={[this.props.scrollableRanking, this.props.personData]}
+              style={{marginBottom: 60}}
             />
           </View>
         </View>

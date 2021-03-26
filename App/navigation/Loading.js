@@ -11,10 +11,10 @@ export default class Loading extends React.Component {
     firebase.auth().onAuthStateChanged(
       function(user) {
         if (user) {
-          console.log(
-            'AUTH STATE CHANGED CALLED , user logged in',
-            firebase.auth().currentUser,
-          );
+          // console.log(
+          //   'AUTH STATE CHANGED CALLED , user logged in',
+          //   firebase.auth().currentUser,
+          // );
           this.props.navigation.navigate('ButtonNavigation');
         } else {
           this.props.navigation.navigate('WelcomeScreen');
